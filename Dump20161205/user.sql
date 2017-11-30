@@ -1,0 +1,5 @@
+ALTER TABLE `mobi1`.`users` 
+ADD COLUMN `logined` TINYINT(1) NULL DEFAULT 0 AFTER `pic`;
+
+ALTER TABLE `mobi1`.`users` 
+CHANGE COLUMN `logtime` `logtime` VARCHAR(30) NULL DEFAULT NULL 
