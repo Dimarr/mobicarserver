@@ -2,7 +2,8 @@
  * Created by РумянцевДмитрий on 27.11.2017.
  */
 import com.twilio.jwt.accesstoken.AccessToken;
-import com.twilio.jwt.accesstoken.VoiceGrant;
+import com.twilio.jwt.accesstoken.ChatGrant;
+
 
 public class MyToken {
             // Required for all types of tokens
@@ -16,10 +17,17 @@ public class MyToken {
 
             // Create Voice grant
             public MyToken() { }
-            public static String newToken() {
-                VoiceGrant grant = new VoiceGrant();
-                grant.setOutgoingApplicationSid(outgoingApplicationSid);
+            public static String newToken(String userid, String deviceId ) {
+                String serviceSid = "ISxxxxxxxxxxxx";
+                //String deviceId = "someiosdevice";
+                String identity = userid; //"user@example.com";
+                String appName = "mobicarServer";
+                String endpointId = appName + ":" + identity + ":" + deviceId;
 
+                ChatGrant grant = new ChatGrant();
+                //grant.setOutgoingApplicationSid(outgoingApplicationSid);
+                grant.setEndpointId(endpointId);
+                grant.setServiceSid(serviceSid);
                 // Create access token
                 AccessToken token = new AccessToken.Builder(
                 twilioAccountSid,

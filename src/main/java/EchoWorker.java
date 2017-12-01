@@ -55,11 +55,11 @@ public class EchoWorker implements Runnable {
         }
 
         if (tokens[0].equalsIgnoreCase("tokengen")) try {
-            if (tokens.length < 2) {
+            if (tokens.length < 3) {
                 System.out.println("params aren't correct");
                 str = "-1";
             } else {
-                System.out.println("Token generated: "+MyToken.newToken());
+                System.out.println("Token generated: "+MyToken.newToken(tokens[1],tokens[2]));
             }
         } catch (Exception e) {
             e.printStackTrace();
