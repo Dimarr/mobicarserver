@@ -1,1 +1,1 @@
-web: java mobicarserver/out/artifacts/server/WEB-INF/classes/NioServer
+web: java ./out/artifacts/server/WEB-INF/classes/NioServer.class
