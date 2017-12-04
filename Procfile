@@ -1,1 +1,1 @@
-web: java out/artifacts/server/WEB-INF/classes/NioServer
+worker: sh runserver.sh
