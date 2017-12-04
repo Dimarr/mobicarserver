@@ -1,2 +1,1 @@
-cd out/artifacts/server/WEB-INF/classes
-web: java NioServer
+web: java out/artifacts/server/WEB-INF/classes/NioServer
