@@ -35,7 +35,6 @@
           <element id="library" level="project" name="Maven: com.google.guava:guava:18.0" />
           <element id="library" level="project" name="Maven: com.ning:async-http-client:1.8.14" />
           <element id="library" level="project" name="Maven: com.twilio.sdk:twilio-java-sdk:7.0.0-rc-10" />
-          <element id="library" level="project" name="Maven: com.twilio.sdk:twilio:7.1.0" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt:0.4" />
           <element id="library" level="project" name="Maven: io.netty:netty:3.9.2.Final" />
@@ -46,10 +45,12 @@
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.2" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.6" />
+          <element id="library" level="project" name="Maven: com.twilio.sdk:twilio:7.16.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/JavaServer/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>
