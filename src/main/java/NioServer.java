@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
@@ -10,6 +12,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static sun.misc.ThreadGroupUtils.getRootThreadGroup;
@@ -17,7 +21,7 @@ import static sun.misc.ThreadGroupUtils.getRootThreadGroup;
 public class NioServer implements Runnable {
 	// The host:port combination to listen on
 	private InetAddress hostAddress;
-	private int port;
+	private static int port;
     private int numberOfClients = 0;
 
 	// The channel on which we'll accept connections
@@ -237,18 +241,28 @@ public class NioServer implements Runnable {
 	}
 
 	public static void main(String[] args) {
+		DateFormat df = new SimpleDateFormat("dd_MM_yyyy");
+		Date dt = new Date();
 		try {
-            int port= 4444;
-            if (args.length>0) {
-                if (!args[0].isEmpty()) port = Integer.parseInt(args[0]);
-            }
+			int port = 4444;
+			if (args.length > 0) {
+				if (!args[0].isEmpty()) port = Integer.parseInt(args[0]);
+				if (!args[1].isEmpty()) {
+					try {
+						String output_file = "Log_"+df.format(dt)+".txt";
+						System.setOut(new PrintStream(new File(output_file)));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
 
 			EchoWorker worker = new EchoWorker();
-            Thread tw = new Thread(worker);
-            tw.start();
-            NioServer ts = new NioServer(null, port, worker);
-            new Thread(ts).start();
-            /*Thread[] ths= ts.getAllThreads();
+			Thread tw = new Thread(worker);
+			tw.start();
+			NioServer ts = new NioServer(null, port, worker);
+			new Thread(ts).start();
+			/*Thread[] ths= ts.getAllThreads();
             int cn=1;
             for(int i=0;i<ths.length ;i++) {
                 if (ths[i].getName().indexOf("Client")>0) cn++;
@@ -257,7 +271,7 @@ public class NioServer implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-            System.out.println("Server started");
-        }
-    }
+			System.out.println("Server started at "+df.format(dt)+". Port is #"+port);
+		}
+	}
 }

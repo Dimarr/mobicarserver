@@ -3,7 +3,10 @@ package Objects;
 import DBMain.JavaToMySQL;
 
 import java.io.*;
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 import static Objects.Crypt.md5Apache;
@@ -114,6 +117,48 @@ public class User {
         return "-1";
     }
 
+    public static String GetToken(String uid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT token FROM users WHERE userid="+uid+";";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static Integer Verifypincode(String uid, String pincode) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT count(*) FROM users WHERE userid="+uid+" AND password='"+Crypt.md5Apache(pincode)+"';";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            Integer res = rs.getInt(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static void Setpincode(String uid, String pincode) {
+        String sql ="UPDATE users SET password='"+Crypt.md5Apache(pincode)+"' WHERE userid="+uid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
+    public static void SetToken(String uid, String token) {
+        String sql ="UPDATE users SET token='"+token+"' WHERE userid="+uid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
     public static void SetPaymentStatus(String payid, String status) {
         String sql ="UPDATE payments SET pstatus="+status+" WHERE payid="+payid;
         JavaToMySQL jtm = new JavaToMySQL();
@@ -153,6 +198,44 @@ public class User {
         } catch (IOException e) {
             e.printStackTrace();
         };
+    }
+
+    public static void setphone(Integer uid, String phone) {
+        String sql = "UPDATE users SET phone='"+phone+"' WHERE userid="+uid+";";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+    }
+
+    public static String getphone(Integer uid) {
+        String sql = "SELECT phone FROM users WHERE userid="+uid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "-1";
+        }
+    }
+
+    public static Integer NewuserLite(String fname,String lname,String email, String phone) {
+        String sql= "INSERT INTO users (firstname,lastname,email,phone) VALUES('"+fname+"','"+lname+"','"+email+"','"+phone+"');";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+        sql = "SELECT max(userid) FROM users";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            Integer res = rs.getInt(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public static Integer Newuser(String fname,String lname,String email, String pwd, String cc, String phone, String cartype, String carbrand, String carmodel, String carid ) {
@@ -227,6 +310,8 @@ public class User {
     }
 
     public static String GetCarID(Integer uid){
+        //Gson gson = new Gson();
+        //String json = null;
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT carbm, carid FROM users WHERE userid="+uid;
         String res ="";
@@ -235,7 +320,7 @@ public class User {
             rs.first();
             Integer brand= rs.getInt(1)/10;
             Integer model= rs.getInt(1) % 10;
-            String carid = rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
+            String carid = rs.getString(2); //.substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
             rs.close();
             sql = "SELECT name from carbrand WHERE id="+brand;
             rs= jmt.DSelect(sql);
@@ -248,7 +333,8 @@ public class User {
             rs.first();
             String modelname=rs.getString(1);
             rs.close();
-            res= "Car # "+carid+". Brand is "+brandname+". Model is "+modelname;
+            res= "{\"Carlist\":[{\"CarBrand\":\""+brandname+"\",\"CarModel\":\""+modelname+"\",\"CarID\":\""+carid+"\"}]}";
+            //{"Carlist":[{"CarBrand":"Nissan","CarModel":"Murano","CarID":"5884"}]}
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -259,7 +345,8 @@ public class User {
         JavaToMySQL jtm = new JavaToMySQL();
         String sql;
         String r ="-1";
-        sql="{ call setpoint(?,?,?,?) }";
+        //sql="{ call setpoint(?,?,?,?) }";
+        sql="{ call setpointnew(?,?,?,?) }";
         try {
             CallableStatement stmt;
             jtm.openCon();
@@ -272,30 +359,33 @@ public class User {
             stmt.close();
             jtm.CloseCon();
             if (Integer.valueOf(cartype)==0) {
-                sql = "SELECT sproviders.id as spid,name, phone, address, X, Y, round(sproviders.point/5) as rate," +
-                        " spservices.price, if(prof=21,\"Yes\",\"No\") as Diploma, \"Any\" as cartype" +
+                sql = "SELECT sproviders.id as spid,name, phone, address, X, Y,"+
+                        " if(votes=0,0,format(sproviders.rating/votes,2)) as Rate,Votes," +
+                        " spservices.price as Price, if(prof=21,\"Yes\",\"No\") as Diploma, \"Any\" as Cartype" +
                         " FROM search, sproviders, spservices" +
                         " WHERE search.spid=sproviders.id and search.spid=spservices.spid and search.userid=" + userid;
-                if (Integer.valueOf(servid)>0) sql += " and spservices.serviceid= " + servid;
+                //if (Integer.valueOf(servid)>0)
+                sql += " and spservices.serviceid= " + servid;
                 sql += " ORDER BY search.point DESC";
             } else {
-                sql = "SELECT sproviders.id as spid,name, phone, address, X, Y, round(sproviders.point/5) as rate," +
-                        " spservices.price, if(prof=21,\"Yes\",\"No\") as Diploma, cartype.typename as cartype" +
+                sql = "SELECT sproviders.id as spid,name, phone, address, X, Y,"+
+                        " if(votes=0,0,format(sproviders.rating/votes,2)) as Rate,Votes," +
+                        " spservices.price as Price, if(prof=21,\"Yes\",\"No\") as Diploma, cartype.typename as Cartype" +
                         " FROM search, sproviders, spservices, cartype" +
                         " WHERE search.spid=sproviders.id and search.spid=spservices.spid and search.userid=" + userid;
-                if (Integer.valueOf(servid)>0) sql += " and spservices.serviceid= " + servid;
+                //if (Integer.valueOf(servid)>0)
+                sql += " and spservices.serviceid= " + servid;
                 sql += " and cartype.id=spservices.cartype and cartype.id="+cartype+" ORDER BY search.point DESC";
             }
             //System.out.println(sql);
             if (Integer.valueOf(top)>0) {
                 sql+=" LIMIT "+top;
             }
-            r = jtm.getJSONFromResultSet(jtm.DSelect(sql),"search userID"+userid);
+            r = jtm.getJSONFromResultSet(jtm.DSelect(sql),"Results for userID#"+userid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return r;
-        //return sql;
     }
 
     public String AddCall_1( String CDetail) {
