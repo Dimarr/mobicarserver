@@ -341,7 +341,7 @@ public class User {
         return res;
     }
 
-    public static String listsp(String servid, String userid, String X, String Y, String cartype, String top){
+    public static String listsp(String servid, String subservid,String userid, String X, String Y,  String locationid, String top){
         JavaToMySQL jtm = new JavaToMySQL();
         String sql;
         String r ="-1";
@@ -358,6 +358,18 @@ public class User {
             stmt.executeQuery();
             stmt.close();
             jtm.CloseCon();
+            sql = "SELECT searchservice.*, if(votes=0,0,format(searchservice.rating/votes,2)) as Rate,Votes FROM searchservice, search " +
+                    "WHERE search.spid=searchservice.spid AND ";
+            if (Integer.valueOf(subservid)>0) {
+                sql +=  "search.userid=" + userid + " AND searchservice.serviceid=" + servid + " AND searchservice.subserviceID=" +
+                        subservid + " AND locationid=" + locationid + " ORDER BY search.point DESC";
+            } else {
+                sql +=  "search.userid=" + userid + " AND searchservice.serviceid=" + servid +
+                        " AND locationid=" + locationid + " ORDER BY search.point DESC";
+
+            }
+            /*
+
             if (Integer.valueOf(cartype)==0) {
                 sql = "SELECT sproviders.id as spid,name, phone, address, X, Y,"+
                         " if(votes=0,0,format(sproviders.rating/votes,2)) as Rate,Votes," +
@@ -377,6 +389,7 @@ public class User {
                 sql += " and spservices.serviceid= " + servid;
                 sql += " and cartype.id=spservices.cartype and cartype.id="+cartype+" ORDER BY search.point DESC";
             }
+            */
             //System.out.println(sql);
             if (Integer.valueOf(top)>0) {
                 sql+=" LIMIT "+top;

@@ -388,22 +388,26 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("getallservices")) str = Serviceprovider.getAllServices();
+
+                if (tokens[0].equalsIgnoreCase("getalllocations")) str = Serviceprovider.getAllLocations();
+
                 if (tokens[0].equalsIgnoreCase("search")) {
-                    if (tokens.length < 7) {
+                    if (tokens.length < 8) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        str = User.listsp(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
-                        //Service ID, User ID, coordinats X and Y, car type, top
+                        str = User.listsp(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6],tokens[7]);
+                        //Service ID, , subservid,User ID, coordinats X and Y, locationid, top
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("updatesp")) {
+                 if (tokens[0].equalsIgnoreCase("getsubservice")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Serviceprovider.updatesp(Integer.parseInt(tokens[1]));
+                        str = Serviceprovider.getSubService(tokens[1]);
                     }
                 }
 
@@ -706,7 +710,7 @@ public class EchoWorker implements Runnable {
                         str = "-1";
                     } else {
                         Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
-                        str = "Service ID" + tokens[2] + " linked to Customer ID" + tokens[1];
+                        str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
                     }
                 }
 
@@ -721,7 +725,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("getservices")) {
+                if (tokens[0].equalsIgnoreCase("getservicesforsp")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
