@@ -55,6 +55,66 @@ public class EchoWorker implements Runnable {
             }
         }
 
+        if (tokens[0].equalsIgnoreCase("sptokengen")) {
+            try {
+                String phone;
+                String createdToken;
+                String pincode;
+                if (tokens.length < 3) {
+                    System.out.println("params aren't correct");
+                    str = "-1";
+                } else {
+                    if (Integer.parseInt(tokens[1]) > 0) {
+                        if (tokens.length == 4) {
+                            Serviceprovider.setphone(Integer.parseInt(tokens[1]), tokens[3]);
+                            phone = tokens[3];
+                        } else {
+                            phone = Serviceprovider.getphone(Integer.parseInt(tokens[1]));
+                        }
+                        createdToken = MyToken.newToken(phone, tokens[2]);
+                        //System.out.println("Token generated successfully");
+                        pincode= Crypt.rnd(1000,9999);
+                        new SendAuthSMS(phone, "Your verification code is "+pincode);
+                        str = "Pincode sent successfully";
+                        if (Integer.parseInt(tokens[1]) > 0) {
+                            Serviceprovider.Setpincode(tokens[1],pincode);
+                            Serviceprovider.SetToken(tokens[1], createdToken);
+                        }
+                    } else {
+                        if (tokens.length > 3) {
+                            phone = tokens[3];
+                            str = MyToken.newToken(phone, tokens[2]);
+                            System.out.println("Token generated successfully");
+                            new SendAuthSMS(phone, "Your token created successfully");
+                            //str = "Token generated successfully";
+                            if (Integer.parseInt(tokens[1]) > 0) Serviceprovider.SetToken(tokens[1], str);
+                        } else {
+                            System.out.println("params aren't correct");
+                            str = "-1";
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                str = e.getMessage();
+                e.printStackTrace();
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("spverifypincode")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (Serviceprovider.Verifypincode(tokens[1], tokens[2])>0) {
+                    str=Serviceprovider.GetToken(tokens[1]);
+                } else {
+                    //str="Verification does not passed";
+                    str="-1";
+                }
+            }
+        }
+
+
         if (tokens[0].equalsIgnoreCase("tokengen")) {
             try {
                 String phone;

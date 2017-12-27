@@ -222,6 +222,71 @@ public class Serviceprovider {
         }
     }
 
+    public static void setphone(Integer spid, String phone) {
+        String sql = "UPDATE sproviders SET phone='"+phone+"' WHERE id="+spid+";";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+    }
+
+    public static String getphone(Integer spid) {
+        String sql = "SELECT phone FROM sproviders WHERE id="+spid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "-1";
+        }
+    }
+
+    public static String GetToken(String spid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT token FROM sproviders WHERE id="+spid+";";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    public static Integer Verifypincode(String spid, String pincode) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT count(*) FROM sproviders WHERE id="+spid+" AND password='"+Crypt.md5Apache(pincode)+"';";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            Integer res = rs.getInt(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public static void Setpincode(String spid, String pincode) {
+        String sql ="UPDATE sproviders SET password='"+Crypt.md5Apache(pincode)+"' WHERE id="+spid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
+    public static void SetToken(String spid, String token) {
+        String sql ="UPDATE sproviders SET token='"+token+"' WHERE id="+spid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
     public static Integer Loged(String email, String BNID, String pwd) throws SQLException {
         String crpwd = md5Apache(pwd);
         String sql = "select id,x,y from sproviders where email='" + email + "' and BNID='"+ BNID+"' and password='" + crpwd + "';";

@@ -9,7 +9,6 @@
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/User.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/User.java" />
     </list>
     <ignored path="NIOTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,24 +89,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.192926">
-              <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="257" column="9" selection-start-line="257" selection-start-column="9" selection-end-line="257" selection-end-column="9" />
               <folding>
-                <marker date="1514357722214" expanded="true" signature="1558:1586" placeholder="UPDATE sprov..." />
-                <marker date="1514357722214" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
+                <marker date="1514374607696" expanded="true" signature="1558:1586" placeholder="UPDATE sprov..." />
+                <marker date="1514374607696" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="409" column="49" selection-start-line="409" selection-start-column="49" selection-end-line="409" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.8135048">
+              <caret line="120" column="36" selection-start-line="120" selection-start-column="36" selection-end-line="120" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -143,7 +142,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="350" column="35" selection-start-line="350" selection-start-column="35" selection-end-line="350" selection-end-column="35" />
+              <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
               <folding>
                 <marker date="1514354636439" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
                 <marker date="1514354636439" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
@@ -921,12 +920,12 @@
       <workItem from="1513079410072" duration="4906000" />
       <workItem from="1513234300202" duration="29138000" />
       <workItem from="1513601784954" duration="631000" />
-      <workItem from="1513660365993" duration="45480000" />
+      <workItem from="1513660365993" duration="47147000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="309060000" />
+    <option name="totallyTimeSpent" value="310727000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
@@ -1438,7 +1437,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="350" column="35" selection-start-line="350" selection-start-column="35" selection-end-line="350" selection-end-column="35" />
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding>
             <marker date="1514354636439" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
             <marker date="1514354636439" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
@@ -1457,23 +1456,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="409" column="49" selection-start-line="409" selection-start-column="49" selection-end-line="409" selection-end-column="49" />
+          <caret line="257" column="9" selection-start-line="257" selection-start-column="9" selection-end-line="257" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1514374607696" expanded="true" signature="1558:1586" placeholder="UPDATE sprov..." />
+            <marker date="1514374607696" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.192926">
-          <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.8135048">
+          <caret line="120" column="36" selection-start-line="120" selection-start-column="36" selection-end-line="120" selection-end-column="36" />
           <folding>
-            <marker date="1514357722214" expanded="true" signature="1558:1586" placeholder="UPDATE sprov..." />
-            <marker date="1514357722214" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
