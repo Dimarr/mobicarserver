@@ -57,7 +57,7 @@ public class Serviceprovider {
         this.phone = Phone;
     }
 
-    public static void updatesp(int id) {
+    /*public static void updatesp(int id) {
         JavaToMySQL jtm = new JavaToMySQL();
         int points = -1;
         String sql = "{ call setpoint(?,?) }";
@@ -77,7 +77,7 @@ public class Serviceprovider {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static String searchservice(Integer spid, Integer servid, Integer cartypeid) throws SQLException {
         JavaToMySQL jtm = new JavaToMySQL();
@@ -111,11 +111,31 @@ public class Serviceprovider {
         };
     }
 
+    public static String getAllLocations() {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT OptionID as LocationID,Optionname as LocationName FROM pointcatalog WHERE OptionID<20";
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"Locations");
+    }
+
+    public static String getAllServices() {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT ID as ServiceID,Name as ServiceName FROM servicetype;";
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"AllServices");
+    }
+
+    public static String getSubService(String sid) {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT cartype.ID as SubServiceID,cartype.typeName as SubServiceName FROM servicetype,cartype " +
+                "WHERE servicetype.regular=cartype.regular and servicetype.id="+sid+";";
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"SubServices");
+    }
 
     public static String getServices(String spid) {
-        String sql = "SELECT servicetype.id as ServID,servicetype.name as Service,  price " +
-                "FROM spservices,  servicetype where serviceid=servicetype.id and spservices.spid="+spid;
-        return sql;
+        String sql = "SELECT servicetype.id as ServID,servicetype.name as Service,  cartype.typename as SubServiceName, price "+
+        "FROM spservices,  servicetype, cartype WHERE serviceid=servicetype.id AND spservices.cartype=cartype.id " +
+        "AND spservices.spid="+spid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"SP_SubServices");
     }
 
     public static void setToken(String spid, String token) {
@@ -151,6 +171,12 @@ public class Serviceprovider {
         JavaToMySQL jtm = new JavaToMySQL();
         String sql = "SELECT X,Y,ltime as SavedTime FROM coordinate WHERE spuser=1 and uid="+spid+" order by ltime desc LIMIT 1;";
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"lastspcoordinates");
+    }
+
+    public static String getstaticxy(String spid) throws SQLException {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT X,Y FROM sproviders WHERE id="+spid;
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"staticspcoordinates");
     }
 
     public static String getBusy(String spid) throws SQLException {
@@ -202,6 +228,71 @@ public class Serviceprovider {
         }
     }
 
+    public static void setphone(Integer spid, String phone) {
+        String sql = "UPDATE sproviders SET phone='"+phone+"' WHERE id="+spid+";";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+    }
+
+    public static String getphone(Integer spid) {
+        String sql = "SELECT phone FROM sproviders WHERE id="+spid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "-1";
+        }
+    }
+
+    public static String GetToken(String spid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT token FROM sproviders WHERE id="+spid+";";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    public static Integer Verifypincode(String spid, String pincode) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT count(*) FROM sproviders WHERE id="+spid+" AND password='"+Crypt.md5Apache(pincode)+"';";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            Integer res = rs.getInt(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public static void Setpincode(String spid, String pincode) {
+        String sql ="UPDATE sproviders SET password='"+Crypt.md5Apache(pincode)+"' WHERE id="+spid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
+    public static void SetToken(String spid, String token) {
+        String sql ="UPDATE sproviders SET token='"+token+"' WHERE id="+spid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
     public static Integer Loged(String email, String BNID, String pwd) throws SQLException {
         String crpwd = md5Apache(pwd);
         String sql = "select id,x,y from sproviders where email='" + email + "' and BNID='"+ BNID+"' and password='" + crpwd + "';";
@@ -213,12 +304,12 @@ public class Serviceprovider {
         } else return rs.getInt("id");
     }
 
-    public static void addService(String sid, String serviceid, String availibilityid, String profid, String price, String cartype){
+    public static void addService(String sid, String serviceid, String location, String profid, String price, String cartype){
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "DELETE FROM spservices WHERE spid="+sid+" AND serviceid="+serviceid+";";
         jmt.DbExec(sql);
         sql = "INSERT INTO spservices (spid,serviceid,price,availl,prof, cartype) VALUES ("+sid+","+serviceid+","+price+","+
-                availibilityid+","+profid+","+cartype+");";
+                location+","+profid+","+cartype+");";
         jmt.DbExec(sql);
     }
 

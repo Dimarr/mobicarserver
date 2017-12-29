@@ -10,4 +10,11 @@ public class Crypt {
         String md5Hex = DigestUtils.md5Hex(st);
         return md5Hex;
     }
+    public static String rnd(int min, int max)
+    {
+        max -= min;
+        String s=String.format("%s%d", Math.random() * ++max, min);
+        return s.substring(0,4);
+        //return String. String.format("%s%d", Math.random() * ++max, min);
+    }
 }
