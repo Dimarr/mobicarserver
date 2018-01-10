@@ -6,14 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Crypt.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Crypt.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/User.class" afterPath="$PROJECT_DIR$/target/classes/Objects/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
-    </list>
+    <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="" />
     <ignored path="NIOTest.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
