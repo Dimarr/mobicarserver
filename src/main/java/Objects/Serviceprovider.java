@@ -197,14 +197,21 @@ public class Serviceprovider {
     }
 
     public static Integer LogedLite(String email, String BNID, String BNIDflag) throws SQLException {
-        String sql = null;
+        String sql = "select id from sproviders where ";
 
-        if (BNIDflag.equalsIgnoreCase("0")) {
-            sql = "select id from sproviders where trim(email)='" + email + "' and trim(BNID)='"+ BNID+ "';";
-        } else {
-            sql = "select id from sproviders where trim(email)='" + email + "' and trim(BN)='"+ BNID+ "';";
+        if (email.contains("@")) sql+= "trim(email)='";
+        else sql += "trim(phone)='";
+
+        sql+=email;
+
+        if  (!BNIDflag.equalsIgnoreCase("2")) {
+            if (BNIDflag.equalsIgnoreCase("0")) {
+                sql += "' and trim(BNID)='" + BNID;
+            } else {
+                sql += "' and trim(BN)='" + BNID;
+            }
         }
-
+        sql+="';";
 /*        if (email.isEmpty() && !BNID.isEmpty()) {
             sql = "select id from sproviders where trim(BNID)='"+ BNID+ "';";
         } else {
@@ -366,6 +373,24 @@ public class Serviceprovider {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "UPDATE sproviders SET bankid="+BankID+",bankbranch='"+branch+"',bankaccount='"+account+"' WHERE id="+SpID+";";
         jmt.DbExec(sql);
+    }
+
+    public static String Newsplite(String name,String email,String phone,  String BNID, String BN ) {
+        String sql= "INSERT INTO sproviders (logined,name,email,BNID, BN,phone) VALUES(0,'"+name+"','"+email+"','"+
+                BNID+"','"+BN+"','"+phone+"');";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+        sql = "SELECT max(id) FROM sproviders";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            Integer spid = rs.getInt(1);
+            return String.valueOf(spid);                                                                                                               // ID of availiability , ID of professional level, Price, cartype
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    //System.out.println(crpwd);
+    return "-1";
     }
 
 

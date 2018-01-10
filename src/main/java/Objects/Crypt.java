@@ -14,6 +14,7 @@ public class Crypt {
     {
         max -= min;
         String s=String.format("%s%d", Math.random() * ++max, min);
+        s+="000";
         return s.substring(0,4);
         //return String. String.format("%s%d", Math.random() * ++max, min);
     }

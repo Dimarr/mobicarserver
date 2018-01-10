@@ -372,13 +372,17 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("splite")) try {
-                    if (tokens.length < 4) {
+                    if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
                         Integer uid = null;
                         //if (Integer.valueOf(tokens[1]) == 0) {
-                        uid = Serviceprovider.LogedLite(tokens[2], tokens[3], tokens[1]);  // email
+                        if (tokens.length==4)
+                            uid = Serviceprovider.LogedLite(tokens[2], tokens[3], tokens[1]);  // email or phone
+                        else
+                            uid = Serviceprovider.LogedLite(tokens[2],"", tokens[1]);  // email or phone
+
                 /*} else {
                     if (Integer.valueOf(tokens[1]) == 1) {
                         uid = Serviceprovider.LogedLite("",tokens[2]);  // BN or ID
@@ -543,6 +547,15 @@ public class EchoWorker implements Runnable {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("createsplite")) {
+                    if (tokens.length < 6) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
                     }
                 }
 
