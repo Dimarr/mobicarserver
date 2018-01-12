@@ -93,7 +93,8 @@ public class NioServer implements Runnable {
 						switch (change.type) {
 						case ChangeRequest.CHANGEOPS:
 							SelectionKey key = change.socket.keyFor(this.selector);
-							if (key.isValid()) key.interestOps(change.ops);
+							if (key != null) {
+							if (key.isValid()) key.interestOps(change.ops); }
 						}
 					}
 					this.pendingChanges.clear();
@@ -271,7 +272,7 @@ public class NioServer implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			System.out.println("Server started at "+df.format(dt)+". Port is #"+port);
+			System.out.println("Server started at "+df.format(dt)+". Opened port # "+port);
 		}
 	}
 }

@@ -131,7 +131,8 @@ public class Serviceprovider {
     }
 
     public static String getServices(String spid) {
-        String sql = "SELECT servicetype.id as ServID,servicetype.name as Service,  cartype.typename as SubServiceName, price "+
+        String sql = "SELECT servicetype.id as ServID,servicetype.name as Service,  cartype.typename as SubServiceName, " +
+                "cartype.id as subserviceid, spservices.availl as locationid, price "+
         "FROM spservices,  servicetype, cartype WHERE serviceid=servicetype.id AND spservices.cartype=cartype.id " +
         "AND spservices.spid="+spid;
         JavaToMySQL jtm = new JavaToMySQL();

@@ -432,30 +432,18 @@ public class User {
         jmt.DbExec(sql);
         // Will be implemented payment transaction mechanism
     }
-    public ResultSet ViewPayments( ) {
+    public static String ViewPayments( String uid) {
         String sql;
 		// Will be implemented views of all user's payments
         sql = "SELECT payments.payid, sproviders.name as Provider, amount as Amount, details as 'Payment detail', pdate as 'Payment date'," +
                 " paymentstatus.pstatus as 'Payment status' FROM payments, sproviders, paymentstatus " +
-                "WHERE payments.spid= sproviders.id and payments.pstatus= paymentstatus.id and payments.userid="+this.id+ " ORDER BY pdate, payments.pstatus;";
+                "WHERE payments.spid= sproviders.id and payments.pstatus= paymentstatus.id and payments.userid="+uid+ " ORDER BY pdate, payments.pstatus;";
         JavaToMySQL jtm = new JavaToMySQL();
         //System.out.println(sql);
-        return jtm.DSelect(sql);
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"Payments");
     }
 
-    public String ViewPaymentsSQL( ) {
-        String sql;
-        // Will be implemented views of all user's payments
-        sql = "SELECT payments.payid, sproviders.name as Provider, amount as Amount, details as 'Payment detail', pdate as 'Payment date'," +
-                " paymentstatus.pstatus as 'Payment status' FROM payments, sproviders, paymentstatus " +
-                "WHERE payments.spid= sproviders.id and payments.pstatus= paymentstatus.id and payments.userid="+this.id+ " ORDER BY pdate, payments.pstatus;";
-        //JavaToMySQL jtm = new JavaToMySQL();
-        //System.out.println(sql);
-        return sql;
-    }
-
-
-    public ResultSet ViewCalls(Integer callstatus ) {
+    public String ViewCalls(Integer callstatus ) {
         // Will be implemented views of all user's calls
         String sql = "select sproviders.name as providername,sproviders.phone as providerphone, sproviders.rating ,spservices.price, servicetype.name as servicename\n" +
                 ",calls.cdate,calls.details,calls.callid as callid\n" +
@@ -464,14 +452,6 @@ public class User {
                 "and spservices.serviceid=servicetype.id and spservices.spid= sproviders.id and calls.userid=" + this.id + " and calls.status=" + callstatus;
 
         JavaToMySQL jtm = new JavaToMySQL();
-        return jtm.DSelect(sql);
-    }
-    public String ViewCallsSQL(Integer callstatus ) {
-		// Will be implemented views of all user's calls
-        return "select sproviders.name as providername,sproviders.phone as providerphone, sproviders.rating ,spservices.price, servicetype.name as servicename " +
-                ",calls.cdate,calls.details,calls.callid as callid " +
-                " from calls, sproviders, servicetype, spservices where " +
-                " calls.spid = sproviders.id " +
-                "and spservices.serviceid=servicetype.id and spservices.spid= sproviders.id and calls.userid="+this.id+" and calls.status="+callstatus;
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"Calls");
     }
 }

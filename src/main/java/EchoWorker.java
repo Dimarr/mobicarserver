@@ -135,7 +135,7 @@ public class EchoWorker implements Runnable {
                         //System.out.println("Token generated successfully");
                         pincode= Crypt.rnd(1000,9999);
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
-                        str = "Pincode sent successfully";
+                        str = "Pincode has been sent successfully";
                         if (Integer.parseInt(tokens[1]) > 0) {
                             User.Setpincode(tokens[1],pincode);
                             User.SetToken(tokens[1], createdToken);
@@ -551,11 +551,15 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("createsplite")) {
-                    if (tokens.length < 6) {
+                    if (tokens.length < 5) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
+                        if (tokens.length == 6) {
+                            str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
+                        } else {
+                            str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], "");
+                        }
                     }
                 }
 
@@ -585,17 +589,17 @@ public class EchoWorker implements Runnable {
                 if (tokens[0].equalsIgnoreCase("viewcalls")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
-                        str = "*";
+                        str = "";
                     } else {
                         //flag = true;
-                        Integer uid = Integer.valueOf(tokens[1]);
-                        Integer cs = Integer.valueOf(tokens[2]);
+                        Integer uid = Integer.valueOf(tokens[1].trim());
+                        Integer cs = Integer.valueOf(tokens[2].trim());
                         if (uid > 0) {
                             User usr = new User(uid);
-                            str = usr.ViewCallsSQL(cs);
+                            str = usr.ViewCalls(cs);
                         } else {
                             System.out.println("params aren't correct");
-                            str = "*";
+                            str = "";
                         }
                     }
                 }
@@ -603,15 +607,14 @@ public class EchoWorker implements Runnable {
                 if (tokens[0].equalsIgnoreCase("viewpayments")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
-                        str = "*";
+                        str = "";
                     } else {
-                        Integer uid = Integer.valueOf(tokens[1]);
+                        Integer uid = Integer.valueOf(tokens[1].trim());
                         if (uid > 0) {
-                            User usr = new User(uid);
-                            str = usr.ViewPaymentsSQL();
+                            str = User.ViewPayments(tokens[1].trim());
                         } else {
                             System.out.println("params aren't correct");
-                            str = "*";
+                            str = "";
                         }
                     }
                 }
