@@ -74,6 +74,8 @@ public class EchoWorker implements Runnable {
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
                         pincode= Crypt.rnd(1000,9999);
+                        if (pincode.trim().length()<4) {pincode=pincode+"000"; pincode=pincode.substring(0,4);}
+
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
                         str = "Pincode sent successfully";
                         if (Integer.parseInt(tokens[1]) > 0) {
@@ -586,6 +588,16 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("spsetstaticxy")) {
+                    if (tokens.length < 4) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.setStaticXY(tokens[1],tokens[2],tokens[3]);
+                        str ="Coordinates updated";
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("viewcalls")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
@@ -817,6 +829,22 @@ public class EchoWorker implements Runnable {
                         str = Serviceprovider.getServices(tokens[1]);
                     }
                 }
+
+        if (tokens[0].equalsIgnoreCase("encode")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str= Crypt.encode(tokens[1],"!mobi!car@#$");
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("decode")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else str = Crypt.decode(tokens[1], "!mobi!car@#$");
+        }
 
                 if (tokens[0].equalsIgnoreCase("setrating")) {
                     if (tokens.length < 3) {

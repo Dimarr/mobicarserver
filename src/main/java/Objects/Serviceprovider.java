@@ -314,7 +314,7 @@ public class Serviceprovider {
 
     public static void addService(String sid, String serviceid, String location, String profid, String price, String cartype){
         JavaToMySQL jmt = new JavaToMySQL();
-        String sql = "DELETE FROM spservices WHERE spid="+sid+" AND serviceid="+serviceid+";";
+        String sql = "DELETE FROM spservices WHERE spid="+sid+" AND serviceid="+serviceid+" AND cartype="+cartype+";";
         jmt.DbExec(sql);
         sql = "INSERT INTO spservices (spid,serviceid,price,availl,prof, cartype) VALUES ("+sid+","+serviceid+","+price+","+
                 location+","+profid+","+cartype+");";
@@ -375,6 +375,13 @@ public class Serviceprovider {
         String sql = "UPDATE sproviders SET bankid="+BankID+",bankbranch='"+branch+"',bankaccount='"+account+"' WHERE id="+SpID+";";
         jmt.DbExec(sql);
     }
+
+    public static void setStaticXY(String SpID, String X, String Y){
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE sproviders SET X="+X+",Y="+Y+" WHERE id="+SpID+";";
+        jmt.DbExec(sql);
+    }
+
 
     public static String Newsplite(String name,String email,String phone,  String BNID, String BN ) {
         String sql= "INSERT INTO sproviders (logined,name,email,BNID, BN,phone) VALUES(0,'"+name+"','"+email+"','"+
