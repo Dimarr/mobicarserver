@@ -191,6 +191,23 @@ public class Serviceprovider {
         return res;
     }
 
+    public static String onlineStatus(String spid,String newstatus) throws SQLException {
+        String sql ="SELECT logined FROM sproviders where id="+spid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        String res ="-1";
+        if (newstatus.isEmpty()) {
+            ResultSet rs = jmt.DSelect(sql);
+            jmt.DbExec(sql);
+            rs.last();
+            if (rs.getRow() > 0) res = rs.getString("logined").trim();
+        } else {
+            sql = "UPDATE sproviders SET logined="+newstatus+" WHERE id="+spid;
+            jmt.DbExec(sql);
+            res=newstatus;
+        }
+        return res;
+    }
+
     public static void Logout(String spid) throws SQLException {
         String sql ="UPDATE sproviders set logined=0 where id="+spid;
         JavaToMySQL jtm = new JavaToMySQL();

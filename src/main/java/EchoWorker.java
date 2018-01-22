@@ -743,6 +743,19 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("sponlinestatus")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        if (tokens.length==2) {
+                            str = Serviceprovider.onlineStatus(tokens[1],"");
+                        } else {
+                            str = Serviceprovider.onlineStatus(tokens[1],tokens[2]);
+                        }
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("declinejob")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");

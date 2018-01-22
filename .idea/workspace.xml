@@ -7,23 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/MyToken.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/MyToken.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Crypt.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Crypt.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/SendAuthSMS.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/SendAuthSMS.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/target/classes/EchoWorker.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/MyToken.class" afterPath="$PROJECT_DIR$/target/classes/MyToken.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Crypt.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Crypt.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/SendAuthSMS.class" afterPath="$PROJECT_DIR$/target/classes/SendAuthSMS.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/MyToken.java" afterPath="$PROJECT_DIR$/src/main/java/MyToken.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/SendAuthSMS.java" afterPath="$PROJECT_DIR$/src/main/java/SendAuthSMS.java" />
     </list>
     <ignored path="NIOTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -122,11 +107,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="807" column="44" selection-start-line="807" selection-start-column="44" selection-end-line="807" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.61093247">
+              <caret line="754" column="25" selection-start-line="754" selection-start-column="25" selection-end-line="754" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -134,13 +119,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35369775">
-              <caret line="323" column="65" selection-start-line="323" selection-start-column="65" selection-end-line="323" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
               <folding>
-                <marker date="1516603953997" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
+                <marker date="1516616798097" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
               </folding>
             </state>
           </provider>
@@ -200,8 +185,8 @@
         <option value="$PROJECT_DIR$/src/main/java/MyToken.java" />
         <option value="$PROJECT_DIR$/src/main/java/SendAuthSMS.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" />
-        <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
       </list>
     </option>
   </component>
@@ -917,12 +902,12 @@
       <workItem from="1515477927112" duration="19492000" />
       <workItem from="1515680918014" duration="21630000" />
       <workItem from="1516084214412" duration="4980000" />
-      <workItem from="1516352496152" duration="4376000" />
+      <workItem from="1516352496152" duration="7419000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="282730000" />
+    <option name="totallyTimeSpent" value="285773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
@@ -1403,22 +1388,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="807" column="44" selection-start-line="807" selection-start-column="44" selection-end-line="807" selection-end-column="44" />
+          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1516616798097" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35369775">
-          <caret line="323" column="65" selection-start-line="323" selection-start-column="65" selection-end-line="323" selection-end-column="65" />
+        <state vertical-scroll-proportion="0.61093247">
+          <caret line="754" column="25" selection-start-line="754" selection-start-column="25" selection-end-line="754" selection-end-column="25" />
           <folding>
-            <marker date="1516603953997" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
