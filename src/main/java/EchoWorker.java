@@ -73,7 +73,7 @@ public class EchoWorker implements Runnable {
                         }
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
-                        pincode= Crypt.rnd(1000,9999);
+                        pincode= Crypt.rnd(10000,99999);
                         if (pincode.trim().length()<4) {pincode=pincode+"000"; pincode=pincode.substring(0,4);}
 
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
@@ -233,7 +233,27 @@ public class EchoWorker implements Runnable {
                     e.printStackTrace();
                 }
 
-                if (tokens[0].equalsIgnoreCase("spsettoken")) {
+                if (tokens[0].equalsIgnoreCase("spsetfirebasetoken")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.setFirebaseToken(tokens[1], tokens[2]);
+                        str = "Set FireBase token for sp #" + tokens[1];
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("usersetfirebasetoken")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        User.SetFirebaseToken(tokens[1], tokens[2]);
+                        str = "Set FireBase token for user #" + tokens[1];
+                    }
+                }
+
+        if (tokens[0].equalsIgnoreCase("spsettoken")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -344,7 +364,25 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("spsetbusy")) {
+                if (tokens[0].equalsIgnoreCase("spgetfirebasetoken")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str = Serviceprovider.getFirebaseToken(tokens[1]);
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("usergetfirebasetoken")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str = User.GetFirebaseToken(tokens[1]);
+                    }
+                }
+
+        if (tokens[0].equalsIgnoreCase("spsetbusy")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -546,8 +584,6 @@ public class EchoWorker implements Runnable {
                             str = tokens[2];
                         } catch (SQLException e) {
                             e.printStackTrace();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
                         }
                     }
                 }
@@ -579,8 +615,6 @@ public class EchoWorker implements Runnable {
                                 try {
                                     Serviceprovider.InsertPicSP(tokens[19], spid);
                                 } catch (SQLException e) {
-                                    e.printStackTrace();
-                                } catch (FileNotFoundException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -632,18 +666,16 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("addcall")) {
-                    if (tokens.length < 5) {
+                    if (tokens.length < 4) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        Integer uid = Integer.valueOf(tokens[1]);
+                        String cdetail="";
+                        if (tokens.length > 4) cdetail=tokens[4].trim();
+                        Integer uid = Integer.valueOf(tokens[1].trim());
                         if (uid > 0) {
-                            User usr = new User(uid);
-                            String cd = tokens[2];
-                            Integer spid = Integer.valueOf(tokens[3]);
-                            Integer serviceid = Integer.valueOf(tokens[4]);
-                            usr.AddCallSQL(cd, spid, serviceid);
-                            str = "Request for service provider #" + tokens[3] + " added";
+                            str=User.AddCall(tokens[1],cdetail, tokens[2].trim(),tokens[3].trim());
+                            //str = "Request for service provider #" + tokens[3] + " added";
                         } else {
                             System.out.println("params aren't correct");
                             str = "*";
@@ -651,15 +683,6 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("getnewreqforsp")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        Integer spid = Integer.valueOf(tokens[1]);
-                        str = Serviceprovider.GetNewRequestsSP(spid);
-                    }
-                }
 
                 if (tokens[0].equalsIgnoreCase("usersetcarid")) {
                     if (tokens.length < 5) {
@@ -774,25 +797,33 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("acceptcall")) {
-                    if (tokens.length < 3) {
+                    if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Integer callid = Integer.valueOf(tokens[1]);
-                        Integer spid = Integer.valueOf(tokens[2]);
+                        //Integer callid = Integer.valueOf(tokens[1]);
+                        Integer spid = Integer.valueOf(tokens[1]);
                         if (spid > 0) {
-                            Serviceprovider sp = new Serviceprovider(spid);
                             try {
-                                sp.AcceptCall(callid);
+                                Serviceprovider.AcceptCall(tokens[1]);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
-                            System.out.println("Accepted call #" + callid);
-                            str = String.valueOf(callid);
+                            System.out.println("Accepted call for SP #" + tokens[1]);
+                            str = String.valueOf("Accepted call for SP #" + tokens[1]);
                         } else {
                             System.out.println("params aren't correct");
                             str = "-1";
                         }
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("spstatuscall")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str = Serviceprovider.StatusCall(tokens[1].trim());
                     }
                 }
 
@@ -801,11 +832,11 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Integer callid = Integer.valueOf(tokens[1]);
-                        if (callid > 0) {
-                            Serviceprovider.RejectCall(callid);
-                            str = String.valueOf(callid);
-                            System.out.println("Rejected call #" + callid);
+                        Integer spid = Integer.valueOf(tokens[1]);
+                        if (spid > 0) {
+                            Serviceprovider.RejectCall(tokens[1]);
+                            str = "SP #"+tokens[1]+" rejected call";
+                            System.out.println("SP #"+tokens[1]+" rejected call" );
                         } else {
                             System.out.println("params aren't correct");
                             str = "-1";

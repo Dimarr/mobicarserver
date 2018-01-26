@@ -6,9 +6,10 @@ package Objects;
 
 import DBMain.JavaToMySQL;
 
-import java.io.*;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+
 import static Objects.Crypt.md5Apache;
 
 /**
@@ -96,9 +97,12 @@ public class Serviceprovider {
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"searchservice");
     }
 
-    public static void InsertPicSP(String PathPic, Integer spid) throws SQLException, FileNotFoundException {
-        PreparedStatement statement;
-        try (InputStream inputStream = new FileInputStream(new File(PathPic))) {
+    public static void InsertPicSP(String PathPic, Integer spid) throws SQLException {
+        /*PreparedStatement statement;
+        //try (InputStream inputStream = new FileInputStream(new File(PathPic)))
+        InputStream inputStream = null;
+        try {
+            inputStream = new ByteArrayInputStream(PicStr.getBytes(StandardCharsets.UTF_8.name()));
             String sql = "UPDATE sproviders SET pic = (?) WHERE id="+spid;
             JavaToMySQL jmt = new JavaToMySQL();
             jmt.openCon();
@@ -106,9 +110,13 @@ public class Serviceprovider {
             statement.setBlob(1, inputStream);
             statement.executeUpdate();
             jmt.CloseCon();
-        } catch (IOException e) {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        };
+        }*/
+        String sql = "UPDATE sproviders SET pic = '"+PathPic.trim()+"' WHERE id="+spid;
+        //System.out.println(sql);
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
     }
 
     public static String getAllLocations() {
@@ -166,6 +174,33 @@ public class Serviceprovider {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "UPDATE sproviders set busy=1 WHERE id="+spid+";";
         jmt.DbExec(sql);
+    }
+
+    public static void setAvailable(String spid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE sproviders set busy=0 WHERE id="+spid+";";
+        jmt.DbExec(sql);
+    }
+
+    public static void setFirebaseToken(String spid, String fbtoken) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE sproviders set firebasetoken='"+fbtoken+"' WHERE id="+spid+";";
+        jmt.DbExec(sql);
+    }
+
+    public static String getFirebaseToken(String spid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT firebasetoken FROM sproviders WHERE id="+spid+";";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public static String getxy(String spid) throws SQLException {
@@ -447,13 +482,12 @@ public class Serviceprovider {
         return -1;
     }
 
-    public void AcceptCall( Integer callid) throws SQLException {
+    public static void AcceptCall( String spid) throws SQLException {
         String sql;
-        sql= "UPDATE calls SET status = 2 WHERE callid="+callid+";";
+        sql= "UPDATE calls SET status = 2 WHERE status=1 AND spid="+spid+";";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
-
-        sql ="select sproviders.id as spid ,spservices.price, calls.userid,calls.cdate,calls.details " +
+        /*sql ="select sproviders.id as spid ,spservices.price, calls.userid,calls.cdate,calls.details " +
                 " from calls, sproviders, spservices where " +
                 "calls.spid = sproviders.id  and calls.serviceid=spservices.serviceid " +
                 " and spservices.spid= sproviders.id and calls.status=2 and calls.callid ="+callid+";";
@@ -472,18 +506,21 @@ public class Serviceprovider {
             jtm.DbExec(sql);
         } catch (SQLException e) {
             e.printStackTrace();
-        };
-    }
-    public static void RejectCall( Integer callid) {
-        String sql= "UPDATE calls SET status = 3 WHERE callid="+callid+";";
-        JavaToMySQL jtm = new JavaToMySQL();
-        jtm.DbExec(sql);
+        };*/
     }
 
-    public static String GetNewRequestsSP(Integer spid) {  //List of all requests for SP in Status New
-        String sql ="SELECT * FROM Requests WHERE StatusID=1 and SPID="+spid;
+    public static void RejectCall( String spid) {
+        String sql= "UPDATE calls SET status = 3 WHERE status<3 AND spid="+spid+";";
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+        setAvailable(spid);
+    }
+
+    public static String StatusCall( String spid) {
+        String sql ="SELECT userid, statusname from calls,callstatus WHERE calls.status=callstatus.statusid " +
+                "AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
         JavaToMySQL jmt = new JavaToMySQL();
-        return jmt.getJSONFromResultSet(jmt.DSelect(sql), "NewRequestsSP");
+        return jmt.getJSONFromResultSet(jmt.DSelect(sql), "SpStatusRequest");
     }
 
     public static String GetCarList(Integer spid) {

@@ -7,6 +7,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static Objects.Crypt.md5Apache;
@@ -132,6 +133,21 @@ public class User {
         return "";
     }
 
+    public static String GetFirebaseToken(String uid) {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT firebasetoken FROM users WHERE userid="+uid+";";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public static Integer Verifypincode(String uid, String pincode) {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT count(*) FROM users WHERE userid="+uid+" AND password='"+Crypt.md5Apache(pincode)+"';";
@@ -155,6 +171,12 @@ public class User {
 
     public static void SetToken(String uid, String token) {
         String sql ="UPDATE users SET token='"+token+"' WHERE userid="+uid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+    }
+
+    public static void SetFirebaseToken(String uid, String fbtoken) {
+        String sql ="UPDATE users SET firebasetoken='"+fbtoken+"' WHERE userid="+uid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
     }
@@ -358,7 +380,7 @@ public class User {
             stmt.executeQuery();
             stmt.close();
             jtm.CloseCon();
-            sql = "SELECT searchservice.*, if(votes=0,0,format(searchservice.rating/votes,2)) as Rate,Votes FROM searchservice, search " +
+            sql = "SELECT DISTINCT searchservice.*, if(votes=0,0,format(searchservice.rating/votes,2)) as Rate,Votes FROM searchservice, search " +
                     "WHERE search.spid=searchservice.spid AND ";
             if (Integer.valueOf(subservid)>0) {
                 sql +=  "search.userid=" + userid + " AND searchservice.serviceid=" + servid + " AND searchservice.subserviceID=" +
@@ -401,23 +423,26 @@ public class User {
         return r;
     }
 
-    public String AddCall_1( String CDetail) {
+    public static String AddCall( String uid, String CDetail, String spid, String serviceid) {
         String sql;
-        long curTime = System.currentTimeMillis();
-        Date dt = new Date(curTime);
-        sql= "INSERT INTO calls (userid,spid,cdate,details,serviceid) VALUES ("+this.id+ ",***,'"+dt+ "','"+CDetail+"',###);";
-        ResultSetTable resultSetTable = new ResultSetTable(id,sql);
-        return sql;
-    }
-
-    public void AddCallSQL( String CDetail, Integer spid, Integer serviceid) {
-        String sql;
-        long curTime = System.currentTimeMillis();
-        Date dt = new Date(curTime);
-        sql= "INSERT INTO calls (userid,spid,cdate,details,serviceid) VALUES ("+this.id+ ","+spid+",'"+dt+ "','"+CDetail+"',"+serviceid+");";
-        JavaToMySQL jmt = new JavaToMySQL();
-        jmt.DbExec(sql);
-        //return sql;
+        String statusSP="";
+        String res="Service provider is busy";
+        Date dt = new Date();
+        String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM").format(dt);
+        try {
+            statusSP = Serviceprovider.getBusy(spid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (statusSP.trim().equals("0")) {
+            sql = "INSERT INTO calls (userid,spid,cdate,details,serviceid) VALUES (" + uid + "," + spid + ",'" + dtFormat + "','" + CDetail + "'," + serviceid + ");";
+            //System.out.println(sql);
+            JavaToMySQL jmt = new JavaToMySQL();
+            jmt.DbExec(sql);
+            Serviceprovider.setBusy(spid);
+            return "Request for service provider #" + spid + " added";
+        }
+        return res;
     }
 
     public static void AcceptJob( Integer payid) {

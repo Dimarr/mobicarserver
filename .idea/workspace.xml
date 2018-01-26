@@ -7,8 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/User.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/target/classes/EchoWorker.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/User.class" afterPath="$PROJECT_DIR$/target/classes/Objects/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NIOTest.iml" afterPath="$PROJECT_DIR$/NIOTest.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/User.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/User.java" />
     </list>
     <ignored path="NIOTest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,36 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JavaToMySQL.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/DBMain/JavaToMySQL.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="182" column="0" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <marker date="1514335746000" expanded="true" signature="5320:5334" placeholder="select * fro..missingValue..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="readIni.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/DBMain/readIni.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Crypt.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Crypt.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+              <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -107,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61093247">
-              <caret line="754" column="25" selection-start-line="754" selection-start-column="25" selection-end-line="754" selection-end-column="25" />
+            <state vertical-scroll-proportion="-10.305555">
+              <caret line="836" column="48" selection-start-line="836" selection-start-column="48" selection-end-line="836" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,14 +103,34 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-12.290322">
+              <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.2266881">
+              <caret line="508" column="12" selection-start-line="508" selection-start-column="12" selection-end-line="508" selection-end-column="12" />
               <folding>
-                <marker date="1516616798097" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
+                <marker date="1516976573527" expanded="true" signature="2857:2898" placeholder="UPDATE sprov..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -135,10 +139,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="196" column="27" selection-start-line="196" selection-start-column="27" selection-end-line="196" selection-end-column="27" />
+              <caret line="439" column="14" selection-start-line="439" selection-start-column="14" selection-end-line="439" selection-end-column="14" />
               <folding>
-                <marker date="1515579361005" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
-                <marker date="1515579361005" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
+                <marker date="1516977457418" expanded="true" signature="6997:7037" placeholder="UPDATE users..." />
+                <marker date="1516977457418" expanded="true" signature="13637:13827" placeholder="SELECT searc..searchservice..." />
               </folding>
             </state>
           </provider>
@@ -177,16 +181,17 @@
         <option value="$PROJECT_DIR$/src/main/java/DBMain/Massload.java" />
         <option value="$PROJECT_DIR$/src/main/java/Massload.java" />
         <option value="$PROJECT_DIR$/src/main/java/Token.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/NioServer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Objects/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/WAdmin.js" />
         <option value="$PROJECT_DIR$/src/main/java/TestTwilio.java" />
         <option value="$PROJECT_DIR$/src/main/java/MyToken.java" />
         <option value="$PROJECT_DIR$/src/main/java/SendAuthSMS.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/Crypt.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fbpush.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Objects/User.java" />
       </list>
     </option>
   </component>
@@ -213,7 +218,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="width" value="1932" />
+    <option name="width" value="1933" />
     <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -717,6 +722,13 @@
       </MavenSettings>
       <method />
     </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -902,15 +914,15 @@
       <workItem from="1515477927112" duration="19492000" />
       <workItem from="1515680918014" duration="21630000" />
       <workItem from="1516084214412" duration="4980000" />
-      <workItem from="1516352496152" duration="7419000" />
+      <workItem from="1516352496152" duration="38720000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285773000" />
+    <option name="totallyTimeSpent" value="317074000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1932" height="1038" extended-state="0" />
+    <frame x="-8" y="0" width="1933" height="1038" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -924,13 +936,13 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21316615" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21305484" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28981724" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28950277" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -987,13 +999,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/NIOTest.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1046,8 +1051,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <marker date="1515579361005" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
-            <marker date="1515579361005" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
+            <marker date="1516977457418" expanded="true" signature="6997:7037" placeholder="UPDATE users..." />
+            <marker date="1516977457418" expanded="true" signature="13637:13827" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1111,8 +1116,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <marker date="1515579361005" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
-            <marker date="1515579361005" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
+            <marker date="1516977457418" expanded="true" signature="6997:7037" placeholder="UPDATE users..." />
+            <marker date="1516977457418" expanded="true" signature="13637:13827" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1183,8 +1188,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <marker date="1515579361005" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
-            <marker date="1515579361005" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
+            <marker date="1516977457418" expanded="true" signature="6997:7037" placeholder="UPDATE users..." />
+            <marker date="1516977457418" expanded="true" signature="13637:13827" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1279,24 +1284,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.66497463">
-          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Payment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1369,41 +1356,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Crypt.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="41" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
+          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.290322">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.305555">
+          <caret line="836" column="48" selection-start-line="836" selection-start-column="48" selection-end-line="836" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="196" column="27" selection-start-line="196" selection-start-column="27" selection-end-line="196" selection-end-column="27" />
+          <caret line="439" column="14" selection-start-line="439" selection-start-column="14" selection-end-line="439" selection-end-column="14" />
           <folding>
-            <marker date="1515579361005" expanded="true" signature="6278:6318" placeholder="UPDATE users..." />
-            <marker date="1515579361005" expanded="true" signature="12918:13099" placeholder="SELECT searc..searchservice..." />
+            <marker date="1516977457418" expanded="true" signature="6997:7037" placeholder="UPDATE users..." />
+            <marker date="1516977457418" expanded="true" signature="13637:13827" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="207" column="0" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.2266881">
+          <caret line="508" column="12" selection-start-line="508" selection-start-column="12" selection-end-line="508" selection-end-column="12" />
           <folding>
-            <marker date="1516616798097" expanded="true" signature="2703:2744" placeholder="UPDATE sprov..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61093247">
-          <caret line="754" column="25" selection-start-line="754" selection-start-column="25" selection-end-line="754" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1516976573527" expanded="true" signature="2857:2898" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
