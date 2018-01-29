@@ -482,6 +482,14 @@ public class Serviceprovider {
         return -1;
     }
 
+    public static void AskPaymentCall( String spid) throws SQLException {
+        String sql;
+        sql= "UPDATE calls SET status = 4 WHERE status=2 AND spid="+spid+";";
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+        setAvailable(spid);
+    }
+
     public static void AcceptCall( String spid) throws SQLException {
         String sql;
         sql= "UPDATE calls SET status = 2 WHERE status=1 AND spid="+spid+";";

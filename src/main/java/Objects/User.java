@@ -440,10 +440,18 @@ public class User {
             JavaToMySQL jmt = new JavaToMySQL();
             jmt.DbExec(sql);
             Serviceprovider.setBusy(spid);
-            return "Request for service provider #" + spid + " added";
+            res = "Request for service provider #" + spid + " added";
         }
         return res;
     }
+
+    public static String StatusCall( String uid) {
+        String sql ="SELECT spid, statusname from calls,callstatus WHERE calls.status=callstatus.statusid " +
+                "AND callstatus.statusid<3 AND calls.userid="+uid;  // Just for Accepted or New
+        JavaToMySQL jmt = new JavaToMySQL();
+        return jmt.getJSONFromResultSet(jmt.DSelect(sql), "UserStatusRequest");
+    }
+
 
     public static void AcceptJob( Integer payid) {
 		String sql = "UPDATE payments SET pstatus=2 WHERE pstatus=1 and payid="+payid;

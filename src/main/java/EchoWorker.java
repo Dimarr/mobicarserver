@@ -796,6 +796,16 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("askforpayment")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.AskPaymentCall(tokens[1]);
+                        str = String.valueOf("Ask for payment for SP #" + tokens[1]);
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("acceptcall")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
@@ -827,32 +837,41 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("rejectcall")) {
+                if (tokens[0].equalsIgnoreCase("userstatuscall")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Integer spid = Integer.valueOf(tokens[1]);
-                        if (spid > 0) {
-                            Serviceprovider.RejectCall(tokens[1]);
-                            str = "SP #"+tokens[1]+" rejected call";
-                            System.out.println("SP #"+tokens[1]+" rejected call" );
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
+                        str = User.StatusCall(tokens[1].trim());
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("addservice")) {
-                    if (tokens.length < 7) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
-                        str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
-                    }
-                }
+                if (tokens[0].equalsIgnoreCase("rejectcall")) {
+                            if (tokens.length < 2) {
+                                System.out.println("params aren't correct");
+                                str = "-1";
+                            } else {
+                                Integer spid = Integer.valueOf(tokens[1]);
+                                if (spid > 0) {
+                                    Serviceprovider.RejectCall(tokens[1]);
+                                    str = "SP #"+tokens[1]+" rejected call";
+                                    System.out.println("SP #"+tokens[1]+" rejected call" );
+                                } else {
+                                    System.out.println("params aren't correct");
+                                    str = "-1";
+                                }
+                            }
+                        }
+
+                        if (tokens[0].equalsIgnoreCase("addservice")) {
+                            if (tokens.length < 7) {
+                                System.out.println("params aren't correct");
+                                str = "-1";
+                            } else {
+                                Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+                                str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
+                            }
+                        }
 
 
                 if (tokens[0].equalsIgnoreCase("delservice")) {
