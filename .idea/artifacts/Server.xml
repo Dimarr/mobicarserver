@@ -6,6 +6,7 @@
         <element id="directory" name="classes">
           <element id="file-copy" path="$PROJECT_DIR$/options.ini" />
           <element id="module-output" name="NIOTest" />
+          <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/tw.ini" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.38" />
@@ -46,6 +47,8 @@
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.2" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.4" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.6" />
+          <element id="library" level="project" name="Maven: com.twilio.sdk:twilio:7.16.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
         </element>
       </element>
       <element id="directory" name="META-INF">

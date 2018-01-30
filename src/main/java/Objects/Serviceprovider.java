@@ -517,8 +517,16 @@ public class Serviceprovider {
         };*/
     }
 
-    public static void RejectCall( String spid) {
-        String sql= "UPDATE calls SET status = 3 WHERE status<3 AND spid="+spid+";";
+    public static void RejectCall( String spid, String reasonReject) {
+        String reason = reasonReject.trim().equals("1") ? ("Rejected by SP"):("Rejected by timer");
+        String sql= "UPDATE calls SET status = 3,details='"+reason+"' WHERE status<3 AND spid="+spid+";";
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+        setAvailable(spid);
+    }
+
+    public static void CancelCall( String spid) {
+        String sql= "UPDATE calls SET status = 6 WHERE status=2 AND spid="+spid+";"; //Cancelled by SP Approved request
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
         setAvailable(spid);

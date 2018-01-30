@@ -452,6 +452,19 @@ public class User {
         return jmt.getJSONFromResultSet(jmt.DSelect(sql), "UserStatusRequest");
     }
 
+    public static void CancelCall( String uid) throws SQLException {
+        String sql= "SELECT spid from calls WHERE status=2 AND userid="+uid+";";
+        JavaToMySQL jtm = new JavaToMySQL();
+        ResultSet rs = jtm.DSelect(sql);
+        rs.last();
+        if (rs.getRow()>0) {
+            String spid = String.valueOf(rs.getInt("spid"));
+            sql= "UPDATE calls SET status = 5 WHERE status=2 AND userid="+uid+";"; //Cancelled by User Approved request
+            jtm.DbExec(sql);
+            Serviceprovider.setAvailable(spid);
+        }
+        rs.close();
+    }
 
     public static void AcceptJob( Integer payid) {
 		String sql = "UPDATE payments SET pstatus=2 WHERE pstatus=1 and payid="+payid;

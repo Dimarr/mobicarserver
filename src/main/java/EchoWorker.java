@@ -847,13 +847,12 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("rejectcall")) {
-                            if (tokens.length < 2) {
+                            if (tokens.length < 3) {
                                 System.out.println("params aren't correct");
                                 str = "-1";
                             } else {
-                                Integer spid = Integer.valueOf(tokens[1]);
-                                if (spid > 0) {
-                                    Serviceprovider.RejectCall(tokens[1]);
+                                if (Integer.valueOf(tokens[1].trim()) > 0) {
+                                    Serviceprovider.RejectCall(tokens[1],tokens[2]);
                                     str = "SP #"+tokens[1]+" rejected call";
                                     System.out.println("SP #"+tokens[1]+" rejected call" );
                                 } else {
@@ -863,15 +862,48 @@ public class EchoWorker implements Runnable {
                             }
                         }
 
-                        if (tokens[0].equalsIgnoreCase("addservice")) {
-                            if (tokens.length < 7) {
-                                System.out.println("params aren't correct");
-                                str = "-1";
-                            } else {
-                                Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
-                                str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
-                            }
+                if (tokens[0].equalsIgnoreCase("spcancelcall")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        if (Integer.valueOf(tokens[1].trim()) > 0) {
+                            Serviceprovider.CancelCall(tokens[1]);
+                            str = "SP #"+tokens[1]+" cancelled call";
+                            System.out.println("SP #"+tokens[1]+" cancelled call" );
+                        } else {
+                            System.out.println("params aren't correct");
+                            str = "-1";
                         }
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("usercancelcall")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        if (Integer.valueOf(tokens[1].trim()) > 0) {
+                            User.CancelCall(tokens[1]);
+                            str = "User #"+tokens[1]+" cancelled call";
+                            System.out.println("User #"+tokens[1]+" cancelled call" );
+                        } else {
+                            System.out.println("params aren't correct");
+                            str = "-1";
+                        }
+                    }
+                }
+
+
+        if (tokens[0].equalsIgnoreCase("addservice")) {
+                    if (tokens.length < 7) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+                        str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
+                    }
+                }
 
 
                 if (tokens[0].equalsIgnoreCase("delservice")) {
