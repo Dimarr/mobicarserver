@@ -2,7 +2,6 @@ import Objects.Crypt;
 import Objects.Serviceprovider;
 import Objects.User;
 
-import java.io.FileNotFoundException;
 import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -272,7 +271,16 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("spgetxy")) {
+                if (tokens[0].equalsIgnoreCase("usergetstaticxy")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str = User.getstaticxy(tokens[1]);
+                    }
+                }
+
+        if (tokens[0].equalsIgnoreCase("spgetxy")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -550,8 +558,6 @@ public class EchoWorker implements Runnable {
                                     User.InsertPicUser(tokens[8], uid);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -568,24 +574,32 @@ public class EchoWorker implements Runnable {
                             str = tokens[2];
                         } catch (SQLException e) {
                             e.printStackTrace();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
                         }
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("picsp")) {
+                if (tokens[0].equalsIgnoreCase("picusercar")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        try {
-                            Serviceprovider.InsertPicSP(tokens[1], Integer.valueOf(tokens[2]));
-                            str = tokens[2];
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        User.InsertPicCar(tokens[1], tokens[2]);
+                        str = "Pic of car for user#"+tokens[1]+" added";
                     }
+                }
+
+                if (tokens[0].equalsIgnoreCase("picsp")) {
+                            if (tokens.length < 3) {
+                                System.out.println("params aren't correct");
+                                str = "-1";
+                            } else {
+                                try {
+                                    Serviceprovider.InsertPicSP(tokens[2], tokens[1]);
+                                    str = tokens[2];
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                 }
 
                 if (tokens[0].equalsIgnoreCase("createsplite")) {
@@ -613,7 +627,7 @@ public class EchoWorker implements Runnable {
                         if (tokens.length > 19) {
                             if (!tokens[19].isEmpty()) {   //Path to Picture
                                 try {
-                                    Serviceprovider.InsertPicSP(tokens[19], spid);
+                                    Serviceprovider.InsertPicSP(String.valueOf(spid), tokens[19]);
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
@@ -628,11 +642,21 @@ public class EchoWorker implements Runnable {
                         str = "-1";
                     } else {
                         Serviceprovider.setStaticXY(tokens[1],tokens[2],tokens[3]);
-                        str ="Coordinates updated";
+                        str ="SP static coordinates updated";
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("viewcalls")) {
+                if (tokens[0].equalsIgnoreCase("usersetstaticxy")) {
+                    if (tokens.length < 4) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        User.setStaticXY(tokens[1],tokens[2],tokens[3]);
+                        str ="User static coordinates updated";
+                    }
+                }
+
+        if (tokens[0].equalsIgnoreCase("viewcalls")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "";
@@ -685,21 +709,21 @@ public class EchoWorker implements Runnable {
 
 
                 if (tokens[0].equalsIgnoreCase("usersetcarid")) {
-                    if (tokens.length < 5) {
+                    if (tokens.length < 6) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        User.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4]);
+                        User.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
                         str = "Car detals updated for User with ID #" + tokens[1];
                     }
                 }
 
                 if (tokens[0].equalsIgnoreCase("spsetcarid")) {
-                    if (tokens.length < 5) {
+                    if (tokens.length < 6) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        Serviceprovider.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4]);
+                        Serviceprovider.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
                         str = "Car detals updated for SP with ID #" + tokens[1];
                     }
                 }

@@ -2,9 +2,7 @@ package Objects;
 
 import DBMain.JavaToMySQL;
 
-import java.io.*;
 import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -207,8 +205,8 @@ public class User {
         jtm.DbExec(sql);
     }
 
-    public static void InsertPicUser(String PathPic, Integer uid) throws SQLException, FileNotFoundException {
-        PreparedStatement statement;
+    public static void InsertPicUser(String PathPic, Integer uid) throws SQLException {
+        /*PreparedStatement statement;
         try (InputStream inputStream = new FileInputStream(new File(PathPic))) {
             String sql = "UPDATE users SET pic = (?) WHERE userid="+uid;
             JavaToMySQL jmt = new JavaToMySQL();
@@ -219,7 +217,11 @@ public class User {
             jmt.CloseCon();
         } catch (IOException e) {
             e.printStackTrace();
-        };
+        };*/
+        String sql = "UPDATE users SET pic = '"+PathPic.trim()+"' WHERE userid="+uid;
+        //System.out.println(sql);
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
     }
 
     public static void setphone(Integer uid, String phone) {
@@ -260,7 +262,8 @@ public class User {
         return -1;
     }
 
-    public static Integer Newuser(String fname,String lname,String email, String pwd, String cc, String phone, String cartype, String carbrand, String carmodel, String carid ) {
+    public static Integer Newuser(String fname,String lname,String email, String pwd, String cc,
+                                  String phone, String cartype, String carbrand, String carmodel, String carid ) {
         String crpwd = md5Apache(pwd);
         String sql= "INSERT INTO users (firstname,lastname,creditcard,email,password,phone, cartype) VALUES('"+fname+"','"+lname+"','"+cc+"','"+email+"','"+
                 crpwd+"','"+phone+"',"+cartype+");";
@@ -271,7 +274,7 @@ public class User {
         try {
             rs.first();
             Integer res = rs.getInt(1);
-            SetCarID(res,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid);
+            SetCarID(res,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
             return res;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -324,10 +327,28 @@ public class User {
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),key);
     }
 
-    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid){
+    public static String getstaticxy(String uid) throws SQLException {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT X,Y FROM users WHERE userid="+uid;
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"statiusercoordinates");
+    }
+
+    public static void setStaticXY(String uid, String X, String Y){
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE users SET X="+X+",Y="+Y+" WHERE userid="+uid+";";
+        jmt.DbExec(sql);
+    }
+
+    public static void InsertPicCar(String uid, String carpic){
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE users SET carpic='"+carpic.trim()+"' WHERE userid="+uid;
+        jmt.DbExec(sql);
+    }
+
+    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid, String carpic){
         JavaToMySQL jmt = new JavaToMySQL();
         Integer carbm= brand*10+model;
-        String sql = "UPDATE users SET carbm="+carbm+",carid='"+carid+"' WHERE userid="+uid;
+        String sql = "UPDATE users SET carbm="+carbm+",carid='"+carid+"',carpic='"+carpic.trim()+"' WHERE userid="+uid;
         jmt.DbExec(sql);
     }
 

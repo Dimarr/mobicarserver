@@ -97,7 +97,7 @@ public class Serviceprovider {
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"searchservice");
     }
 
-    public static void InsertPicSP(String PathPic, Integer spid) throws SQLException {
+    public static void InsertPicSP(String spid,String PathPic) throws SQLException {
         /*PreparedStatement statement;
         //try (InputStream inputStream = new FileInputStream(new File(PathPic)))
         InputStream inputStream = null;
@@ -379,10 +379,10 @@ public class Serviceprovider {
         jmt.DbExec(sql);
     }
 
-    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid){
+    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid, String sppic){
         JavaToMySQL jmt = new JavaToMySQL();
         Integer carbm= brand*10+model;
-        String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"' WHERE id="+uid;
+        String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"',pic='"+sppic.trim()+"' WHERE id="+uid;
         jmt.DbExec(sql);
     }
 
@@ -473,7 +473,7 @@ public class Serviceprovider {
                 if (tokens.length == 0)System.out.println("Services aren't defined");
                 else for (int i=0; i<tokens.length;i=i+5) addService(String.valueOf(spid),tokens[i],tokens[i+1],tokens[i+2],tokens[i+3],tokens[i+4]);  //Service provider, Service
             }
-            SetCarID(spid,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid);
+            SetCarID(spid,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
             return spid;                                                                                                               // ID of availiability , ID of professional level, Price, cartype
         } catch (SQLException e) {
             e.printStackTrace();
@@ -533,7 +533,8 @@ public class Serviceprovider {
     }
 
     public static String StatusCall( String spid) {
-        String sql ="SELECT userid, statusname from calls,callstatus WHERE calls.status=callstatus.statusid " +
+        String sql ="SELECT userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
+                " WHERE calls.status=callstatus.statusid AND servicetype.id=calls.serviceid " +
                 "AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
         JavaToMySQL jmt = new JavaToMySQL();
         return jmt.getJSONFromResultSet(jmt.DSelect(sql), "SpStatusRequest");
