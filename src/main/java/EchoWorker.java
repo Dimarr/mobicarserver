@@ -38,7 +38,7 @@ public class EchoWorker implements Runnable {
                     if (tokens.length == 3) {
                         uid = User.Loged(tokens[1], tokens[2], 0);
                     } else {
-                        uid = User.Loged(tokens[1], tokens[2], Integer.parseInt(tokens[3]));
+                        uid = User.Loged(tokens[1], tokens[2], Integer.parseInt(tokens[3].trim()));
                     }
                     if (uid > -1) {
                         System.out.println("User with username " + tokens[1] + " signed in successfully");
@@ -65,10 +65,10 @@ public class EchoWorker implements Runnable {
                 } else {
                     if (Integer.parseInt(tokens[1]) > 0) {
                         if (tokens.length == 4) {
-                            Serviceprovider.setphone(Integer.parseInt(tokens[1]), tokens[3]);
+                            Serviceprovider.setphone(Integer.parseInt(tokens[1].trim()), tokens[3]);
                             phone = tokens[3];
                         } else {
-                            phone = Serviceprovider.getphone(Integer.parseInt(tokens[1]));
+                            phone = Serviceprovider.getphone(Integer.parseInt(tokens[1].trim()));
                         }
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
@@ -88,7 +88,7 @@ public class EchoWorker implements Runnable {
                             System.out.println("Token generated successfully");
                             new SendAuthSMS(phone, "Your token created successfully");
                             //str = "Token generated successfully";
-                            if (Integer.parseInt(tokens[1]) > 0) Serviceprovider.SetToken(tokens[1], str);
+                            if (Integer.parseInt(tokens[1].trim()) > 0) Serviceprovider.SetToken(tokens[1], str);
                         } else {
                             System.out.println("params aren't correct");
                             str = "-1";
@@ -130,14 +130,14 @@ public class EchoWorker implements Runnable {
                             User.setphone(Integer.parseInt(tokens[1]), tokens[3]);
                             phone = tokens[3];
                         } else {
-                            phone = User.getphone(Integer.parseInt(tokens[1]));
+                            phone = User.getphone(Integer.parseInt(tokens[1].trim()));
                         }
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
                         pincode= Crypt.rnd(1000,9999);
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
                         str = "Pincode has been sent successfully";
-                        if (Integer.parseInt(tokens[1]) > 0) {
+                        if (Integer.parseInt(tokens[1].trim()) > 0) {
                             User.Setpincode(tokens[1],pincode);
                             User.SetToken(tokens[1], createdToken);
                         }
@@ -148,7 +148,7 @@ public class EchoWorker implements Runnable {
                             System.out.println("Token generated successfully");
                             new SendAuthSMS(phone, "Your token created successfully");
                             //str = "Token generated successfully";
-                            if (Integer.parseInt(tokens[1]) > 0) User.SetToken(tokens[1], str);
+                            if (Integer.parseInt(tokens[1].trim()) > 0) User.SetToken(tokens[1], str);
                         } else {
                             System.out.println("params aren't correct");
                             str = "-1";
@@ -161,19 +161,20 @@ public class EchoWorker implements Runnable {
             }
         }
 
-        if (tokens[0].equalsIgnoreCase("verifypincode")) {
-            if (tokens.length < 3) {
-                System.out.println("params aren't correct");
-                str = "-1";
-            } else {
-                if (User.Verifypincode(tokens[1], tokens[2])>0) {
-                    str=User.GetToken(tokens[1]);
-                } else {
-                    //str="Verification does not passed";
-                    str="-1";
+                if (tokens[0].equalsIgnoreCase("verifypincode")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        if (User.Verifypincode(tokens[1], tokens[2])>0) {
+                            str=User.GetToken(tokens[1]);
+                        } else {
+                            //str="Verification does not passed";
+                            str="-1";
+                        }
+                    }
                 }
-            }
-        }
+
                 if (tokens[0].equalsIgnoreCase("usersettoken")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
@@ -252,7 +253,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-        if (tokens[0].equalsIgnoreCase("spsettoken")) {
+                if (tokens[0].equalsIgnoreCase("spsettoken")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -280,7 +281,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-        if (tokens[0].equalsIgnoreCase("spgetxy")) {
+                if (tokens[0].equalsIgnoreCase("spgetxy")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -288,6 +289,7 @@ public class EchoWorker implements Runnable {
                         str = Serviceprovider.getxy(tokens[1]);
                     }
                 }
+
                 if (tokens[0].equalsIgnoreCase("usergetxy")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
@@ -330,7 +332,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        str = Serviceprovider.searchservice(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]));
+                        str = Serviceprovider.searchservice(Integer.valueOf(tokens[1].trim()), Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()));
                     }
                 }
 
@@ -358,7 +360,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        User.SetXY(Integer.valueOf(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));  // userID, X, Y
+                        User.SetXY(Integer.valueOf(tokens[1].trim()), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));  // userID, X, Y
                         str = "Set coordinates for User #" + tokens[1];
                     }
                 }
@@ -390,7 +392,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-        if (tokens[0].equalsIgnoreCase("spsetbusy")) {
+                if (tokens[0].equalsIgnoreCase("spsetbusy")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -495,7 +497,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        str = Serviceprovider.getBankDetailsForSP(Integer.valueOf(tokens[1]));  //SpID
+                        str = Serviceprovider.getBankDetailsForSP(Integer.valueOf(tokens[1].trim()));  //SpID
                     }
                 }
 
@@ -656,7 +658,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-        if (tokens[0].equalsIgnoreCase("viewcalls")) {
+                if (tokens[0].equalsIgnoreCase("viewcalls")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "";
@@ -713,8 +715,8 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        User.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
-                        str = "Car detals updated for User with ID #" + tokens[1];
+                        User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4],tokens[5]);
+                        str = "Car details updated for User with ID #" + tokens[1];
                     }
                 }
 
@@ -723,8 +725,8 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        Serviceprovider.SetCarID(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
-                        str = "Car detals updated for SP with ID #" + tokens[1];
+                        Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
+                        str = "Car details updated for SP with ID #" + tokens[1];
                     }
                 }
 
@@ -733,7 +735,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        str = User.GetCarID(Integer.valueOf(tokens[1]));
+                        str = User.GetCarID(Integer.valueOf(tokens[1].trim()));
                     }
                 }
 
@@ -742,7 +744,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        str = Serviceprovider.GetCarID(Integer.valueOf(tokens[1]));
+                        str = Serviceprovider.GetCarID(Integer.valueOf(tokens[1].trim()));
                     }
                 }
 
@@ -751,7 +753,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        str = Serviceprovider.GetSellerID(Integer.valueOf(tokens[1]));
+                        str = Serviceprovider.GetSellerID(Integer.valueOf(tokens[1].trim()));
                     }
                 }
 
@@ -760,7 +762,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        Serviceprovider.SetSellerID(Integer.valueOf(tokens[1]), tokens[2]);
+                        Serviceprovider.SetSellerID(Integer.valueOf(tokens[1].trim()), tokens[2]);
                     }
                 }
 
@@ -769,7 +771,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        str = Serviceprovider.GetCarList(Integer.valueOf(tokens[1]));
+                        str = Serviceprovider.GetCarList(Integer.valueOf(tokens[1].trim()));
                     }
                 }
 
@@ -778,7 +780,7 @@ public class EchoWorker implements Runnable {
                         str = "-1";
                         System.out.println("params aren't correct");
                     } else {
-                        Integer payid = Integer.valueOf(tokens[1]);
+                        Integer payid = Integer.valueOf(tokens[1].trim());
                         if (payid > 0) {
                             User.AcceptJob(payid);
                             System.out.println("Accepted payment #" + payid);
@@ -808,7 +810,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Integer payid = Integer.valueOf(tokens[1]);
+                        Integer payid = Integer.valueOf(tokens[1].trim());
                         if (payid > 0) {
                             User.DeclineJob(payid);
                             System.out.println("Rejected payment #" + payid);
@@ -919,7 +921,7 @@ public class EchoWorker implements Runnable {
                 }
 
 
-        if (tokens[0].equalsIgnoreCase("addservice")) {
+                if (tokens[0].equalsIgnoreCase("addservice")) {
                     if (tokens.length < 7) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -928,7 +930,6 @@ public class EchoWorker implements Runnable {
                         str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
                     }
                 }
-
 
                 if (tokens[0].equalsIgnoreCase("delservice")) {
                     if (tokens.length < 3) {
@@ -949,21 +950,30 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-        if (tokens[0].equalsIgnoreCase("encode")) {
-            if (tokens.length < 2) {
-                System.out.println("params aren't correct");
-                str = "-1";
-            } else {
-                str= Crypt.encode(tokens[1],"!mobi!car@#$");
-            }
-        }
+                if (tokens[0].equalsIgnoreCase("encode")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        str= Crypt.encode(tokens[1],"!mobi!car@#$");
+                    }
+                }
 
-        if (tokens[0].equalsIgnoreCase("decode")) {
-            if (tokens.length < 2) {
-                System.out.println("params aren't correct");
-                str = "-1";
-            } else str = Crypt.decode(tokens[1], "!mobi!car@#$");
-        }
+                if (tokens[0].equalsIgnoreCase("archivecalls")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.archivecalls(Integer.valueOf(tokens[1].trim()));
+                        str ="Calls transferred to archive table";
+                    }
+                }
+                if (tokens[0].equalsIgnoreCase("decode")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else str = Crypt.decode(tokens[1], "!mobi!car@#$");
+                }
 
                 if (tokens[0].equalsIgnoreCase("setrating")) {
                     if (tokens.length < 3) {
@@ -971,8 +981,8 @@ public class EchoWorker implements Runnable {
                         str = "-1";
                     } else {
                         //flag = true;
-                        Integer spid = Integer.valueOf(tokens[1]);
-                        Integer rating = Integer.valueOf(tokens[2]);
+                        Integer spid = Integer.valueOf(tokens[1].trim());
+                        Integer rating = Integer.valueOf(tokens[2].trim());
                         if (spid > 0) {
                             Integer newrate = User.SetRating(spid, rating);
                             System.out.println("For Service Provider #" + spid + " calculated rating: " + newrate);

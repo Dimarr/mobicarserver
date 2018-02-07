@@ -18,31 +18,33 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `pointcatalog`
+-- Table structure for table `payments`
 --
 
-DROP TABLE IF EXISTS `pointcatalog`;
+DROP TABLE IF EXISTS `payments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pointcatalog` (
-  `RowID` int(11) NOT NULL AUTO_INCREMENT,
-  `GroupName` varchar(25) NOT NULL,
-  `OptionID` int(11) NOT NULL,
-  `Optionname` varchar(25) NOT NULL,
-  `Point` int(11) NOT NULL,
-  `Comment` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`RowID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Catalog of options for point calculation';
+CREATE TABLE `payments` (
+  `payid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `spid` int(11) NOT NULL,
+  `pdate` datetime NOT NULL,
+  `amount` double NOT NULL,
+  `pstatus` int(11) NOT NULL,
+  `paymetrid` varchar(10) DEFAULT NULL,
+  `details` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`payid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pointcatalog`
+-- Dumping data for table `payments`
 --
 
-LOCK TABLES `pointcatalog` WRITE;
-/*!40000 ALTER TABLE `pointcatalog` DISABLE KEYS */;
-INSERT INTO `pointcatalog` VALUES (7,'Location',11,'Simple location',15,' SP mentioned during registration that he is available between specific hours'),(8,'Location',12,'Underground',0,'No available'),(9,'Location',13,'Off the road',0,NULL),(10,'Diploma',21,'Yes',20,'Certificate'),(11,'Diploma',22,'No',10,'No Certificate');
-/*!40000 ALTER TABLE `pointcatalog` ENABLE KEYS */;
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+INSERT INTO `payments` VALUES (1,1,26,'2016-09-19 00:00:00',59,2,NULL,NULL),(2,1,27,'2016-09-20 00:00:00',150.5,2,NULL,NULL),(3,1,28,'2016-09-20 00:00:00',59,2,NULL,NULL),(4,1,27,'2016-10-01 00:00:00',90,2,NULL,NULL),(5,1,29,'2016-11-06 00:00:00',100,1,NULL,NULL),(6,1,26,'2016-11-09 00:00:00',100,1,NULL,NULL),(7,1,29,'2016-12-03 00:00:00',100,1,NULL,NULL),(8,1,28,'2016-12-03 00:00:00',100,1,NULL,NULL),(9,1,27,'2017-08-27 17:41:11',56.5,2,'1239000',NULL),(10,1,28,'2017-08-27 15:09:20',56.5,3,'1239000',NULL);
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-29  8:59:22
+-- Dump completed on 2018-02-07 17:52:16

@@ -6,6 +6,7 @@ package Objects;
 
 import DBMain.JavaToMySQL;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -79,6 +80,23 @@ public class Serviceprovider {
             e.printStackTrace();
         }
     }*/
+
+    public static void archivecalls(Integer period) throws SQLException {
+        String sql="{ call archivecalls(?) }";
+        JavaToMySQL jtm = new JavaToMySQL();
+        try {
+            CallableStatement stmt;
+            jtm.openCon();
+            stmt = jtm.con.prepareCall(sql);
+            stmt.setInt(1, period);
+            stmt.executeQuery();
+            stmt.close();
+            jtm.CloseCon();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static String searchservice(Integer spid, Integer servid, Integer cartypeid) throws SQLException {
         JavaToMySQL jtm = new JavaToMySQL();
@@ -379,10 +397,10 @@ public class Serviceprovider {
         jmt.DbExec(sql);
     }
 
-    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid, String sppic){
+    public static void SetCarID(String spid, Integer brand, Integer model, String carid, String sppic){
         JavaToMySQL jmt = new JavaToMySQL();
         Integer carbm= brand*10+model;
-        String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"',pic='"+sppic.trim()+"' WHERE id="+uid;
+        String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"',pic='"+sppic.trim()+"' WHERE id="+spid;
         jmt.DbExec(sql);
     }
 
@@ -395,7 +413,8 @@ public class Serviceprovider {
             rs.first();
             Integer brand= rs.getInt(1)/10;
             Integer model= rs.getInt(1) % 10;
-            String carid = rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
+            String carid = rs.getString(2).trim();
+                    //rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
             rs.close();
             sql = "SELECT name from carbrand WHERE id="+brand;
             rs= jmt.DSelect(sql);
@@ -408,7 +427,8 @@ public class Serviceprovider {
             rs.first();
             String modelname=rs.getString(1);
             rs.close();
-            res= "Car # "+carid+". Brand is "+brandname+". Model is "+modelname;
+            res= "{\"Carlist\":[{\"CarBrand\":\""+brandname+"\",\"CarModel\":\""+modelname+"\",\"CarID\":\""+carid+"\"}]}";
+            //res= "Car # "+carid+". Brand is "+brandname+". Model is "+modelname;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -473,7 +493,7 @@ public class Serviceprovider {
                 if (tokens.length == 0)System.out.println("Services aren't defined");
                 else for (int i=0; i<tokens.length;i=i+5) addService(String.valueOf(spid),tokens[i],tokens[i+1],tokens[i+2],tokens[i+3],tokens[i+4]);  //Service provider, Service
             }
-            SetCarID(spid,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
+            SetCarID(String.valueOf(spid),Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
             return spid;                                                                                                               // ID of availiability , ID of professional level, Price, cartype
         } catch (SQLException e) {
             e.printStackTrace();

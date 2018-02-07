@@ -274,7 +274,7 @@ public class User {
         try {
             rs.first();
             Integer res = rs.getInt(1);
-            SetCarID(res,Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
+            SetCarID(String.valueOf(res),Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
             return res;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -345,7 +345,7 @@ public class User {
         jmt.DbExec(sql);
     }
 
-    public static void SetCarID(Integer uid, Integer brand, Integer model, String carid, String carpic){
+    public static void SetCarID(String uid, Integer brand, Integer model, String carid, String carpic){
         JavaToMySQL jmt = new JavaToMySQL();
         Integer carbm= brand*10+model;
         String sql = "UPDATE users SET carbm="+carbm+",carid='"+carid+"',carpic='"+carpic.trim()+"' WHERE userid="+uid;
@@ -353,8 +353,6 @@ public class User {
     }
 
     public static String GetCarID(Integer uid){
-        //Gson gson = new Gson();
-        //String json = null;
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT carbm, carid FROM users WHERE userid="+uid;
         String res ="";
@@ -366,6 +364,7 @@ public class User {
             String carid = rs.getString(2); //.substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
             rs.close();
             sql = "SELECT name from carbrand WHERE id="+brand;
+            //System.out.println(brand+" mod"+model);
             rs= jmt.DSelect(sql);
             rs.first();
             String brandname=rs.getString(1);
