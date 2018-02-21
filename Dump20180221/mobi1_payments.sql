@@ -18,27 +18,33 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `callstatus`
+-- Table structure for table `payments`
 --
 
-DROP TABLE IF EXISTS `callstatus`;
+DROP TABLE IF EXISTS `payments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `callstatus` (
-  `statusid` int(11) NOT NULL,
-  `statusname` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `payments` (
+  `payid` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `spid` int(11) NOT NULL,
+  `pdate` datetime NOT NULL,
+  `amount` double NOT NULL,
+  `pstatus` int(11) NOT NULL,
+  `paymetrid` varchar(10) DEFAULT NULL,
+  `details` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`payid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `callstatus`
+-- Dumping data for table `payments`
 --
 
-LOCK TABLES `callstatus` WRITE;
-/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
-INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call centre'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call cantr'),(11,'Payment Final approvement');
-/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
+LOCK TABLES `payments` WRITE;
+/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
+INSERT INTO `payments` VALUES (1,1,26,'2016-09-19 00:00:00',59,2,NULL,NULL),(2,1,27,'2016-09-20 00:00:00',150.5,2,NULL,NULL),(3,1,28,'2016-09-20 00:00:00',59,2,NULL,NULL),(4,1,27,'2016-10-01 00:00:00',90,2,NULL,NULL),(5,1,29,'2016-11-06 00:00:00',100,1,NULL,NULL),(6,1,26,'2016-11-09 00:00:00',100,1,NULL,NULL),(7,1,29,'2016-12-03 00:00:00',100,1,NULL,NULL),(8,1,28,'2016-12-03 00:00:00',100,1,NULL,NULL),(9,1,27,'2017-08-27 17:41:11',56.5,2,'1239000',NULL),(10,1,28,'2017-08-27 15:09:20',56.5,3,'1239000',NULL);
+/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-07 17:51:46
+-- Dump completed on 2018-02-21  9:34:55

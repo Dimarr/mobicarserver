@@ -347,7 +347,7 @@ public class User {
 
     public static void SetCarID(String uid, Integer brand, Integer model, String carid, String carpic){
         JavaToMySQL jmt = new JavaToMySQL();
-        Integer carbm= brand*10+model;
+        Integer carbm= brand*100+model;
         String sql = "UPDATE users SET carbm="+carbm+",carid='"+carid+"',carpic='"+carpic.trim()+"' WHERE userid="+uid;
         jmt.DbExec(sql);
     }
@@ -359,8 +359,8 @@ public class User {
         ResultSet rs= jmt.DSelect(sql);
         try {
             rs.first();
-            Integer brand= rs.getInt(1)/10;
-            Integer model= rs.getInt(1) % 10;
+            Integer brand= rs.getInt(1)/100;
+            Integer model= rs.getInt(1) % 100;
             String carid = rs.getString(2); //.substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
             rs.close();
             sql = "SELECT name from carbrand WHERE id="+brand;
@@ -400,7 +400,7 @@ public class User {
             stmt.executeQuery();
             stmt.close();
             jtm.CloseCon();
-            sql = "SELECT DISTINCT searchservice.*, if(votes=0,0,format(searchservice.rating/votes,2)) as Rate,Votes FROM searchservice, search " +
+            sql = "SELECT DISTINCT searchservice.*,search.X,search.Y, if(votes=0,0,format(searchservice.rating/votes,2)) as Rate,Votes FROM searchservice, search " +
                     "WHERE search.spid=searchservice.spid AND ";
             if (Integer.valueOf(subservid)>0) {
                 sql +=  "search.userid=" + userid + " AND searchservice.serviceid=" + servid + " AND searchservice.subserviceID=" +

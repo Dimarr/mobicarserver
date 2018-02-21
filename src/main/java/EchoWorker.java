@@ -691,6 +691,15 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("realcoords")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "";
+                    } else {
+                        str = Serviceprovider.RealCoords(tokens[1],tokens[2]);
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("addcall")) {
                     if (tokens.length < 4) {
                         System.out.println("params aren't correct");
@@ -711,21 +720,29 @@ public class EchoWorker implements Runnable {
 
 
                 if (tokens[0].equalsIgnoreCase("usersetcarid")) {
-                    if (tokens.length < 6) {
+                    if (tokens.length < 5) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4],tokens[5]);
+                        if (tokens.length==5){
+                            User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4],"");
+                        } else {
+                            User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4], tokens[5]);
+                        }
                         str = "Car details updated for User with ID #" + tokens[1];
                     }
                 }
 
                 if (tokens[0].equalsIgnoreCase("spsetcarid")) {
-                    if (tokens.length < 6) {
+                    if (tokens.length < 5) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
+                        if (tokens.length == 5) {
+                            Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4], "");
+                        } else {
+                            Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
+                        }
                         str = "Car details updated for SP with ID #" + tokens[1];
                     }
                 }

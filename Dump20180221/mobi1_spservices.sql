@@ -18,27 +18,32 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `carbrand`
+-- Table structure for table `spservices`
 --
 
-DROP TABLE IF EXISTS `carbrand`;
+DROP TABLE IF EXISTS `spservices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `carbrand` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+CREATE TABLE `spservices` (
+  `spid` int(11) NOT NULL,
+  `serviceid` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `availl` int(11) DEFAULT NULL,
+  `prof` int(11) DEFAULT NULL,
+  `rowid` int(11) NOT NULL AUTO_INCREMENT,
+  `cartype` int(11) DEFAULT NULL,
+  PRIMARY KEY (`rowid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2407 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carbrand`
+-- Dumping data for table `spservices`
 --
 
-LOCK TABLES `carbrand` WRITE;
-/*!40000 ALTER TABLE `carbrand` DISABLE KEYS */;
-INSERT INTO `carbrand` VALUES (1,'Toyota'),(2,'Nissan'),(3,'Mercedes'),(4,'Honda'),(5,'Suzuki'),(8,'AUDI');
-/*!40000 ALTER TABLE `carbrand` ENABLE KEYS */;
+LOCK TABLES `spservices` WRITE;
+/*!40000 ALTER TABLE `spservices` DISABLE KEYS */;
+INSERT INTO `spservices` VALUES (26,2,85.5,12,22,40,1),(26,3,100,11,22,41,0),(27,3,59,11,21,42,0),(27,4,89,11,21,43,6),(28,2,95,11,21,45,1),(28,3,120,11,21,46,1),(29,3,100.5,11,21,47,1),(29,4,96.5,11,21,49,7),(28,4,80.5,12,21,50,7),(59,75,0,11,22,166,1),(59,0,0,11,22,170,1),(59,76,0,11,22,172,3),(59,99,0,11,22,174,1),(61,1,115,11,22,2156,1),(59,6,76,11,22,2364,11),(59,6,76,11,22,2365,5),(59,6,76,11,22,2366,4),(59,6,76,11,22,2367,3),(59,6,76,11,22,2368,2),(59,6,76,11,22,2369,1),(59,5,0,11,22,2370,11),(59,5,0,11,22,2371,5),(59,5,0,11,22,2372,4),(59,5,0,11,22,2373,3),(59,5,0,11,22,2374,2),(59,5,0,11,22,2375,1),(59,4,0,11,22,2376,11),(59,4,0,11,22,2377,7),(59,4,0,11,22,2378,6),(60,6,27,11,22,2397,11),(60,6,27,11,22,2398,1),(60,5,56,11,22,2399,11),(60,5,56,11,22,2400,1),(60,1,56,11,22,2401,11),(60,1,56,11,22,2402,1),(62,2,83,11,22,2405,11),(62,2,83,11,22,2406,1);
+/*!40000 ALTER TABLE `spservices` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-07 17:52:08
+-- Dump completed on 2018-02-21  9:34:37

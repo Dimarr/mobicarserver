@@ -399,9 +399,51 @@ public class Serviceprovider {
 
     public static void SetCarID(String spid, Integer brand, Integer model, String carid, String sppic){
         JavaToMySQL jmt = new JavaToMySQL();
-        Integer carbm= brand*10+model;
+        Integer carbm= brand*100+model;
         String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"',pic='"+sppic.trim()+"' WHERE id="+spid;
         jmt.DbExec(sql);
+    }
+
+    public static String RealCoords(String spid, String uid) throws SQLException {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String spx ="0";
+        String spy ="0";
+        String userx ="0";
+        String usery ="0";
+
+        String sql = "SELECT X,Y FROM coordinate WHERE spuser=1 and uid="+spid+" order by ltime desc LIMIT 1;";
+        ResultSet rs= jtm.DSelect(sql);
+        if (rs.first()) {
+            spx = rs.getString(1).trim();
+            spy = rs.getString(2).trim();
+        } else {
+            rs.close();
+            sql= "SELECT X,Y from sproviders WHERE id="+spid;
+            rs= jtm.DSelect(sql);
+            if (rs.first()) {
+                spx = rs.getString(1).trim();
+                spy = rs.getString(2).trim();
+            }
+        }
+        rs.close();
+
+        sql = "SELECT X,Y FROM coordinate WHERE spuser=2 and uid="+uid+" order by ltime desc LIMIT 1;";
+        rs= jtm.DSelect(sql);
+        if (rs.first()) {
+            userx = rs.getString(1).trim();
+            usery = rs.getString(2).trim();
+        } else {
+            rs.close();
+            sql= "SELECT X,Y from users WHERE userid="+uid;
+            rs= jtm.DSelect(sql);
+            if (rs.first()) {
+                userx = rs.getString(1).trim();
+                usery = rs.getString(2).trim();
+            }
+        }
+        rs.close();
+
+        return "{\"Realcoords\":[{\"SP_X\":\""+spx+"\",\"SP_Y\":\""+spy+"\",\"User_X\":\""+userx+"\",\"User_Y\":\""+usery+"\"}]}";
     }
 
     public static String GetCarID(Integer uid){
@@ -411,8 +453,8 @@ public class Serviceprovider {
         ResultSet rs= jmt.DSelect(sql);
         try {
             rs.first();
-            Integer brand= rs.getInt(1)/10;
-            Integer model= rs.getInt(1) % 10;
+            Integer brand= rs.getInt(1)/100;
+            Integer model= rs.getInt(1) % 100;
             String carid = rs.getString(2).trim();
                     //rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
             rs.close();
