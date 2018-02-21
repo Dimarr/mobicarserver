@@ -184,7 +184,9 @@ public class Serviceprovider {
 
     public static void saveXY(String spid, String X, String Y) {
         JavaToMySQL jmt = new JavaToMySQL();
-        String sql = "INSERT INTO coordinate (spuser,uid,X,Y) VALUES(1,"+spid+","+X+","+Y+");";
+        String sql = "DELETE FROM coordinate WHERE spuser=1 AND uid="+spid+";";
+        jmt.DbExec(sql);
+        sql = "INSERT INTO coordinate (spuser,uid,X,Y) VALUES(1,"+spid+","+X+","+Y+");";
         jmt.DbExec(sql);
     }
 

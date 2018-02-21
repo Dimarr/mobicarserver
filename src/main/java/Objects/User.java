@@ -291,7 +291,9 @@ public class User {
 
     public static void saveXY(String userid, String X, String Y) {
         JavaToMySQL jmt = new JavaToMySQL();
-        String sql = "INSERT INTO coordinate (spuser,uid,X,Y) VALUES(2,"+userid+","+X+","+Y+");";
+        String sql = "DELETE FROM coordinate WHERE spuser=2 AND uid="+userid+";";
+        jmt.DbExec(sql);
+        sql = "INSERT INTO coordinate (spuser,uid,X,Y) VALUES(2,"+userid+","+X+","+Y+");";
         jmt.DbExec(sql);
     }
 

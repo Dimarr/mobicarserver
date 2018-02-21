@@ -7,14 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/EchoWorker.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/User.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/target/classes/EchoWorker.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/User.class" afterPath="$PROJECT_DIR$/target/classes/Objects/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/User.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/User.java" />
     </list>
@@ -81,7 +73,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="195" column="42" selection-start-line="195" selection-start-column="42" selection-end-line="195" selection-end-column="42" />
+              <caret line="721" column="53" selection-start-line="721" selection-start-column="52" selection-end-line="721" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,13 +101,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Serviceprovider.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="417" column="41" selection-start-line="417" selection-start-column="41" selection-end-line="417" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.41043085">
+              <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
               <folding>
-                <marker date="1518171609436" expanded="true" signature="3394:3435" placeholder="UPDATE sprov..." />
+                <marker date="1519195665893" expanded="true" signature="3394:3435" placeholder="UPDATE sprov..." />
               </folding>
             </state>
           </provider>
@@ -131,15 +123,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50453514">
-              <caret line="57" column="74" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="295" column="0" selection-start-line="295" selection-start-column="0" selection-end-line="295" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-                <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+                <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+                <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
               </folding>
             </state>
           </provider>
@@ -314,9 +306,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -951,18 +943,20 @@
       <workItem from="1517812893341" duration="23999000" />
       <workItem from="1518070574899" duration="17484000" />
       <workItem from="1518684541076" duration="30000" />
+      <workItem from="1519195219459" duration="908000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="383978000" />
+    <option name="totallyTimeSpent" value="384886000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3237569" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -970,14 +964,13 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3237569" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1041,8 +1034,8 @@
           <caret line="456" column="44" selection-start-line="456" selection-start-column="44" selection-end-line="456" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-            <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+            <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+            <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1093,8 +1086,8 @@
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-            <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+            <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+            <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1159,8 +1152,8 @@
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-            <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+            <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+            <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1232,8 +1225,8 @@
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-            <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+            <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+            <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1392,9 +1385,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.43089432">
           <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
-          <folding>
-            <marker date="1514335746000" expanded="true" signature="5320:5334" placeholder="select * fro..missingValue..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1422,20 +1412,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="417" column="41" selection-start-line="417" selection-start-column="41" selection-end-line="417" selection-end-column="41" />
-          <folding>
-            <marker date="1518171609436" expanded="true" signature="3394:3435" placeholder="UPDATE sprov..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="195" column="42" selection-start-line="195" selection-start-column="42" selection-end-line="195" selection-end-column="42" />
+          <caret line="721" column="53" selection-start-line="721" selection-start-column="52" selection-end-line="721" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1444,12 +1424,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50453514">
-          <caret line="57" column="74" selection-start-line="57" selection-start-column="74" selection-end-line="57" selection-end-column="74" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="295" column="0" selection-start-line="295" selection-start-column="0" selection-end-line="295" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1518505779433" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
-            <marker date="1518505779433" expanded="true" signature="14563:14771" placeholder="SELECT searc..searchservice..." />
+            <marker date="1519195665902" expanded="true" signature="6923:6963" placeholder="UPDATE users..." />
+            <marker date="1519195665902" expanded="true" signature="14663:14871" placeholder="SELECT searc..searchservice..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41043085">
+          <caret line="188" column="0" selection-start-line="188" selection-start-column="0" selection-end-line="188" selection-end-column="0" />
+          <folding>
+            <marker date="1519195665893" expanded="true" signature="3394:3435" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
