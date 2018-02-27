@@ -423,8 +423,8 @@ public class Serviceprovider {
             sql= "SELECT X,Y from sproviders WHERE id="+spid;
             rs= jtm.DSelect(sql);
             if (rs.first()) {
-                spx = rs.getString(1).trim();
-                spy = rs.getString(2).trim();
+                spx = (rs.getString(1) == null) ? "0" : rs.getString(1).trim();
+                spy = (rs.getString(2) == null) ? "0" : rs.getString(2).trim();
             }
         }
         rs.close();
@@ -439,8 +439,8 @@ public class Serviceprovider {
             sql= "SELECT X,Y from users WHERE userid="+uid;
             rs= jtm.DSelect(sql);
             if (rs.first()) {
-                userx = rs.getString(1).trim();
-                usery = rs.getString(2).trim();
+                userx = (rs.getString(1) == null) ? "0" : rs.getString(1).trim();
+                usery = (rs.getString(2) == null) ? "0" : rs.getString(2).trim();
             }
         }
         rs.close();
