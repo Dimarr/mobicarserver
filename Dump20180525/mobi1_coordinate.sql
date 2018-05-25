@@ -18,27 +18,31 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `callstatus`
+-- Table structure for table `coordinate`
 --
 
-DROP TABLE IF EXISTS `callstatus`;
+DROP TABLE IF EXISTS `coordinate`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `callstatus` (
-  `statusid` int(11) NOT NULL,
-  `statusname` varchar(35) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `coordinate` (
+  `rown` int(11) NOT NULL AUTO_INCREMENT,
+  `spuser` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `X` float DEFAULT NULL,
+  `Y` float DEFAULT NULL,
+  `ltime` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`rown`)
+) ENGINE=InnoDB AUTO_INCREMENT=116423 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `callstatus`
+-- Dumping data for table `coordinate`
 --
 
-LOCK TABLES `callstatus` WRITE;
-/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
-INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
-/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
+LOCK TABLES `coordinate` WRITE;
+/*!40000 ALTER TABLE `coordinate` DISABLE KEYS */;
+INSERT INTO `coordinate` VALUES (1,1,1,32.5678,33.1234,'2017-08-14 10:53:53'),(2,2,2,43.3214,55.6789,'2017-08-14 11:01:06'),(3,1,1,32.5999,33.1233,'2017-08-14 11:06:39'),(4,1,1,32.6449,33.1455,'2017-08-14 11:10:26'),(5,1,1,41.2356,33.6677,'2017-08-14 13:15:50'),(6,2,2,55.3445,21.69,'2017-08-14 13:16:23'),(77,2,1,22.555,54.777,'2018-02-05 11:54:35'),(1050,1,51,20.792,47.3865,'2018-02-13 21:57:40'),(60340,1,61,32.7695,34.9724,'2018-03-27 13:05:17'),(80307,2,116,32.1775,34.9072,'2018-04-30 15:12:55'),(82844,2,115,32.1775,34.9073,'2018-05-02 09:56:48'),(86563,1,66,32.1763,34.909,'2018-05-04 10:40:49'),(98468,2,104,32.1156,34.8429,'2018-05-15 09:12:07'),(98469,1,60,32.1156,34.8429,'2018-05-15 09:12:07'),(111166,1,59,49.9845,36.3614,'2018-05-23 06:52:12'),(114036,2,110,49.9845,36.3613,'2018-05-24 03:41:39'),(116245,1,67,32.0957,34.8457,'2018-05-25 11:37:23'),(116422,2,118,32.0764,34.8785,'2018-05-25 13:44:01');
+/*!40000 ALTER TABLE `coordinate` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-21  9:34:07
+-- Dump completed on 2018-05-25 16:56:06
