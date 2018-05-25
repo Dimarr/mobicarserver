@@ -95,16 +95,16 @@ public class User {
         }
     }
 
-    public static String AddNewPayment(String uid,String spid,Float amount, String paymetrid) throws SQLException {
+    public static void AddNewPayment(String uid,String spid,Float amount, String saleurl,String paymetrid) throws SQLException {
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf =
                 new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
-        String sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,paymetrid) VALUES ("+uid+","+
-                spid+",'"+currentTime+"',"+Float.toString(amount)+",1,'"+paymetrid+"');";
+        String sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid) VALUES ("+uid+","+
+                spid+",'"+currentTime+"',"+Float.toString(amount)+",1,'"+saleurl+"','"+paymetrid+"');";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
-        sql = "SELECT max(payid) FROM payments";
+/*        sql = "SELECT max(payid) FROM payments";
         ResultSet rs= jtm.DSelect(sql);
         try {
             rs.first();
@@ -114,6 +114,7 @@ public class User {
             e.printStackTrace();
         }
         return "-1";
+*/
     }
 
     public static String GetToken(String uid) {
@@ -301,6 +302,12 @@ public class User {
         JavaToMySQL jtm = new JavaToMySQL();
         String sql = "SELECT X,Y,ltime as SavedTime FROM coordinate WHERE spuser=2 and uid="+uid+" order by ltime desc LIMIT 1;";
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"lastusercoordinates");
+    }
+
+    public static String GetMainDetails(String uid) throws SQLException {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT firstname,lastname,email, phone FROM users WHERE userid="+uid;
+        return jtm.getJSONFromResultSet(jtm.DSelect(sql),"usermaindetails");
     }
 
     public static Integer SetRating( Integer spid, Integer rating) {

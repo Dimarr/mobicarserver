@@ -344,6 +344,20 @@ public class Serviceprovider {
         return "";
     }
 
+    public static String GetTransID() {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "SELECT max(payid)+1 FROM payments";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            rs.first();
+            String res = rs.getString(1);
+            rs.close();
+            return res;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public static Integer Verifypincode(String spid, String pincode) {
         JavaToMySQL jmt = new JavaToMySQL();
@@ -610,14 +624,29 @@ public class Serviceprovider {
         return jmt.getJSONFromResultSet(jmt.DSelect(sql),"CarList");
     }
 
-    public static void SetSellerID(Integer spid, String sellerid) {
-        String sql= "UPDATE sproviders SET sellerid="+sellerid+" WHERE id="+spid+";";
+    public static void SetSellerID(Integer spid, String sellerid, String paymesecret, String paymeid) {
+        String sql= "UPDATE sproviders SET sellerid="+sellerid+",payme_secret='"+paymesecret+"',payme_id='"+paymeid+"' WHERE id="+spid+";";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
     }
 
-    public static String GetSellerID(Integer spid) {
+    public static String GetSellerID(String spid) {
         String sql = "SELECt sellerid FROM sproviders WHERE id="+spid+";";
+        String res= "";
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs=jmt.DSelect(sql);
+        try {
+            if (rs.first()) {
+                res=rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static String GetSellerPaymeID(String spid) {
+        String sql = "SELECt payme_id FROM sproviders WHERE id="+spid+";";
         String res= "";
         JavaToMySQL jmt = new JavaToMySQL();
         ResultSet rs=jmt.DSelect(sql);

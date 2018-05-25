@@ -2,6 +2,7 @@ import Objects.Crypt;
 import Objects.Serviceprovider;
 import Objects.User;
 
+import java.io.IOException;
 import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -115,6 +116,18 @@ public class EchoWorker implements Runnable {
             }
         }
 
+        if (tokens[0].equalsIgnoreCase("generatesale")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                try {
+                    str=Payment.GenerateSale(tokens[1], tokens[2], tokens[3]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         if (tokens[0].equalsIgnoreCase("tokengen")) {
             try {
@@ -299,7 +312,7 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("addnewpayment")) {
+/*                if (tokens[0].equalsIgnoreCase("addnewpayment")) {
                     if (tokens.length < 5) {
                         System.out.println("params aren't correct");
                         str = "-1";
@@ -307,7 +320,7 @@ public class EchoWorker implements Runnable {
                         str = User.AddNewPayment(tokens[1], tokens[2], Float.parseFloat(tokens[3]), tokens[4]);
                     }
                 }
-
+*/
                 if (tokens[0].equalsIgnoreCase("setpaymentstatus")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
@@ -533,6 +546,28 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("createseller")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        try {
+                            str = Payment.CreateSeller(tokens[1]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("spwithdrawalbalance")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        //str = Payment.SellerWithdrawal(tokens[1]);
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("createuserlite")) {
                     if (tokens.length < 5) {
                         System.out.println("params aren't correct");
@@ -747,6 +782,14 @@ public class EchoWorker implements Runnable {
                     }
                 }
 
+                if (tokens[0].equalsIgnoreCase("usergetmaindetails")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "*";
+                    } else {
+                        str = User.GetMainDetails(tokens[1].trim());
+                    }
+                }
                 if (tokens[0].equalsIgnoreCase("usergetcarid")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");
@@ -770,18 +813,18 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
-                        str = Serviceprovider.GetSellerID(Integer.valueOf(tokens[1].trim()));
+                        str = Serviceprovider.GetSellerID(tokens[1].trim());
                     }
                 }
 
-                if (tokens[0].equalsIgnoreCase("setsellerid")) {
+              /*  if (tokens[0].equalsIgnoreCase("setsellerid")) {
                     if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "*";
                     } else {
                         Serviceprovider.SetSellerID(Integer.valueOf(tokens[1].trim()), tokens[2]);
                     }
-                }
+                } */
 
                 if (tokens[0].equalsIgnoreCase("getcarlistforsp")) {
                     if (tokens.length < 2) {

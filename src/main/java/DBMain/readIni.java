@@ -23,7 +23,7 @@ public class readIni {
                 s[3] = p.getProperty("password").trim();
                 s[4] = p.getProperty("webserver").trim();
                 s[5] = p.getProperty("port").trim();
-                s[6] = "";
+                s[6] = p.getProperty("marketfee").trim();
             } else {
                 s[0] = p.getProperty("twilioAccountSid").trim();
                 s[1] = p.getProperty("twilioApiKey").trim();

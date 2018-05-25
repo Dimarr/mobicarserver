@@ -1,83 +1,129 @@
-import org.json.JSONObject;
+import DBMain.readIni;
+import Objects.Serviceprovider;
+import Objects.User;
+import com.squareup.okhttp.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.sql.SQLException;
 
 
 /**
  * Created by DR on 27.08.2017.
  */
 public class Payment {
-    public static void main(String[] args) throws IOException {
+    public static String CreateSeller(String spid) throws IOException {
 
-        Client client = ClientBuilder.newClient();
-        Entity payload = Entity.json("{  'payme_client_key': 'mobicar_KIWAanOH ',  " +
-                "'seller_id': '12345',  " +
-               // "'seller_first_name': 'First',  " +
-               // "'seller_last_name': 'Last',  " +
-                "'seller_social_id': '9999999999',  " +
-              //  "'seller_birthdate': '06/05/1989',  " +
-              //  "'seller_social_id_issued': '01/01/2000',  " +
-              //  "'seller_gender': 0,  " +
-                "'seller_email': 'personal@example.com',  " +
-                "'seller_phone': '0540123456',  " +
-              //  "'seller_contact_email': 'contact@example.com',  " +
-              //  "'seller_contact_phone': '031234567',  " +
-                "'seller_bank_code': 54,  " +
-                "'seller_bank_branch': 123,  " +
-                "'seller_bank_account_number': '123456',  " +
-                "'seller_description': 'An online store which specializes in rubber ducks',  " +
-              //  "'seller_site_url': 'www.babyducks.com',  " +
-                "'seller_person_business_type': 2000,  " +
-             //   "'seller_inc': 2,  " +
-             //   "'seller_inc_code': '123456',  " +
-                "'seller_retail_type': 1,  " +
-                "'seller_merchant_name': 'Baby Ducks',  " +
-                "'seller_address_city': 'Tel Aviv',  " +
-                "'seller_address_street': 'Rothschild',  " +
-                "'seller_address_street_number': '1',}  ");
-            //    "'market_fee': 5,  " +
-            //    "'seller_file_social_id': 'http://www.brainpop.co.il/category_9/subcategory_150/subjects_5148/screenshot2.png',  " +
-            //    "'seller_file_cheque': 'http://www.evinco-software.com/chequesystem/sample/hdfc-bank-cheque.jpg',  " +
-            //    "'seller_file_corporate': 'http://www.mattsbits.co.uk/user_media/uploaded_media/hsbc_example_output.png',  " +
-            //    "'seller_file_bank_auth': 'http://cdn2-www.dogtime.com/assets/uploads/gallery/25-dog-memes/04_funny-dog-meme.jpg'}");
+        readIni rIni = new readIni();
+        String market_fee = rIni.run("options.ini")[6];
+        String res="-1";
+        //Client client = ClientBuilder.newClient();
+        String sql="SELECT name as seller_first_name, name as seller_last_name, name as seller_merchant_name, " +
+                "description as seller_description, BN as seller_inc_code, BNID as seller_social_id, bankid as seller_bank_code," +
+                "bankbranch as seller_bank_branch, bankaccount as seller_bank_account_number, 0 as seller_gender,2 as seller_inc," +
+                "2000 as seller_person_business_type,'01/01/2000' as seller_birthdate,'01/01/2000' as seller_social_id_issued," +
+                "'None' as seller_address_street, 0 as seller_address_street_number,'None' as seller_site_url,'IL' as seller_address_country," +
+                "file_social_id as seller_file_social_id, file_cheque as seller_file_cheque, file_corporate as seller_file_corporate," +
+                "address as seller_address_city,email as seller_email, phone as seller_phone, sellerid as seller_id FROM sproviders WHERE id="+spid;
 
-        Response response = client.target("https://private-anon-0f551ff73c-paymeapi.apiary-mock.com/create-seller")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .post(payload);
-//        System.out.println("status: " + response.getStatus());
-  //      System.out.println("headers: " + response.getHeaders());
-        JSONObject paymeJSON = new JSONObject(response.readEntity(String.class));
-        System.out.println("seller_payme_id : " + paymeJSON.getString("seller_payme_id"));
-        System.out.println("seller_id : " + paymeJSON.getString("seller_id"));
+        String jstr=User.jsonrs(sql,"");
+        //jstr= jstr.replace('"', '\'');
+        //System.out.println(jstr);
+        if (jstr.length()>7) {     // Select is not empty
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("application/json");
+            String jsonrequest = "{\r\n  \"payme_client_key\": \"mobicar_KIWAanOH\",\r\n " +
+                    jstr.substring(jstr.indexOf("[") + 2, jstr.length() - 3) + ",\"market_fee\": " + market_fee + "}";
+            RequestBody body = RequestBody.create(mediaType, jsonrequest);
+           // System.out.println(jsonrequest);
 
-        payload = Entity.json("{  'seller_payme_id': 'XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX',  'sale_price': 10000,  'currency': 'ILS',  " +
-                "'product_name': 'Baby Duck',  'transaction_id': '12345',  'installments': 1,  " +
-                "'sale_callback_url': 'http://www.example.com/payment/callback',  " +
-                "'sale_return_url': 'http://www.example.com/payment/success',  'capture_buyer': 0}");
-        response = client.target("https://private-anon-bb9b7856b7-paymeapi.apiary-mock.com/generate-sale")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .post(payload);
-        System.out.println("body:" + response.readEntity(String.class));
-        //paymeJSON = new JSONObject(response.readEntity(String.class));
-        //System.out.println("price : " + paymeJSON.getDouble("price"));
-        //System.out.println("transaction_id : " + paymeJSON.getString("transaction_id"));
+            Request request = new Request.Builder()
+                    .url("https://preprod.paymeservice.com/api/create-seller")
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Cache-Control", "no-cache")
+                    //.addHeader("Postman-Token", "8cb0d7bc-660b-40c0-953a-38bab9d7ce1f")
+                    .build();
 
-         payload = Entity.json("{  'Attributes': {    'payme_client_key': 'XXXXXXXX',    " +
-                 "'seller_payme_id': 'XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX',    " +
-                 "'payme_sale_id': '`XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX` PayMe's unique sale ID',    " +
-                 "'sale_refund_amount': 10000,    'language': 'en'  }}");
-         response = client.target("https://private-anon-bb9b7856b7-paymeapi.apiary-mock.com/refund-sale")
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .post(payload);
+            Response response = client.newCall(request).execute();
 
-        paymeJSON = new JSONObject(response.readEntity(String.class));
-        System.out.println("payme_transaction_total: " + paymeJSON.getDouble("payme_transaction_total"));
-        System.out.println("sale_refund_buffer : " + paymeJSON.getDouble("sale_refund_buffer"));
-
+            if (response.code() == 200) {
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj = parser.parse(response.body().string());
+                    JSONObject jsonObj = (JSONObject) obj;
+                    res = String.valueOf(jsonObj.get("seller_payme_id"));
+                    Serviceprovider.SetSellerID(Integer.valueOf(spid), String.valueOf(jsonObj.get("seller_id")),
+                            String.valueOf(jsonObj.get("seller_payme_secret")),String.valueOf(jsonObj.get("seller_payme_id")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                res= response.body().string();
+                System.out.println(res);
+            }
+        } else {
+            res= "-2";
+        }
+        return res;
     }
+    public static String GenerateSale(String uid, String spid, String serviceid) throws IOException {
+        String res = "-1";
+        String paymeid = Serviceprovider.GetSellerPaymeID(spid);
+        String trid = Serviceprovider.GetTransID();
+        if (!(paymeid.isEmpty())) {
+            String sql = "SELECT 'http://www.example.com/payment/callback' as sale_callback_url," +
+                    "'http://www.example.com/payment/success' as sale_return_url,servicetype.name as product_name, " +
+                    " price*100 as sale_price,'ILS' as currency,1 as installments,0 as capture_buyer" +
+                    " from spservices,servicetype WHERE spservices.serviceid=servicetype.id AND spid="+spid+" AND serviceid="+serviceid+";";
+            //System.out.println(sql);
+            String jstr=User.jsonrs(sql,"");
+            if (jstr.length()>7) {     // Select is not empty
+                String jsonrequest = "{\"seller_payme_id\" :\""+paymeid+"\",\"transaction_id\" :"+trid+","
+                        +jstr.substring(jstr.indexOf("[") + 2, jstr.length() - 3) + "}";
+                //System.out.println(jsonrequest);
+
+                OkHttpClient client = new OkHttpClient();
+                MediaType mediaType = MediaType.parse("application/json");
+                RequestBody body = RequestBody.create(mediaType, jsonrequest);
+                Request request = new Request.Builder()
+                        .url("https://preprod.paymeservice.com/api/generate-sale")
+                        .post(body)
+                        .addHeader("Content-Type", "application/json")
+                        .addHeader("Cache-Control", "no-cache")
+                        //.addHeader("Postman-Token", "8cb0d7bc-660b-40c0-953a-38bab9d7ce1f")
+                        .build();
+
+                Response response = client.newCall(request).execute();
+                if (response.code() == 200) {
+                    try {
+                        JSONParser parser = new JSONParser();
+                        Object obj = parser.parse(response.body().string());
+                        JSONObject jsonObj = (JSONObject) obj;
+                        res = String.valueOf(jsonObj.get("sale_url"));
+                        String price = String.valueOf(jsonObj.get("price"));
+                        String paymetrid = String.valueOf(jsonObj.get("payme_sale_id"));
+                        try {
+                            User.AddNewPayment(spid,uid, Float.valueOf(price)/100,res,paymetrid);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    res= response.body().string();
+                    //System.out.println(res);
+                }
+            }
+        }
+        return res;
+    }
+    public static String UpdateSeller(String spid) {
+
+        return spid;
+    }
+
 }
