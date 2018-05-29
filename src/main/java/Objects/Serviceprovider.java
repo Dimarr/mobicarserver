@@ -374,6 +374,24 @@ public class Serviceprovider {
         return -1;
     }
 
+    public static void setFinalDataPayment(String trid,String paiddate,String finalamount) {
+        Integer call=0;
+        String sql ="UPDATE payments SET pstatus=2,pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        jtm.DbExec(sql);
+
+        sql = "SELECT callid FROM payments WHERE payid="+trid;
+        ResultSet rs = jtm.DSelect(sql);
+        try {
+            rs.last();
+            call = rs.getInt(1);
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sql = "UPDATE calls SET status=11 WHERE callid="+call;
+        jtm.DbExec(sql);
+    }
 
     public static void Setpincode(String spid, String pincode) {
         String sql ="UPDATE sproviders SET password='"+Crypt.md5Apache(pincode)+"' WHERE id="+spid;
@@ -638,6 +656,21 @@ public class Serviceprovider {
         try {
             if (rs.first()) {
                 res=rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public static Integer getAmountSale(String paymesale) {
+        String sql = "SELECt amount FROM payments WHERE paymetrid='"+paymesale+"';";
+        Integer res = 0;
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs=jmt.DSelect(sql);
+        try {
+            if (rs.first()) {
+                res=rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();

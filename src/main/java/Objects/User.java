@@ -95,16 +95,16 @@ public class User {
         }
     }
 
-    public static void AddNewPayment(String uid,String spid,Float amount, String saleurl,String paymetrid) throws SQLException {
+    public static String AddNewPayment(String spid,String uid,Float amount, String saleurl,String paymetrid, String callid) throws SQLException {
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf =
                 new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
-        String sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid) VALUES ("+uid+","+
-                spid+",'"+currentTime+"',"+Float.toString(amount)+",1,'"+saleurl+"','"+paymetrid+"');";
+        String sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid,callid) VALUES ("+uid+","+
+                spid+",'"+currentTime+"',"+Float.toString(amount)+",1,'"+saleurl+"','"+paymetrid+"',"+callid+");";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
-/*        sql = "SELECT max(payid) FROM payments";
+        sql = "SELECT max(payid) FROM payments";
         ResultSet rs= jtm.DSelect(sql);
         try {
             rs.first();
@@ -114,7 +114,7 @@ public class User {
             e.printStackTrace();
         }
         return "-1";
-*/
+
     }
 
     public static String GetToken(String uid) {
@@ -184,6 +184,30 @@ public class User {
         String sql ="UPDATE payments SET pstatus="+status+" WHERE payid="+payid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
+    }
+
+    public static void DeclineCallPayment(String paytransactionid, String status) {
+        String sql = "SELECT callid,payid FROM payments WHERE paymetrid='"+paytransactionid+"'";
+        //sql ="UPDATE payments SET pstatus="+status+" WHERE payid="+payid;
+        JavaToMySQL jtm = new JavaToMySQL();
+        ResultSet rs= jtm.DSelect(sql);
+        String call="";
+        String pay="";
+        try {
+            rs.first();
+            call = rs.getString(1);
+            pay = rs.getString(2);
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (status == "sp") {
+            sql = "UPDATE calls SET status= 6 WHERE callid=" + call;
+        } else {
+            sql = "UPDATE calls SET status= 5 WHERE callid=" + call;
+        }
+        jtm.DbExec(sql);
+        SetPaymentStatus(pay,"3");
     }
 
     public static String GetPayments(String uid) {
@@ -455,7 +479,7 @@ public class User {
     public static String AddCall( String uid, String CDetail, String spid, String serviceid) {
         String sql;
         String statusSP="";
-        String res="Service provider is busy";
+        String res="";
         Date dt = new Date();
         String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM").format(dt);
         try {
@@ -469,7 +493,15 @@ public class User {
             JavaToMySQL jmt = new JavaToMySQL();
             jmt.DbExec(sql);
             Serviceprovider.setBusy(spid);
-            res = "Request for service provider #" + spid + " added";
+            sql = "SELECT max(callid) FROM calls";
+            ResultSet rs= jmt.DSelect(sql);
+            try {
+                rs.first();
+                res = rs.getString(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            //res = "Request for service provider #" + spid + " added";
         }
         return res;
     }
