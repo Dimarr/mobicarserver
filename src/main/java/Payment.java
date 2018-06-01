@@ -21,26 +21,28 @@ public class Payment {
         String market_fee = ss[6];
         String createsellerurl = ss[7];
         String paymeclient = ss[12];
-        String res="-1";
+        String res="";
         //Client client = ClientBuilder.newClient();
-        String sql="SELECT name as seller_first_name, name as seller_last_name, name as seller_merchant_name, " +
+                String sql="SELECT name as seller_first_name, seller_last_name, seller_merchant_name, " +
                 "description as seller_description, BN as seller_inc_code, BNID as seller_social_id, bankid as seller_bank_code," +
-                "bankbranch as seller_bank_branch, bankaccount as seller_bank_account_number, 0 as seller_gender,2 as seller_inc," +
-                "2000 as seller_person_business_type,'01/01/2000' as seller_birthdate,'01/01/2000' as seller_social_id_issued," +
-                "'None' as seller_address_street, 0 as seller_address_street_number,'None' as seller_site_url,'IL' as seller_address_country," +
+                "bankbranch as seller_bank_branch, bankaccount as seller_bank_account_number, seller_gender, seller_inc," +
+                "seller_person_business_type, " +
+                        "DATE_FORMAT(seller_birthdate,'%d/%m/%Y') as seller_birthdate, DATE_FORMAT(seller_social_id_issued,'%d/%m/%Y') as seller_social_id_issued," +
+                "seller_address_street, seller_address_street_number,seller_site_url,seller_address_country," +
                 "file_social_id as seller_file_social_id, file_cheque as seller_file_cheque, file_corporate as seller_file_corporate," +
-                "address as seller_address_city,email as seller_email, phone as seller_phone, sellerid as seller_id FROM sproviders WHERE id="+spid;
+                "address as seller_address_city,email as seller_email, phone as seller_phone, sproviders.sellerid as seller_id " +
+                        "FROM sproviders, sellers WHERE id=spid AND id="+spid;
 
         String jstr=User.jsonrs(sql,"");
         //jstr= jstr.replace('"', '\'');
-        //System.out.println(jstr);
+        //System.out.println(sql);
         if (jstr.length()>7) {     // Select is not empty
             OkHttpClient client = new OkHttpClient();
             MediaType mediaType = MediaType.parse("application/json");
             String jsonrequest = "{\r\n  \"payme_client_key\": \""+paymeclient+"\",\r\n " +
                     jstr.substring(jstr.indexOf("[") + 2, jstr.length() - 3) + ",\"market_fee\": " + market_fee + "}";
             RequestBody body = RequestBody.create(mediaType, jsonrequest);
-           // System.out.println(jsonrequest);
+           //System.out.println(jsonrequest);
 
             Request request = new Request.Builder()
                     .url(createsellerurl)
@@ -67,7 +69,7 @@ public class Payment {
                 System.out.println(res);
             }
         } else {
-            res= "-2";
+            res= "{\"status\":\"need to fill seller's details\",\"url\":\""+ss[14]+"?spid="+spid+"\"}";
         }
         return res;
     }
