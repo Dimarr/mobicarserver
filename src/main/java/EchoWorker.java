@@ -117,12 +117,12 @@ public class EchoWorker implements Runnable {
         }
 
         if (tokens[0].equalsIgnoreCase("generatesale")) {
-            if (tokens.length < 5) {
+            if (tokens.length < 4) {
                 System.out.println("params aren't correct");
                 str = "-1";
             } else {
                 try {
-                    str=Payment.GenerateSale(tokens[1], tokens[2], tokens[3],tokens[4]);
+                    str=Payment.GenerateSale(tokens[1], tokens[2], tokens[3]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -130,12 +130,12 @@ public class EchoWorker implements Runnable {
         }
 
         if (tokens[0].equalsIgnoreCase("capturesale")) {
-            if (tokens.length < 3) {
+            if (tokens.length < 4) {
                 System.out.println("params aren't correct");
                 str = "-1";
             } else {
                 try {
-                    str=Payment.CaptureSale(tokens[1], tokens[2]);
+                    str=Payment.CaptureSale(tokens[1], tokens[2], tokens[3]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

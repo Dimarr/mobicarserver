@@ -374,22 +374,13 @@ public class Serviceprovider {
         return -1;
     }
 
-    public static void setFinalDataPayment(String trid,String paiddate,String finalamount) {
+    public static void setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) {
         Integer call=0;
-        String sql ="UPDATE payments SET pstatus=2,pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
+        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
 
-        sql = "SELECT callid FROM payments WHERE payid="+trid;
-        ResultSet rs = jtm.DSelect(sql);
-        try {
-            rs.last();
-            call = rs.getInt(1);
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        sql = "UPDATE calls SET status=11 WHERE callid="+call;
+        sql = "UPDATE calls SET status=11 WHERE callid="+callid;
         jtm.DbExec(sql);
     }
 
@@ -418,7 +409,12 @@ public class Serviceprovider {
 
     public static void addService(String sid, String serviceid, String location, String profid, String price, String cartype){
         JavaToMySQL jmt = new JavaToMySQL();
-        String sql = "DELETE FROM spservices WHERE spid="+sid+" AND serviceid="+serviceid+" AND cartype="+cartype+";";
+        String sql;
+/*        if (Integer.valueOf(cartype) == 0) {
+            sql = "DELETE FROM spservices WHERE spid="+sid+" AND serviceid="+serviceid+";";
+        } else { */
+            sql = "DELETE FROM spservices WHERE spid=" + sid + " AND serviceid=" + serviceid + " AND cartype=" + cartype + ";";
+        //}
         jmt.DbExec(sql);
         sql = "INSERT INTO spservices (spid,serviceid,price,availl,prof, cartype) VALUES ("+sid+","+serviceid+","+price+","+
                 location+","+profid+","+cartype+");";
@@ -676,6 +672,10 @@ public class Serviceprovider {
             e.printStackTrace();
         }
         return res;
+    }
+
+    public static String getPaymeSaleID(String callid) {
+        return "";
     }
 
     public static String GetSellerPaymeID(String spid) {
