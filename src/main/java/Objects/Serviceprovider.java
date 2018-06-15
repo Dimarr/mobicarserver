@@ -509,8 +509,9 @@ public class Serviceprovider {
 
     public static String getBankDetailsForSP(Integer SpID){
         JavaToMySQL jtm = new JavaToMySQL();
-        String sql = "Select Banks.Name as bankname, Banks.Id as bankid,sproviders.bankbranch as branch, sproviders.bankaccount as baccount from Banks, sproviders\n" +
-                "where Banks.ID=sproviders.bankid and sproviders.id="+SpID;
+        String sql = "SELECT Banks.Name as bankname, Banks.Id as bankid,sproviders.bankbranch as branch, sproviders.bankaccount as baccount " +
+                "FROM Banks, sproviders " +
+                "WHERE Banks.ID=sproviders.bankid and sproviders.id="+SpID;
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"banksdetails");
     }
 
@@ -525,7 +526,6 @@ public class Serviceprovider {
         String sql = "UPDATE sproviders SET X="+X+",Y="+Y+" WHERE id="+SpID+";";
         jmt.DbExec(sql);
     }
-
 
     public static String Newsplite(String name,String email,String phone,  String BNID, String BN ) {
         String sql= "INSERT INTO sproviders (logined,name,email,BNID, BN,phone) VALUES(0,'"+name+"','"+email+"','"+
@@ -544,7 +544,6 @@ public class Serviceprovider {
     //System.out.println(crpwd);
     return "-1";
     }
-
 
     public static Integer Newsp(String name,String address,String email,String pwd, float X, float Y,String desc,
                                 String phone, String services, String BNID, String BN,String bank, String branch,
@@ -627,7 +626,8 @@ public class Serviceprovider {
     public static String StatusCall( String spid) {
         String sql ="SELECT userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
                 " WHERE calls.status=callstatus.statusid AND servicetype.id=calls.serviceid " +
-                "AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
+                //"AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
+                "AND calls.spid="+spid+" ORDER BY calls.callid DESC;";  // For all
         JavaToMySQL jmt = new JavaToMySQL();
         return jmt.getJSONFromResultSet(jmt.DSelect(sql), "SpStatusRequest");
     }

@@ -508,7 +508,8 @@ public class User {
 
     public static String StatusCall( String uid) {
         String sql ="SELECT spid, statusname from calls,callstatus WHERE calls.status=callstatus.statusid " +
-                "AND callstatus.statusid<3 AND calls.userid="+uid;  // Just for Accepted or New
+                //"AND callstatus.statusid<3 AND calls.userid="+uid;  // Just for Accepted or New
+                "AND calls.userid="+uid+" ORDER BY calls.callid DESC;";  // For all
         JavaToMySQL jmt = new JavaToMySQL();
         return jmt.getJSONFromResultSet(jmt.DSelect(sql), "UserStatusRequest");
     }

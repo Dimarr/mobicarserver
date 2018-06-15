@@ -147,6 +147,7 @@ public class NioServer implements Runnable {
 		// we'd like to be notified when there's data waiting to be read
 		socketChannel.register(this.selector, SelectionKey.OP_READ);
         System.out.println("User from IP" +socketChannel.getRemoteAddress().toString()+" connected");
+		System.out.println("Socket IP address "+socket.getInetAddress().toString());
         numberOfClients++;
         //System.out.println(this.selector.select());
 	}

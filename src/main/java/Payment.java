@@ -95,7 +95,7 @@ public class Payment {
                         + "' as sale_return_url,servicetype.name as product_name, " +
                         " price*100 as sale_price,'ILS' as currency,1 as installments,0 as capture_buyer" +
                         " from spservices,servicetype WHERE spservices.serviceid=servicetype.id AND spid=" + spid + " AND serviceid=" + serviceid + ";";
-            }
+            //}
             //System.out.println(sql);
             String jstr=User.jsonrs(sql,"");
             if (jstr.length()>7) {     // Select is not empty
@@ -143,7 +143,7 @@ public class Payment {
                     //System.out.println(res);
                 }
             }
-        //}
+        }
         return res;
     }
 
@@ -159,7 +159,7 @@ public class Payment {
         } else {
             Integer amountsale = Serviceprovider.getAmountSale(paymesaleid);
             if (amountsale > Integer.valueOf(amount)) {
-                jsonrequest += ",\"sale_price\":\""+amount+"00\"}";
+                jsonrequest += ",\"sale_price\":\""+amount.trim()+"00\"}";
             } else {
                 jsonrequest += "}"; //Will implement change amount to bigger logic
             }
