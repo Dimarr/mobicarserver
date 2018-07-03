@@ -136,9 +136,22 @@ public class EchoWorker implements Runnable {
             } else {
                 try {
                     str=Payment.CaptureSale(tokens[1], tokens[2], tokens[3]);
+                    System.out.println("Parameters: "+tokens[1]+","+tokens[2]+","+tokens[3]);
+                    System.out.println("Result string: "+str);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("sendsms")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                new SendAuthSMS(tokens[1], tokens[2]);
+                str ="{\"To_number\" :\""+tokens[1].trim()+"\",\"Text \":\""+tokens[2]+" was sent\"}";
+                System.out.println(str);
             }
         }
 
@@ -297,6 +310,17 @@ public class EchoWorker implements Runnable {
                         str = Serviceprovider.getstaticxy(tokens[1]);
                     }
                 }
+
+                if (tokens[0].equalsIgnoreCase("spsetpaymeapprovement")) {
+                    if (tokens.length < 2) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.setPaymeApprovement(tokens[1]);
+                        str ="SP #"+tokens[1]+ " approved by PayMe Service";
+                    }
+                }
+
 
                 if (tokens[0].equalsIgnoreCase("usergetstaticxy")) {
                     if (tokens.length < 2) {

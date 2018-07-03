@@ -5,7 +5,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -140,14 +139,14 @@ public class NioServer implements Runnable {
 
 		// Accept the connection and make it non-blocking
 		SocketChannel socketChannel = serverSocketChannel.accept();
-		Socket socket = socketChannel.socket();
+		//Socket socket = socketChannel.socket();
 		socketChannel.configureBlocking(false);
         //System.out.println(socket.getRemoteSocketAddress().toString());
 		// Register the new SocketChannel with our Selector, indicating
 		// we'd like to be notified when there's data waiting to be read
 		socketChannel.register(this.selector, SelectionKey.OP_READ);
-        System.out.println("User from IP" +socketChannel.getRemoteAddress().toString()+" connected");
-		System.out.println("Socket IP address "+socket.getInetAddress().toString());
+        //System.out.println("User from IP " +socketChannel.getRemoteAddress().toString()+" is connected");
+		//System.out.println("Socket IP address "+socket.getInetAddress().toString());
         numberOfClients++;
         //System.out.println(this.selector.select());
 	}
@@ -186,7 +185,7 @@ public class NioServer implements Runnable {
             String s = ((SocketChannel) key.channel()).getRemoteAddress().toString();
             key.channel().close();
 			key.cancel();
-            System.out.println("User from IP "+s+" left");
+            //System.out.println("User from IP "+s+" left");
             numberOfClients--;
             return true;
             // return (numberOfClients > 0);

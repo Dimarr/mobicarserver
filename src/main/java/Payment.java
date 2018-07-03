@@ -70,6 +70,7 @@ public class Payment {
             }
         } else {
             res= "{\"status\":\"need to fill seller's details\",\"url\":\""+ss[14]+"?spid="+spid+"\"}";
+            new SendAuthSMS(Serviceprovider.getphone(Integer.valueOf(spid)),ss[14]+"?spid="+spid);
         }
         return res;
     }
@@ -83,6 +84,7 @@ public class Payment {
         String paymeid = Serviceprovider.GetSellerPaymeID(spid);
         String trid = Serviceprovider.GetTransID();
         String sql="";
+        //System.out.println("*"+paymeid+"*");
         if (paymeid == null) return res;
         if (!(paymeid.isEmpty())) {
 /*            if (Integer.valueOf(callid)==0) {  //Test transaction
@@ -185,8 +187,8 @@ public class Payment {
                 String finalamount = String.valueOf(jsonObj.get("payme_transaction_total"));
 
                 Serviceprovider.setFinalDataPayment(trid, paiddate,finalamount, callid);
-                res = "{\"sale_status\":"+String.valueOf(jsonObj.get("sale_status"))+
-                        ",\"payme_transaction_total\":\""+String.valueOf(jsonObj.get("payme_transaction_total")) +"\",\"sale_paid_date\":\""+
+                res = "{\"sale_status\":\""+String.valueOf(jsonObj.get("sale_status"))+
+                        "\",\"payme_transaction_total\":\""+String.valueOf(jsonObj.get("payme_transaction_total")) +"\",\"sale_paid_date\":\""+
                         paiddate+"\"}";
             } catch (ParseException e) {
                 e.printStackTrace();

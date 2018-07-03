@@ -674,8 +674,10 @@ public class Serviceprovider {
         return res;
     }
 
-    public static String getPaymeSaleID(String callid) {
-        return "";
+    public static void setPaymeApprovement(String spid) {
+        String sql = "UPDATE sproviders SET paymeapprove=1 WHERE id="+spid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
     }
 
     public static String GetSellerPaymeID(String spid) {
