@@ -18,27 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `callstatus`
+-- Table structure for table `servicetype`
 --
 
-DROP TABLE IF EXISTS `callstatus`;
+DROP TABLE IF EXISTS `servicetype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `callstatus` (
-  `statusid` int(11) NOT NULL,
-  `statusname` varchar(35) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `servicetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `regular` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `callstatus`
+-- Dumping data for table `servicetype`
 --
 
-LOCK TABLES `callstatus` WRITE;
-/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
-INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
-/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
+LOCK TABLES `servicetype` WRITE;
+/*!40000 ALTER TABLE `servicetype` DISABLE KEYS */;
+INSERT INTO `servicetype` VALUES (1,'Flat tire',0),(2,'Use cables',0),(3,'4X4 Extracted',1),(4,'Filling Fuel',2),(5,'Auto towing',0),(6,'Mechanical failure',0);
+/*!40000 ALTER TABLE `servicetype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-28 18:31:02
+-- Dump completed on 2018-07-03 13:45:03

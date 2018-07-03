@@ -18,31 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `pointcatalog`
+-- Table structure for table `carbrand`
 --
 
-DROP TABLE IF EXISTS `pointcatalog`;
+DROP TABLE IF EXISTS `carbrand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pointcatalog` (
-  `RowID` int(11) NOT NULL AUTO_INCREMENT,
-  `GroupName` varchar(25) NOT NULL,
-  `OptionID` int(11) NOT NULL,
-  `Optionname` varchar(25) NOT NULL,
-  `Point` int(11) NOT NULL,
-  `Comment` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`RowID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Catalog of options for point calculation';
+CREATE TABLE `carbrand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pointcatalog`
+-- Dumping data for table `carbrand`
 --
 
-LOCK TABLES `pointcatalog` WRITE;
-/*!40000 ALTER TABLE `pointcatalog` DISABLE KEYS */;
-INSERT INTO `pointcatalog` VALUES (7,'Location',11,'Simple location',15,' SP mentioned during registration that he is available between specific hours'),(8,'Location',12,'Underground',0,'No available'),(9,'Location',13,'Off the road',0,NULL),(10,'Diploma',21,'Yes',20,'Certificate'),(11,'Diploma',22,'No',10,'No Certificate');
-/*!40000 ALTER TABLE `pointcatalog` ENABLE KEYS */;
+LOCK TABLES `carbrand` WRITE;
+/*!40000 ALTER TABLE `carbrand` DISABLE KEYS */;
+INSERT INTO `carbrand` VALUES (1,'Toyota'),(2,'Nissan'),(3,'Mercedes'),(4,'Honda'),(5,'Suzuki'),(8,'AUDI');
+/*!40000 ALTER TABLE `carbrand` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-28 18:30:41
+-- Dump completed on 2018-07-03 13:45:13

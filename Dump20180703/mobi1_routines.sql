@@ -178,6 +178,238 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Dumping routines for database 'mobi1'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `archivecalls` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `archivecalls`(in period int)
+BEGIN
+INSERT INTO archive_calls (userid,spid,cdate,details,serviceid, status) 
+SELECT userid,spid,cdate,details,serviceid,status FROM calls
+WHERE cdate < now()-period AND status>2;
+
+DELETE FROM calls WHERE cdate < now()-period AND status>2;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `setpoint` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `setpoint`(in servid int, in usrid int, in Xuser float, in Yuser float)
+BEGIN
+   DECLARE spd int;
+   DECLARE serviceprice float;
+   DECLARE avid int;
+   DECLARE prfid int;
+   DECLARE av int;
+   DECLARE prf int;
+   DECLARE pointtotal int;
+   DECLARE Xsp float;
+   DECLARE Ysp float;
+
+   DECLARE v_finished INTEGER DEFAULT 0;
+   DECLARE cur cursor for select prof, price, availl, spid FROM spservices 
+						where (serviceid=servid) or (servid=0);
+   DECLARE CONTINUE HANDLER 
+   FOR NOT FOUND SET v_finished = 1;
+   
+   DELETE FROM search WHERE userid=usrid;
+   COMMIT;
+   
+   open cur;
+
+    start_loop: loop
+        fetch cur into prfid,serviceprice,avid,spd;
+        if v_finished=1 then 
+            leave start_loop;
+        end if;
+
+        SELECT point into prf FROM pointcatalog where optionid=prfid;
+        SELECT point into av  FROM pointcatalog where optionid=avid;
+        
+		IF (av = 0) THEN SET pointtotal = -1; 
+        ELSE
+			SET pointtotal = 0;
+			SELECT X,Y, point into Xsp,Ysp,pointtotal FROM sproviders WHERE id = spd;    
+			
+            SET pointtotal =  pointtotal + CASE WHEN sqrt((Xuser-Xsp)*(Xuser-Xsp)+(Yuser-Ysp)*(Yuser-Ysp))*111<5 THEN 15 ELSE 0 END +
+			CASE WHEN sqrt((Xuser-Xsp)*(Xuser-Xsp)+(Yuser-Ysp)*(Yuser-Ysp))*111>=5 AND sqrt((Xuser-Xsp)*(Xuser-Xsp)+(Yuser-Ysp)*(Yuser-Ysp))*111<10 THEN 10 ELSE 0 END +
+			CASE WHEN sqrt((Xuser-Xsp)*(Xuser-Xsp)+(Yuser-Ysp)*(Yuser-Ysp))*111>=10 THEN 5 ELSE 0 END;	
+    
+			SET pointtotal =  av+prf+pointtotal + CASE WHEN serviceprice >=150 THEN 8 ELSE 0 END + CASE WHEN serviceprice < 100 THEN 25 ELSE 0 END
+            + CASE WHEN (serviceprice >=100) and (serviceprice <150) THEN 16 ELSE 0 END;
+
+		END IF;
+		
+        IF pointtotal > 0 THEN
+			INSERT INTO search (userid,spid,point,date) VALUES (usrid,spd,pointtotal,NOW());
+            COMMIT;
+        END IF;    
+    end loop;
+   close cur;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `setpointnew` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `setpointnew`(in servid int, in usrid int, in Xuser float, in Yuser float)
+BEGIN
+   DECLARE spd int;
+   DECLARE countsp int;
+   DECLARE srtprice int;
+   DECLARE prfid int;
+   DECLARE pointtotal float;
+   DECLARE Xsp float;
+   DECLARE Ysp float;
+   DECLARE dst float;
+   DECLARE iOrd int default 1;
+   
+
+   DECLARE v_finished INTEGER DEFAULT 0;
+   
+   DECLARE cur cursor for select distinct spid FROM spservices, sproviders 
+						where (spservices.serviceid=servid) AND 
+                        (sproviders.id=spservices.spid) AND (sproviders.logined=1) AND (sproviders.busy=0) AND (sproviders.paymeapprove=1)
+                        order by price;
+   
+   DECLARE cur1 cursor for select sortprice FROM search
+						where (userid=usrid) order by dist DESC;
+
+   DECLARE CONTINUE HANDLER 
+   FOR NOT FOUND SET v_finished = 1;
+   
+
+   DELETE FROM search WHERE userid=usrid;
+   COMMIT;
+   
+   open cur;
+
+    start_loop: loop
+        fetch cur into spd;
+        -- select spd;
+        if v_finished=1 then 
+            leave start_loop;
+        END if;
+		SET Xsp=-1;
+		SET Ysp=-1;
+        SELECT X,Y point into Xsp,Ysp FROM coordinate WHERE spuser=1 and uid=spd order by ltime desc LIMIT 1;
+        -- select Xsp,Ysp;
+        if Xsp<0 then
+                SELECT X,Y point into Xsp,Ysp FROM sproviders WHERE id = spd;    
+                SET v_finished = 0;
+                 -- select spd, Xsp,Ysp;
+        end if;         
+        SET dst = sqrt((Xuser-Xsp)*(Xuser-Xsp)+(Yuser-Ysp)*(Yuser-Ysp));
+		-- select dst, spd, Xsp,Ysp;        
+		INSERT INTO search (userid,spid,dist,sortprice,date,X,Y) VALUES (usrid,spd,dst,iOrd,NOW(),Xsp,Ysp);
+                
+        SET iOrd= iOrd+1;
+        -- select iOrd,v_finished,spd;
+    END loop;
+   close cur;
+   COMMIT;
+
+   SET v_finished = 0 ;
+   SET countsp = iOrd-1;
+	-- select countsp;
+   SET iOrd = 1;	
+   open cur1;
+
+    start_loop: loop
+        fetch cur1 into srtprice;
+        if v_finished=1 then 
+            leave start_loop;
+        END if;
+
+		SET pointtotal = (0.3*srtprice+0.7*iOrd)/countsp;
+        -- select srtprice,iOrd,countsp,pointtotal;
+		UPDATE search SET point= pointtotal WHERE (userid=usrid) AND (sortprice=srtprice);
+        SET iOrd= iOrd+1;
+    END loop;
+   close cur1;
+   COMMIT;   
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `showmap` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `showmap`(in clid int, out x1 float, out y1 float, out x2 float, out y2 float)
+BEGIN
+   DECLARE spd int;
+   DECLARE usrd int;
+   DECLARE XX float;
+   DECLARE YY float;
+   
+		SET spd=-1;
+        SET usrd=-1;
+        SET x1=0,y1=0,x2=0,y2=0;
+        
+        SELECT spid, userid INTO spd,usrd FROM calls WHERE callid=clid;
+        if (spd>0) then
+			SET XX=-1,YY=-1;
+			SELECT X,Y into XX,YY FROM coordinate WHERE spuser=1 and uid=spd order by ltime desc LIMIT 1;
+			if XX<0 then
+                SELECT x,y into XX,YY FROM sproviders WHERE id = spd;    
+			end if;         
+            SET x2=XX,y2=YY;
+            
+			SET XX=-1,YY=-1;
+			SELECT X,Y into XX,YY FROM coordinate WHERE spuser=2 and uid=usrd order by ltime desc LIMIT 1;
+
+			if XX<0 then
+                SELECT X,Y into XX,YY FROM users WHERE userid = usrd;    
+			end if;         
+            SET x1=XX,y1=YY;
+		end if;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -188,4 +420,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-28 18:31:45
+-- Dump completed on 2018-07-03 13:45:37

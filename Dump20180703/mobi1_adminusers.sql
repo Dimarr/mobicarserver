@@ -18,31 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `coordinate`
+-- Table structure for table `adminusers`
 --
 
-DROP TABLE IF EXISTS `coordinate`;
+DROP TABLE IF EXISTS `adminusers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `coordinate` (
-  `rown` int(11) NOT NULL AUTO_INCREMENT,
-  `spuser` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `X` float DEFAULT NULL,
-  `Y` float DEFAULT NULL,
-  `ltime` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`rown`)
-) ENGINE=InnoDB AUTO_INCREMENT=119819 DEFAULT CHARSET=latin1;
+CREATE TABLE `adminusers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `coordinate`
+-- Dumping data for table `adminusers`
 --
 
-LOCK TABLES `coordinate` WRITE;
-/*!40000 ALTER TABLE `coordinate` DISABLE KEYS */;
-INSERT INTO `coordinate` VALUES (1,1,1,32.5678,33.1234,'2017-08-14 10:53:53'),(2,2,2,43.3214,55.6789,'2017-08-14 11:01:06'),(3,1,1,32.5999,33.1233,'2017-08-14 11:06:39'),(4,1,1,32.6449,33.1455,'2017-08-14 11:10:26'),(5,1,1,41.2356,33.6677,'2017-08-14 13:15:50'),(6,2,2,55.3445,21.69,'2017-08-14 13:16:23'),(77,2,1,22.555,54.777,'2018-02-05 11:54:35'),(1050,1,51,20.792,47.3865,'2018-02-13 21:57:40'),(60340,1,61,32.7695,34.9724,'2018-03-27 13:05:17'),(80307,2,116,32.1775,34.9072,'2018-04-30 15:12:55'),(82844,2,115,32.1775,34.9073,'2018-05-02 09:56:48'),(86563,1,66,32.1763,34.909,'2018-05-04 10:40:49'),(98468,2,104,32.1156,34.8429,'2018-05-15 09:12:07'),(98469,1,60,32.1156,34.8429,'2018-05-15 09:12:07'),(111166,1,59,49.9845,36.3614,'2018-05-23 06:52:12'),(114036,2,110,49.9845,36.3613,'2018-05-24 03:41:39'),(119639,1,67,32.1975,34.8818,'2018-05-28 10:12:58'),(119818,2,118,32.1975,34.8817,'2018-05-28 15:27:40');
-/*!40000 ALTER TABLE `coordinate` ENABLE KEYS */;
+LOCK TABLES `adminusers` WRITE;
+/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
+INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
+/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-28 18:31:29
+-- Dump completed on 2018-07-03 13:45:28

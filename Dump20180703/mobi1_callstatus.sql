@@ -18,28 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adminusers`
+-- Table structure for table `callstatus`
 --
 
-DROP TABLE IF EXISTS `adminusers`;
+DROP TABLE IF EXISTS `callstatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `adminusers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+CREATE TABLE `callstatus` (
+  `statusid` int(11) NOT NULL,
+  `statusname` varchar(35) DEFAULT NULL,
+  PRIMARY KEY (`statusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adminusers`
+-- Dumping data for table `callstatus`
 --
 
-LOCK TABLES `adminusers` WRITE;
-/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
-INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
-/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
+LOCK TABLES `callstatus` WRITE;
+/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
+INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
+/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-28 18:31:36
+-- Dump completed on 2018-07-03 13:44:56
