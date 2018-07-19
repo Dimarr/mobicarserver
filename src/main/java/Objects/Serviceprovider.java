@@ -714,7 +714,7 @@ public class Serviceprovider {
 
 
     public static void setPaymeApprovementbySpid(String spid) {
-        String sql = "UPDATE sproviders SET paymeapprove=1 WHERE id="+spid;
+        String sql = "UPDATE sproviders SET paymeapprove=2 WHERE id="+spid;
         JavaToMySQL jmt = new JavaToMySQL();
         jmt.DbExec(sql);
     }
