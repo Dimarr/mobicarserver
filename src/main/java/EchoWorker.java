@@ -77,7 +77,11 @@ public class EchoWorker implements Runnable {
                         if (pincode.trim().length()<4) {pincode=pincode+"000"; pincode=pincode.substring(0,4);}
 
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
-                        str = "Pincode sent successfully";
+                        if (SendAuthSMS.status) {
+                            str = "Pincode sent successfully";
+                        } else {
+                            str = "Pincode was NOT sent. See server log details";
+                        }
                         if (Integer.parseInt(tokens[1]) > 0) {
                             Serviceprovider.Setpincode(tokens[1],pincode);
                             Serviceprovider.SetToken(tokens[1], createdToken);
@@ -150,8 +154,12 @@ public class EchoWorker implements Runnable {
                 str = "-1";
             } else {
                 new SendAuthSMS(tokens[1], tokens[2]);
-                str ="{\"To_number\" :\""+tokens[1].trim()+"\",\"Text \":\""+tokens[2]+" was sent\"}";
-                System.out.println(str);
+                if (SendAuthSMS.status) {
+                    str = "{\"To_number\" :\"" + tokens[1].trim() + "\",\"Text \":\"" + tokens[2] + " was sent\"}";
+                    System.out.println(str);
+                } else {
+                    str = "{\"To_number\" :\"" + tokens[1].trim() + "\",\"Text \":\"" + tokens[2] + " was NOT sent. See server log details\"}";
+                }
             }
         }
 
@@ -175,7 +183,11 @@ public class EchoWorker implements Runnable {
                         //System.out.println("Token generated successfully");
                         pincode= Crypt.rnd(1000,9999);
                         new SendAuthSMS(phone, "Your verification code is "+pincode);
-                        str = "Pincode has been sent successfully";
+                        if (SendAuthSMS.status) {
+                            str = "Pincode has been sent successfully";
+                        } else {
+                            str = "Pincode has NOT been sent. See server log details";
+                        }
                         if (Integer.parseInt(tokens[1].trim()) > 0) {
                             User.Setpincode(tokens[1],pincode);
                             User.SetToken(tokens[1], createdToken);
@@ -316,7 +328,7 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        Serviceprovider.setPaymeApprovement(tokens[1]);
+                        Serviceprovider.setPaymeApprovementbySpid(tokens[1]);
                         str ="SP #"+tokens[1]+ " approved by PayMe Service";
                     }
                 }

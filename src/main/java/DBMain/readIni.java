@@ -39,7 +39,7 @@ public class readIni {
         return null;
     }
     public String[] run(String confpath) {
-        String[] s = new String[15]; // just reading ini file for database connection
+        String[] s = new String[17]; // just reading ini file for database connection
         try{
             Properties p = new Properties();
             //String path = String.valueOf(this.getClass().getClassLoader().getResource(""));
@@ -63,6 +63,8 @@ public class readIni {
                 s[12] = p.getProperty("paymeclient").trim();
                 s[13] = p.getProperty("capturesale").trim();
                 s[14] = p.getProperty("insertseller").trim();
+                s[15] = p.getProperty("withdraw").trim();
+                s[16] = p.getProperty("paymeverify").trim();
             } else {
                 s[0] = p.getProperty("twilioAccountSid").trim();
                 s[1] = p.getProperty("twilioApiKey").trim();

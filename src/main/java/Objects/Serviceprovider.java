@@ -9,6 +9,7 @@ import DBMain.JavaToMySQL;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static Objects.Crypt.md5Apache;
@@ -639,7 +640,7 @@ public class Serviceprovider {
     }
 
     public static void SetSellerID(Integer spid, String sellerid, String paymesecret, String paymeid) {
-        String sql= "UPDATE sproviders SET sellerid="+sellerid+",payme_secret='"+paymesecret+"',payme_id='"+paymeid+"' WHERE id="+spid+";";
+        String sql= "UPDATE sproviders SET paymeapprove=1, sellerid="+sellerid+",payme_secret='"+paymesecret+"',payme_id='"+paymeid+"' WHERE id="+spid+";";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
     }
@@ -674,7 +675,45 @@ public class Serviceprovider {
         return res;
     }
 
-    public static void setPaymeApprovement(String spid) {
+    public static ArrayList<String> RestSPs() {
+        ArrayList<String> sellers = new ArrayList();
+        String sql = "SELECT sproviders.id FROM sproviders,sellers WHERE sellers.spid=sproviders.id and sproviders.payme_id is null";
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs=jmt.DSelect(sql);
+
+        try {
+            while (rs.next()) {
+                sellers.add(rs.getString(1).trim());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sellers;
+    }
+
+    public static ArrayList<String> NotApprovedPayme() {
+        ArrayList<String> sellers = new ArrayList();
+        String sql = "SELECT payme_id FROM sproviders WHERE payme_id is not NULL AND paymeapprove<2";
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs=jmt.DSelect(sql);
+        try {
+            while (rs.next()) {
+                sellers.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sellers;
+    }
+
+    public static void setPaymeApprovement(String paymeid) {
+        String sql = "UPDATE sproviders SET paymeapprove=2 WHERE payme_id='"+paymeid+"'";
+        JavaToMySQL jmt = new JavaToMySQL();
+        jmt.DbExec(sql);
+    }
+
+
+    public static void setPaymeApprovementbySpid(String spid) {
         String sql = "UPDATE sproviders SET paymeapprove=1 WHERE id="+spid;
         JavaToMySQL jmt = new JavaToMySQL();
         jmt.DbExec(sql);

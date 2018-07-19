@@ -19,6 +19,7 @@ public class SendAuthSMS {
     public static final String AUTH_TOKEN = rIni.run("tw.ini")[5];
                     //"203b07a5a2e194522e6d141126aa92cc";
     //    public static void main(String[] args) {
+    public static Boolean status = false;
     public SendAuthSMS(String phone, String body) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
         try {
@@ -26,12 +27,16 @@ public class SendAuthSMS {
                     new PhoneNumber(rIni.run("tw.ini")[6]),
                             //"+17036353198"),
                     body).create();
-
+            status = true;
             //+17188653631
             //System.out.println("AccountSID "+message.getAccountSid());
             //System.out.println("MessagingServiceID "+message.getMessagingServiceSid());
             //System.out.println("SID "+message.getSid());
             //System.out.println("ServiceID "+message.getMessagingServiceSid());
+            if (!(message.getErrorMessage() == null)) {
+                System.out.println(message.getErrorMessage());
+                status = false;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

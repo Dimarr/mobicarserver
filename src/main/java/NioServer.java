@@ -241,22 +241,64 @@ public class NioServer implements Runnable {
 		return socketSelector;
 	}
 
+	static class PaymeThread extends Thread {
+
+		public static String DateFormat;
+		public static Integer sleepValue;
+		public PaymeThread() {
+			// When false, (i.e. when it a user thread),
+			// the Worker thread continues to run.
+			// When true, (i.e. when it a daemon thread),
+			// the Worker thread terminates when the main
+			// thread terminates.
+			setDaemon(true);
+		}
+
+		public void run() {
+			while (true) {
+
+				try {
+					System.out.println("Approved "+Payment.UpdatePaymeStatus()+" Payme's accounts at "+DateFormat);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					sleep(sleepValue);
+				} catch (InterruptedException e) {
+					// handle exception here
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		DateFormat df = new SimpleDateFormat("dd_MM_yyyy");
 		Date dt = new Date();
 		try {
+			PaymeThread.sleepValue = 86400000;
 			int port = 4444;
+
 			if (args.length > 0) {
 				if (!args[0].isEmpty()) port = Integer.parseInt(args[0]);
+			}
+			if (args.length > 1) {
 				if (!args[1].isEmpty()) {
+					PaymeThread.sleepValue = Integer.parseInt(args[1]);
+				}
+			}
+			if (args.length > 2) {
+				if (!args[2].isEmpty()) {
 					try {
-						String output_file = "Log_"+df.format(dt)+".txt";
+						String output_file = "Log_" + df.format(dt) + ".txt";
 						System.setOut(new PrintStream(new File(output_file)));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}
+			PaymeThread.DateFormat=df.format(dt);
+			new PaymeThread().start();
+			//new PaymeCreateSellerThread().start();
 
 			EchoWorker worker = new EchoWorker();
 			Thread tw = new Thread(worker);

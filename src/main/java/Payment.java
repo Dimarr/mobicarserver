@@ -2,20 +2,20 @@ import DBMain.readIni;
 import Objects.Serviceprovider;
 import Objects.User;
 import com.squareup.okhttp.*;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 
 /**
  * Created by DR on 27.08.2017.
  */
 public class Payment {
     public static String CreateSeller(String spid) throws IOException {
-
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String market_fee = ss[6];
@@ -23,7 +23,7 @@ public class Payment {
         String paymeclient = ss[12];
         String res="";
         //Client client = ClientBuilder.newClient();
-                String sql="SELECT name as seller_first_name, seller_last_name, seller_merchant_name, " +
+        /*        String sql="SELECT name as seller_first_name, seller_last_name, seller_merchant_name, " +
                 "description as seller_description, BN as seller_inc_code, BNID as seller_social_id, bankid as seller_bank_code," +
                 "bankbranch as seller_bank_branch, bankaccount as seller_bank_account_number, seller_gender, seller_inc," +
                 "seller_person_business_type, " +
@@ -31,8 +31,8 @@ public class Payment {
                 "seller_address_city,seller_address_street, seller_address_street_number,seller_site_url,seller_address_country," +
                 "file_social_id as seller_file_social_id, file_cheque as seller_file_cheque, file_corporate as seller_file_corporate," +
                 "email as seller_email, phone as seller_phone, sproviders.sellerid as seller_id " +
-                        "FROM sproviders, sellers WHERE id=spid AND id="+spid;
-
+                        "FROM sproviders, sellers WHERE id=spid AND id="+spid; */
+        String sql= "SELECT * FROM paymesellers WHERE id="+spid;
         String jstr=User.jsonrs(sql,"");
         //jstr= jstr.replace('"', '\'');
         //System.out.println(sql);
@@ -74,6 +74,7 @@ public class Payment {
         }
         return res;
     }
+
     public static String GenerateSale(String uid, String spid, String serviceid) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
@@ -199,6 +200,78 @@ public class Payment {
         }
         return res;
     }
+
+    public static String UpdatePaymeStatus() throws IOException {
+
+        Integer count= 0;
+        readIni rIni = new readIni();
+        String[] ss = rIni.run("options.ini");
+        String paymeclient = ss[12];
+        String verifypaymestatus = ss[16];
+        ArrayList<String> slrs = Serviceprovider.NotApprovedPayme();
+        String jsonrequest;
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+        for (int i = 0; i < slrs.size(); i++) {
+            jsonrequest = "{\"payme_client_key\": \""+paymeclient+"\",\"seller_payme_id\" :\""+slrs.get(i)+"\"}";
+            RequestBody body = RequestBody.create(mediaType, jsonrequest);
+            Request request = new Request.Builder()
+                    .url(verifypaymestatus)
+                    .post(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Cache-Control", "no-cache")
+                    .build();
+            Response response = client.newCall(request).execute();
+            //System.out.println(verifypaymestatus);
+            if (response.code() == 200) {
+                try {
+                    JSONParser parser = new JSONParser();
+                    Object obj = parser.parse(response.body().string());
+                    JSONObject jsonObj = (JSONObject) obj;
+                    JSONArray pItem = (JSONArray) jsonObj.get("items");
+                    for (int ii=0; ii < pItem.size();ii++) {
+                        JSONObject jsonObj1 = (JSONObject)pItem.get(ii);
+                        //System.out.println("*"+jsonObj1.get("seller_approved")+"*");
+                        if (Boolean.valueOf((Boolean) jsonObj1.get("seller_approved"))) {
+                            Serviceprovider.setPaymeApprovement(slrs.get(i));
+                            count++;
+                        }
+                    }
+                    //System.out.println("*"+pItem.toJSONString()+"*");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return String.valueOf(count);
+    }
+
+
+    public static String WithdrawBalance(String spid) throws IOException {
+        String paymeid = Serviceprovider.GetSellerPaymeID(spid);
+        readIni rIni = new readIni();
+        String[] ss = rIni.run("options.ini");
+        String paymeclient = ss[12];
+        String withdraw = ss[15];
+        String res="";
+
+        String jsonrequest = "{\"payme_client_key\": \""+paymeclient+"\",\"seller_payme_id\" :\""+paymeid+"\",\"withdrawal_currency\" :\"ILS\"" +
+                ",\"language\":\"en\"}";
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, jsonrequest);
+        Request request = new Request.Builder()
+                .url(withdraw)
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Cache-Control", "no-cache")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return res;
+    }
+
 
     public static String RefundSale(String spid, String paymetrid, String reasoncancel) throws IOException {
         String paymeid = Serviceprovider.GetSellerPaymeID(spid);
