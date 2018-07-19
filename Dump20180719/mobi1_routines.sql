@@ -18,6 +18,44 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Temporary table structure for view `paymesellers`
+--
+
+DROP TABLE IF EXISTS `paymesellers`;
+/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `paymesellers` (
+  `seller_first_name` tinyint NOT NULL,
+  `seller_last_name` tinyint NOT NULL,
+  `seller_merchant_name` tinyint NOT NULL,
+  `seller_description` tinyint NOT NULL,
+  `seller_inc_code` tinyint NOT NULL,
+  `seller_social_id` tinyint NOT NULL,
+  `seller_bank_code` tinyint NOT NULL,
+  `seller_bank_branch` tinyint NOT NULL,
+  `seller_bank_account_number` tinyint NOT NULL,
+  `seller_gender` tinyint NOT NULL,
+  `seller_inc` tinyint NOT NULL,
+  `seller_person_business_type` tinyint NOT NULL,
+  `seller_birthdate` tinyint NOT NULL,
+  `seller_social_id_issued` tinyint NOT NULL,
+  `seller_address_city` tinyint NOT NULL,
+  `seller_address_street` tinyint NOT NULL,
+  `seller_address_street_number` tinyint NOT NULL,
+  `seller_site_url` tinyint NOT NULL,
+  `seller_address_country` tinyint NOT NULL,
+  `seller_file_social_id` tinyint NOT NULL,
+  `seller_file_cheque` tinyint NOT NULL,
+  `seller_file_corporate` tinyint NOT NULL,
+  `seller_email` tinyint NOT NULL,
+  `seller_phone` tinyint NOT NULL,
+  `seller_id` tinyint NOT NULL,
+  `id` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `searchservice`
 --
 
@@ -102,6 +140,25 @@ SET character_set_client = utf8;
   `spid` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `paymesellers`
+--
+
+/*!50001 DROP TABLE IF EXISTS `paymesellers`*/;
+/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `paymesellers` AS select `sproviders`.`name` AS `seller_first_name`,`sellers`.`seller_last_name` AS `seller_last_name`,`sellers`.`seller_merchant_name` AS `seller_merchant_name`,`sproviders`.`description` AS `seller_description`,`sproviders`.`BN` AS `seller_inc_code`,`sproviders`.`BNID` AS `seller_social_id`,`sproviders`.`bankid` AS `seller_bank_code`,`sproviders`.`bankbranch` AS `seller_bank_branch`,`sproviders`.`bankaccount` AS `seller_bank_account_number`,`sellers`.`seller_gender` AS `seller_gender`,`sellers`.`seller_inc` AS `seller_inc`,`sellers`.`seller_person_business_type` AS `seller_person_business_type`,date_format(`sellers`.`seller_birthdate`,'%d/%m/%Y') AS `seller_birthdate`,date_format(`sellers`.`seller_social_id_issued`,'%d/%m/%Y') AS `seller_social_id_issued`,`sellers`.`seller_address_city` AS `seller_address_city`,`sellers`.`seller_address_street` AS `seller_address_street`,`sellers`.`seller_address_street_number` AS `seller_address_street_number`,`sellers`.`seller_site_url` AS `seller_site_url`,`sellers`.`seller_address_country` AS `seller_address_country`,`sellers`.`file_social_id` AS `seller_file_social_id`,`sellers`.`file_cheque` AS `seller_file_cheque`,`sellers`.`file_corporate` AS `seller_file_corporate`,`sproviders`.`email` AS `seller_email`,`sproviders`.`phone` AS `seller_phone`,`sproviders`.`sellerid` AS `seller_id`,`sproviders`.`id` AS `id` from (`sproviders` join `sellers`) where (`sproviders`.`id` = `sellers`.`spid`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `searchservice`
@@ -301,7 +358,7 @@ BEGIN
    
    DECLARE cur cursor for select distinct spid FROM spservices, sproviders 
 						where (spservices.serviceid=servid) AND 
-                        (sproviders.id=spservices.spid) AND (sproviders.logined=1) AND (sproviders.busy=0) AND (sproviders.paymeapprove=1)
+                        (sproviders.id=spservices.spid) AND (sproviders.logined=1) AND (sproviders.busy=0) AND (sproviders.paymeapprove>0)
                         order by price;
    
    DECLARE cur1 cursor for select sortprice FROM search
@@ -420,4 +477,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-03 13:45:37
+-- Dump completed on 2018-07-19 10:09:55

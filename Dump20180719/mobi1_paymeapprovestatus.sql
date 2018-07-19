@@ -18,27 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `paymentstatus`
+-- Table structure for table `paymeapprovestatus`
 --
 
-DROP TABLE IF EXISTS `paymentstatus`;
+DROP TABLE IF EXISTS `paymeapprovestatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `paymentstatus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pstatus` varchar(15) NOT NULL,
+CREATE TABLE `paymeapprovestatus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `paymentstatus`
+-- Dumping data for table `paymeapprovestatus`
 --
 
-LOCK TABLES `paymentstatus` WRITE;
-/*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
-INSERT INTO `paymentstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Declined');
-/*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
+LOCK TABLES `paymeapprovestatus` WRITE;
+/*!40000 ALTER TABLE `paymeapprovestatus` DISABLE KEYS */;
+INSERT INTO `paymeapprovestatus` VALUES (0,'Created'),(1,'Pending'),(2,'Approved');
+/*!40000 ALTER TABLE `paymeapprovestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-03 13:44:43
+-- Dump completed on 2018-07-19 10:08:57

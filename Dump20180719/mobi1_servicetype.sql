@@ -18,27 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `banks`
+-- Table structure for table `servicetype`
 --
 
-DROP TABLE IF EXISTS `banks`;
+DROP TABLE IF EXISTS `servicetype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `banks` (
-  `ID` int(11) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `servicetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `regular` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `banks`
+-- Dumping data for table `servicetype`
 --
 
-LOCK TABLES `banks` WRITE;
-/*!40000 ALTER TABLE `banks` DISABLE KEYS */;
-INSERT INTO `banks` VALUES (4,'Bank Yahav for Government Employees Ltd'),(10,'Bank Leumi Le-Israel B.M'),(11,'Israel Discount Bank Ltd'),(12,'Bank Hapoalim B.M'),(13,'Union Bank of Israel Ltd'),(14,'Bank Otsar Ha-hayal Ltd'),(17,'Mercantile Discount Bank Ltd'),(20,'Mizrahi Tefahot Bank Ltd'),(22,'Citibank N.A'),(23,'HSBC Bank plc'),(25,'BNP Paribas Israel'),(26,'UBank Ltd'),(27,'Barclays Bank PLC'),(30,'Trade Bank Ltd- a provisional liquidator was '),(31,'The First International Bank of Israel Ltd'),(34,'Arab Israel Bank Ltd'),(39,'State Bank Of India'),(46,'Bank Massad Ltd'),(50,'Bank Clearing Center Ltd'),(52,'Poaley Agudat Israel Bank Ltd'),(54,'Bank of Jerusalem Ltd'),(59,'Automated Banking Services Ltd'),(65,'Hesech- Kupat Hisachon Lechinuch Ltd'),(68,'Dexia Israel Bank Ltd');
-/*!40000 ALTER TABLE `banks` ENABLE KEYS */;
+LOCK TABLES `servicetype` WRITE;
+/*!40000 ALTER TABLE `servicetype` DISABLE KEYS */;
+INSERT INTO `servicetype` VALUES (1,'Flat tire',0),(2,'Use cables',0),(3,'4X4 Extracted',1),(4,'Filling Fuel',2),(5,'Auto towing',0),(6,'Mechanical failure',0);
+/*!40000 ALTER TABLE `servicetype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-03 13:45:25
+-- Dump completed on 2018-07-19 10:09:16
