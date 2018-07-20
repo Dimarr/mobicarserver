@@ -121,30 +121,32 @@ public class User {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT token FROM users WHERE userid="+uid+";";
         ResultSet rs= jmt.DSelect(sql);
+        String res = "";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return res;
     }
 
     public static String GetFirebaseToken(String uid) {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT firebasetoken FROM users WHERE userid="+uid+";";
         ResultSet rs= jmt.DSelect(sql);
+        String res = "";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return res;
     }
 
     public static Integer Verifypincode(String uid, String pincode) {
@@ -194,9 +196,10 @@ public class User {
         String call="";
         String pay="";
         try {
-            rs.first();
-            call = rs.getString(1);
-            pay = rs.getString(2);
+            if (rs.first()) {
+                call = rs.getString(1);
+                pay = rs.getString(2);
+            }
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -259,15 +262,16 @@ public class User {
         String sql = "SELECT phone FROM users WHERE userid="+uid;
         JavaToMySQL jmt = new JavaToMySQL();
         ResultSet rs= jmt.DSelect(sql);
+        String res = "-1";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
-            return "-1";
         }
+        return res;
     }
 
     public static Integer NewuserLite(String fname,String lname,String email, String phone) {
@@ -342,9 +346,10 @@ public class User {
         Integer votes = 0;
         Integer rate = 0;
         try {
-            rs.first();
-            votes= rs.getInt(1)+1;
-            rate=rs.getInt(2)+rating;
+            if (rs.first()) {
+                votes = rs.getInt(1) + 1;
+                rate = rs.getInt(2) + rating;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -391,23 +396,28 @@ public class User {
         String res ="";
         ResultSet rs= jmt.DSelect(sql);
         try {
-            rs.first();
-            Integer brand= rs.getInt(1)/100;
-            Integer model= rs.getInt(1) % 100;
-            String carid = rs.getString(2); //.substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
-            rs.close();
-            sql = "SELECT name from carbrand WHERE id="+brand;
-            //System.out.println(brand+" mod"+model);
-            rs= jmt.DSelect(sql);
-            rs.first();
-            String brandname=rs.getString(1);
-            rs.close();
-
-            sql = "SELECT name from carmodel WHERE id="+model+" AND brandid="+brand;
-            rs= jmt.DSelect(sql);
-            rs.first();
-            String modelname=rs.getString(1);
-            rs.close();
+            String carid = "Not defined";
+            String brandname = "Not defined";
+            String modelname = "Not defined";
+            if (rs.first()) {
+                Integer brand = rs.getInt(1) / 100;
+                Integer model = rs.getInt(1) % 100;
+                carid = rs.getString(2); //.substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
+                rs.close();
+                sql = "SELECT name from carbrand WHERE id=" + brand;
+                //System.out.println(brand+" mod"+model);
+                rs = jmt.DSelect(sql);
+                if (rs.first()) {
+                    brandname = rs.getString(1);
+                }
+                rs.close();
+                sql = "SELECT name from carmodel WHERE id=" + model + " AND brandid=" + brand;
+                rs = jmt.DSelect(sql);
+                if (rs.first()) {
+                    modelname = rs.getString(1);
+                }
+                rs.close();
+            }
             res= "{\"Carlist\":[{\"CarBrand\":\""+brandname+"\",\"CarModel\":\""+modelname+"\",\"CarID\":\""+carid+"\"}]}";
             //{"Carlist":[{"CarBrand":"Nissan","CarModel":"Murano","CarID":"5884"}]}
         } catch (SQLException e) {

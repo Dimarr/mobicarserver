@@ -213,15 +213,16 @@ public class Serviceprovider {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT firebasetoken FROM sproviders WHERE id="+spid+";";
         ResultSet rs= jmt.DSelect(sql);
+        String res = "";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return res;
     }
 
     public static String getxy(String spid) throws SQLException {
@@ -319,30 +320,32 @@ public class Serviceprovider {
         String sql = "SELECT phone FROM sproviders WHERE id="+spid;
         JavaToMySQL jmt = new JavaToMySQL();
         ResultSet rs= jmt.DSelect(sql);
+        String res = "-1";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
-            return "-1";
         }
+        return res;
     }
 
     public static String GetToken(String spid) {
         JavaToMySQL jmt = new JavaToMySQL();
         String sql = "SELECT token FROM sproviders WHERE id="+spid+";";
         ResultSet rs= jmt.DSelect(sql);
+        String res = "";
         try {
-            rs.first();
-            String res = rs.getString(1);
+            if (rs.first()) {
+                res = rs.getString(1);
+            }
             rs.close();
-            return res;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "";
+        return res;
     }
 
     public static String GetTransID() {
@@ -376,7 +379,6 @@ public class Serviceprovider {
     }
 
     public static void setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) {
-        Integer call=0;
         String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
@@ -473,7 +475,6 @@ public class Serviceprovider {
             }
         }
         rs.close();
-
         return "{\"Realcoords\":[{\"SP_X\":\""+spx+"\",\"SP_Y\":\""+spy+"\",\"User_X\":\""+userx+"\",\"User_Y\":\""+usery+"\"}]}";
     }
 
@@ -483,25 +484,31 @@ public class Serviceprovider {
         String res ="";
         ResultSet rs= jmt.DSelect(sql);
         try {
-            rs.first();
-            Integer brand= rs.getInt(1)/100;
-            Integer model= rs.getInt(1) % 100;
-            String carid = rs.getString(2).trim();
-                    //rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
-            rs.close();
-            sql = "SELECT name from carbrand WHERE id="+brand;
-            rs= jmt.DSelect(sql);
-            rs.first();
-            String brandname=rs.getString(1);
-            rs.close();
+            String carid = "Not defined";
+            String brandname = "Not defined";
+            String modelname = "Not defined";
+            if (rs.first()) {
+                Integer brand = rs.getInt(1) / 100;
+                Integer model = rs.getInt(1) % 100;
+                carid = rs.getString(2).trim();
+                //rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
+                rs.close();
+                sql = "SELECT name from carbrand WHERE id=" + brand;
+                rs = jmt.DSelect(sql);
+                if (rs.first()) {
+                    brandname = rs.getString(1);
+                }
+                rs.close();
 
-            sql = "SELECT name from carmodel WHERE id="+model+" AND brandid="+brand;
-            rs= jmt.DSelect(sql);
-            rs.first();
-            String modelname=rs.getString(1);
-            rs.close();
-            res= "{\"Carlist\":[{\"CarBrand\":\""+brandname+"\",\"CarModel\":\""+modelname+"\",\"CarID\":\""+carid+"\"}]}";
-            //res= "Car # "+carid+". Brand is "+brandname+". Model is "+modelname;
+                sql = "SELECT name from carmodel WHERE id=" + model + " AND brandid=" + brand;
+                rs = jmt.DSelect(sql);
+                if (rs.first()) {
+                    modelname = rs.getString(1);
+                }
+                rs.close();
+                //res= "Car # "+carid+". Brand is "+brandname+". Model is "+modelname;
+            }
+            res = "{\"Carlist\":[{\"CarBrand\":\"" + brandname + "\",\"CarModel\":\"" + modelname + "\",\"CarID\":\"" + carid + "\"}]}";
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -556,9 +563,11 @@ public class Serviceprovider {
         jmt.DbExec(sql);
         sql = "SELECT max(id) FROM sproviders";
         ResultSet rs= jmt.DSelect(sql);
+        Integer spid = -1;
         try {
-            rs.first();
-            Integer spid=rs.getInt(1);
+            if (rs.first()) {
+                spid = rs.getInt(1);
+            }
             if (!services.equals("&")) {
                 String delims = "[*]+";
                 String[] tokens = services.split(delims);
@@ -566,12 +575,11 @@ public class Serviceprovider {
                 else for (int i=0; i<tokens.length;i=i+5) addService(String.valueOf(spid),tokens[i],tokens[i+1],tokens[i+2],tokens[i+3],tokens[i+4]);  //Service provider, Service
             }
             SetCarID(String.valueOf(spid),Integer.valueOf(carbrand),Integer.valueOf(carmodel),carid,"");
-            return spid;                                                                                                               // ID of availiability , ID of professional level, Price, cartype
         } catch (SQLException e) {
             e.printStackTrace();
         }
         //System.out.println(crpwd);
-        return -1;
+        return spid;                                                                                                               // ID of availiability , ID of professional level, Price, cartype
     }
 
     public static void AskPaymentCall( String spid) throws SQLException {
@@ -711,7 +719,6 @@ public class Serviceprovider {
         JavaToMySQL jmt = new JavaToMySQL();
         jmt.DbExec(sql);
     }
-
 
     public static void setPaymeApprovementbySpid(String spid) {
         String sql = "UPDATE sproviders SET paymeapprove=2 WHERE id="+spid;
