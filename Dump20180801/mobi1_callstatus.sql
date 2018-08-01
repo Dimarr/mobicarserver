@@ -18,28 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `carmodel`
+-- Table structure for table `callstatus`
 --
 
-DROP TABLE IF EXISTS `carmodel`;
+DROP TABLE IF EXISTS `callstatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `carmodel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `brandid` int(11) NOT NULL,
-  `name` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+CREATE TABLE `callstatus` (
+  `statusid` int(11) NOT NULL,
+  `statusname` varchar(35) DEFAULT NULL,
+  PRIMARY KEY (`statusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carmodel`
+-- Dumping data for table `callstatus`
 --
 
-LOCK TABLES `carmodel` WRITE;
-/*!40000 ALTER TABLE `carmodel` DISABLE KEYS */;
-INSERT INTO `carmodel` VALUES (1,1,'Corola'),(2,1,'Yaris'),(3,2,'Teana'),(4,2,'Murano'),(5,3,'AMG'),(6,3,'SLK'),(7,4,'CRV'),(8,4,'Accord'),(9,5,'Vitara'),(10,8,'A5'),(11,8,'A6');
-/*!40000 ALTER TABLE `carmodel` ENABLE KEYS */;
+LOCK TABLES `callstatus` WRITE;
+/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
+INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
+/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-19 10:09:12
+-- Dump completed on 2018-08-01 15:54:40

@@ -116,6 +116,28 @@ public class Serviceprovider {
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"searchservice");
     }
 
+    public static Integer SetRating( Integer uid, Integer rating) {
+        String sql = "SELECT votes, rating FROM users WHERE userid="+uid;
+        JavaToMySQL jmt = new JavaToMySQL();
+        ResultSet rs= jmt.DSelect(sql);
+        Float rv = Float.valueOf(0);
+        Integer votes = 0;
+        Integer rate = 0;
+        try {
+            if (rs.first()) {
+                votes = rs.getInt(1) + 1;
+                rate = rs.getInt(2) + rating;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rv= Float.valueOf(rate)/Float.valueOf(votes);
+        Integer calcrate=Math.round(rv)*5;
+        sql = "UPDATE users SET votes="+votes+", rating="+rate+", point="+calcrate+" WHERE userid="+uid;
+        jmt.DbExec(sql);
+        return Math.round(rv);
+    }
+
     public static void InsertPicSP(String spid,String PathPic) throws SQLException {
         /*PreparedStatement statement;
         //try (InputStream inputStream = new FileInputStream(new File(PathPic)))

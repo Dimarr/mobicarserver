@@ -1102,7 +1102,6 @@ public class EchoWorker implements Runnable {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
-                        //flag = true;
                         Integer spid = Integer.valueOf(tokens[1].trim());
                         Integer rating = Integer.valueOf(tokens[2].trim());
                         if (spid > 0) {
@@ -1115,6 +1114,25 @@ public class EchoWorker implements Runnable {
                         }
                     }
                 }
+
+                if (tokens[0].equalsIgnoreCase("setratingtouser")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Integer uid = Integer.valueOf(tokens[1].trim());
+                        Integer rating = Integer.valueOf(tokens[2].trim());
+                        if (uid > 0) {
+                            Integer newrate = Serviceprovider.SetRating(uid, rating);
+                            System.out.println("For User #" + uid + " calculated rating: " + newrate);
+                            str = String.valueOf(newrate);
+                        } else {
+                            System.out.println("params aren't correct");
+                            str = "-1";
+                        }
+                    }
+                }
+
 
                 str += "\r\n";
                 return str.getBytes();

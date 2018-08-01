@@ -83,6 +83,52 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary table structure for view `listusersadmin`
+--
+
+DROP TABLE IF EXISTS `listusersadmin`;
+/*!50001 DROP VIEW IF EXISTS `listusersadmin`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `listusersadmin` (
+  `userid` tinyint NOT NULL,
+  `firstname` tinyint NOT NULL,
+  `lastname` tinyint NOT NULL,
+  `phone` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `logined` tinyint NOT NULL,
+  `logtime` tinyint NOT NULL,
+  `statusonline` tinyint NOT NULL,
+  `rating` tinyint NOT NULL,
+  `carid` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `listspadmin`
+--
+
+DROP TABLE IF EXISTS `listspadmin`;
+/*!50001 DROP VIEW IF EXISTS `listspadmin`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `listspadmin` (
+  `rating` tinyint NOT NULL,
+  `id` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `phone` tinyint NOT NULL,
+  `email` tinyint NOT NULL,
+  `logined` tinyint NOT NULL,
+  `paymeapprove` tinyint NOT NULL,
+  `statusonline` tinyint NOT NULL,
+  `paymestatus` tinyint NOT NULL,
+  `logtime` tinyint NOT NULL,
+  `carid` tinyint NOT NULL,
+  `pic` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `Requests`
 --
 
@@ -175,6 +221,44 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `searchservice` AS select `sproviders`.`id` AS `spid`,`sproviders`.`name` AS `SPname`,`sproviders`.`address` AS `address`,`sproviders`.`phone` AS `phone`,`sproviders`.`votes` AS `votes`,`sproviders`.`rating` AS `rating`,`sproviders`.`pic` AS `pic`,`spservices`.`price` AS `price`,`spservices`.`serviceid` AS `serviceid`,`servicetype`.`name` AS `servicename`,`cartype`.`id` AS `subserviceid`,`cartype`.`typename` AS `subservicename`,`pointcatalog`.`OptionID` AS `locationid`,`pointcatalog`.`Optionname` AS `locationname`,if((`spservices`.`prof` = 21),'Yes','No') AS `Diploma` from ((((`cartype` join `sproviders`) join `spservices`) join `servicetype`) join `pointcatalog`) where ((`sproviders`.`id` = `spservices`.`spid`) and (`spservices`.`serviceid` = `servicetype`.`id`) and (`cartype`.`id` = `spservices`.`cartype`) and (`servicetype`.`id` = `spservices`.`serviceid`) and (`spservices`.`availl` = `pointcatalog`.`OptionID`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `listusersadmin`
+--
+
+/*!50001 DROP TABLE IF EXISTS `listusersadmin`*/;
+/*!50001 DROP VIEW IF EXISTS `listusersadmin`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from `users` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `listspadmin`
+--
+
+/*!50001 DROP TABLE IF EXISTS `listspadmin`*/;
+/*!50001 DROP VIEW IF EXISTS `listspadmin`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,`sproviders`.`id` AS `id`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,`sproviders`.`carid` AS `carid`,`sproviders`.`pic` AS `pic` from (`sproviders` join `paymeapprovestatus`) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -477,4 +561,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-19 10:09:55
+-- Dump completed on 2018-08-01 15:55:33
