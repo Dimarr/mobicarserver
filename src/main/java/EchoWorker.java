@@ -133,6 +133,25 @@ public class EchoWorker implements Runnable {
             }
         }
 
+        if (tokens[0].equalsIgnoreCase("setfinalpaymentamount")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setFinalPaymentAmount(tokens[1], tokens[2], tokens[3]);
+                str = "Final Payment Amount set";
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("getfinalpaymentamount")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getFinalPaymentAmount(tokens[1], tokens[2]);
+            }
+        }
+
         if (tokens[0].equalsIgnoreCase("capturesale")) {
             if (tokens.length < 4) {
                 System.out.println("params aren't correct");
@@ -852,6 +871,17 @@ public class EchoWorker implements Runnable {
                         str = User.GetMainDetails(tokens[1].trim());
                     }
                 }
+
+                if (tokens[0].equalsIgnoreCase("usersetmaindetails")) {
+                    if (tokens.length < 5) {
+                        System.out.println("params aren't correct");
+                        str = "*";
+                    } else {
+                        User.SetMainDetails(tokens[1].trim(),tokens[2].trim(),tokens[3].trim(),tokens[4].trim());
+                        str = "Lastname, Phone and Email details updated for User with ID #" + tokens[1];
+                    }
+                }
+
                 if (tokens[0].equalsIgnoreCase("usergetcarid")) {
                     if (tokens.length < 2) {
                         System.out.println("params aren't correct");

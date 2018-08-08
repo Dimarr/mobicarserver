@@ -338,6 +338,30 @@ public class User {
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"usermaindetails");
     }
 
+    public static void SetMainDetails(String uid,  String lname, String phone, String email) throws SQLException {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "SELECT lastname,email, phone FROM users WHERE userid="+uid;
+        ResultSet rs= jtm.DSelect(sql);
+        String ln = null;
+        String em = null;
+        String ph = null;
+        try {
+            if (rs.first()) {
+                ln = rs.getString(1);
+                em = rs.getString(2);
+                ph = rs.getString(3);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        ln = lname.isEmpty() ? ln : lname;
+        em = email.isEmpty() ? em : email;
+        ph = phone.isEmpty() ? ph : phone;
+        sql = "UPDATE users SET lastname='"+ln+"',email='"+em+"', phone='"+ph+"' WHERE userid="+uid;
+        jtm.DbExec(sql);
+    }
+
     public static Integer SetRating( Integer spid, Integer rating) {
         String sql = "SELECT votes, rating FROM sproviders WHERE id="+spid;
         JavaToMySQL jmt = new JavaToMySQL();

@@ -400,13 +400,62 @@ public class Serviceprovider {
         return -1;
     }
 
-    public static void setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) {
-        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
+    public static void setFinalPaymentAmount(String spid,String uid, String finalamount) throws SQLException {
+        String sql = "SELECT paymetrid FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+";";
+        String paymesaleid= "";
+        JavaToMySQL jtm = new JavaToMySQL();
+        ResultSet rs = jtm.DSelect(sql);
+        try {
+            if (rs.first()) paymesaleid = rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        if (!paymesaleid.isEmpty()) {
+            sql = "UPDATE temppayment SET finalamount="+finalamount+" WHERE paymesaleid='"+paymesaleid.trim()+"';";
+            jtm.DbExec(sql);
+        }
+    }
+
+    public static String getFinalPaymentAmount(String spid,String uid) throws SQLException {
+        String finalamount="";
+        String sql = "SELECT paymetrid FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+";";
+        String paymesaleid= "0";
+        JavaToMySQL jtm = new JavaToMySQL();
+        ResultSet rs = jtm.DSelect(sql);
+        try {
+            if (rs.first()) paymesaleid = rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        if (!paymesaleid.isEmpty()) {
+            sql = "SELECT finalamount FROM temppayment WHERE paymesaleid='"+paymesaleid+"';";
+            rs = jtm.DSelect(sql);
+            try {
+                if (rs.first()) finalamount = rs.getString(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            rs.close();
+        }
+        return finalamount;
+    }
+
+
+    public static String[] setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) throws SQLException {
+        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)+" WHERE payid="+trid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
 
         sql = "UPDATE calls SET status=11 WHERE callid="+callid;
         jtm.DbExec(sql);
+        sql = "SELECT spid,serviceid FROM calls WHERE callid="+callid;
+        ResultSet rs = jtm.DSelect(sql);
+        if (rs.first()) {
+           return new String[] {rs.getString(1),rs.getString(2)};
+        }
+        return null;
     }
 
     public static void Setpincode(String spid, String pincode) {
@@ -536,6 +585,21 @@ public class Serviceprovider {
         }
         return res;
     }
+
+    public static String getBuyerKeyForSP(String paymespid) throws SQLException {
+        String sql ="SELECT buyerkey FROM temppayment WHERE paymesaleid='"+paymespid.trim()+"';";
+        JavaToMySQL jmt = new JavaToMySQL();
+        String res ="";
+        ResultSet rs= jmt.DSelect(sql);
+        try {
+            if (rs.first()) res = rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        rs.close();
+        return res;
+    }
+
 
     public static String getBankDetailsForSP(Integer SpID){
         JavaToMySQL jtm = new JavaToMySQL();

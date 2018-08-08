@@ -18,31 +18,29 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `pointcatalog`
+-- Table structure for table `temppayment`
 --
 
-DROP TABLE IF EXISTS `pointcatalog`;
+DROP TABLE IF EXISTS `temppayment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pointcatalog` (
-  `RowID` int(11) NOT NULL AUTO_INCREMENT,
-  `GroupName` varchar(25) NOT NULL,
-  `OptionID` int(11) NOT NULL,
-  `Optionname` varchar(25) NOT NULL,
-  `Point` int(11) NOT NULL,
-  `Comment` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`RowID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Catalog of options for point calculation';
+CREATE TABLE `temppayment` (
+  `idtemppayment` int(11) NOT NULL AUTO_INCREMENT,
+  `buyerkey` varchar(50) DEFAULT NULL,
+  `paymesaleid` varchar(50) DEFAULT NULL,
+  `finalamount` float DEFAULT '0',
+  PRIMARY KEY (`idtemppayment`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pointcatalog`
+-- Dumping data for table `temppayment`
 --
 
-LOCK TABLES `pointcatalog` WRITE;
-/*!40000 ALTER TABLE `pointcatalog` DISABLE KEYS */;
-INSERT INTO `pointcatalog` VALUES (7,'Location',11,'Simple location',15,' SP mentioned during registration that he is available between specific hours'),(8,'Location',12,'Underground',0,'No available'),(9,'Location',13,'Off the road',0,NULL),(10,'Diploma',21,'Yes',20,'Certificate'),(11,'Diploma',22,'No',10,'No Certificate');
-/*!40000 ALTER TABLE `pointcatalog` ENABLE KEYS */;
+LOCK TABLES `temppayment` WRITE;
+/*!40000 ALTER TABLE `temppayment` DISABLE KEYS */;
+INSERT INTO `temppayment` VALUES (8,'BUYER153-3654554O-YXEWFJGV-GYCWQKG0','SALE1533-654511GB-QD4O3CM6-ISRBQL46',0),(9,'BUYER153-3722714I-VEOSVIZQ-ZQOHRZG3','SALE1533-722656VA-JB8LKOVM-JDVI46NU',0),(10,'BUYER153-3736333V-0X1YPAD3-GEQKYRH3','SALE1533-736199CF-00JXB4KA-XDV1CZ4H',110),(11,'BUYER153-37387890-GTXJBFML-MACDQ36B','SALE1533-738740WE-0ZTXP6RV-GMLI91PV',115),(12,'BUYER153-3739691G-LAL5UTRM-FD0QTFGL','SALE1533-739640WR-II4VGPF5-YYERXDSQ',150),(13,'BUYER153-3740576R-ICDZ0WDH-QVCNMI7F','SALE1533-740527PG-S0RZK3YV-0UNSZXSQ',140),(14,'BUYER153-37410702-VFCUJEWC-4MZIRLQP','SALE1533-741028WM-1BMZKOYS-QK3M3JXT',155),(15,'BUYER153-3743121D-NENS9CYA-QVSKABJA','SALE1533-7430820D-UCGKC1UW-HEBZCUHO',145),(16,'BUYER153-3743692M-J22JAKKR-LOXBUPLO','SALE1533-7436625U-V95S4SAP-RSB9GSRO',155),(17,'BUYER153-3743927R-O8VYH5RI-1GLLGTDC','SALE1533-743894SS-KQNT7ZJC-TJ6YCDVL',160);
+/*!40000 ALTER TABLE `temppayment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-01 15:54:07
+-- Dump completed on 2018-08-08 19:03:14
