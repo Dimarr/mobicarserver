@@ -114,7 +114,9 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 /*!50001 CREATE TABLE `listspadmin` (
   `rating` tinyint NOT NULL,
+  `points` tinyint NOT NULL,
   `id` tinyint NOT NULL,
+  `votes` tinyint NOT NULL,
   `name` tinyint NOT NULL,
   `phone` tinyint NOT NULL,
   `email` tinyint NOT NULL,
@@ -146,6 +148,28 @@ SET character_set_client = utf8;
   `RequestDate` tinyint NOT NULL,
   `SPName` tinyint NOT NULL,
   `RequestDetails` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `listpaymentsadmin`
+--
+
+DROP TABLE IF EXISTS `listpaymentsadmin`;
+/*!50001 DROP VIEW IF EXISTS `listpaymentsadmin`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `listpaymentsadmin` (
+  `userid` tinyint NOT NULL,
+  `spid` tinyint NOT NULL,
+  `spname` tinyint NOT NULL,
+  `username` tinyint NOT NULL,
+  `pdate` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `saleid` tinyint NOT NULL,
+  `pstatus` tinyint NOT NULL,
+  `pstatusid` tinyint NOT NULL,
+  `errortext` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -258,7 +282,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,`sproviders`.`id` AS `id`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,`sproviders`.`carid` AS `carid`,`sproviders`.`pic` AS `pic` from (`sproviders` join `paymeapprovestatus`) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
+/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,`sproviders`.`carid` AS `carid`,`sproviders`.`pic` AS `pic` from (`sproviders` join `paymeapprovestatus`) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -278,6 +302,25 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `Requests` AS select `calls`.`userid` AS `userid`,`calls`.`callid` AS `callid`,`callstatus`.`statusname` AS `Status`,`callstatus`.`statusid` AS `StatusID`,`servicetype`.`name` AS `Service`,`calls`.`spid` AS `SPID`,`calls`.`cdate` AS `RequestDate`,`sproviders`.`name` AS `SPName`,`calls`.`details` AS `RequestDetails` from (((`calls` join `servicetype`) join `sproviders`) join `callstatus`) where ((`calls`.`spid` = `sproviders`.`id`) and (`calls`.`serviceid` = `servicetype`.`id`) and (`calls`.`status` = `callstatus`.`statusid`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `listpaymentsadmin`
+--
+
+/*!50001 DROP TABLE IF EXISTS `listpaymentsadmin`*/;
+/*!50001 DROP VIEW IF EXISTS `listpaymentsadmin`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `listpaymentsadmin` AS select `users`.`userid` AS `userid`,`sproviders`.`id` AS `spid`,`sproviders`.`name` AS `spname`,concat(`users`.`firstname`,' ',`users`.`lastname`) AS `username`,`payments`.`pdate` AS `pdate`,`payments`.`amount` AS `amount`,`payments`.`paymetrid` AS `saleid`,`paymentstatus`.`pstatus` AS `pstatus`,`paymentstatus`.`id` AS `pstatusid`,`paymeerr`.`errtext` AS `errortext` from ((((`payments` join `paymentstatus`) join `sproviders`) join `users`) left join `paymeerr` on((`payments`.`paymetrid` = convert(`paymeerr`.`masterpaymesale` using utf8)))) where ((`users`.`userid` = `payments`.`userid`) and (`payments`.`spid` = `sproviders`.`id`) and (`paymentstatus`.`id` = `payments`.`pstatus`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -561,4 +604,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-08 19:04:24
+-- Dump completed on 2018-08-23 16:04:23
