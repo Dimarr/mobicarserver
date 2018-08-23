@@ -95,13 +95,28 @@ public class User {
         }
     }
 
-    public static String AddNewPayment(String spid,String uid,Float amount, String saleurl,String paymetrid, String callid) throws SQLException {
+    public static String AddNewPayment(String spid,String uid,Float amount, String saleurl,String paymetrid, String callid, String pstatus) throws SQLException {
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf =
                 new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = sdf.format(dt);
-        String sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid,callid) VALUES ("+uid+","+
-                spid+",'"+currentTime+"',"+Float.toString(amount)+",1,'"+saleurl+"','"+paymetrid+"',"+callid+");";
+        String sql="";
+        String uuid=uid;
+        if (uid.equalsIgnoreCase("0")) {
+            sql = "SELECT userid FROM calls WHERE callid="+callid;
+            JavaToMySQL jtm = new JavaToMySQL();
+            ResultSet rs= jtm.DSelect(sql);
+            try {
+                rs.first();
+                uuid = String.valueOf(rs.getInt(1)).trim();
+                rs.close();
+                jtm.CloseCon();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid,callid) VALUES ("+uuid+","+
+                spid+",'"+currentTime+"',"+Float.toString(amount)+","+pstatus+",'"+saleurl+"','"+paymetrid+"',"+callid+");";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
         sql = "SELECT max(payid) FROM payments";

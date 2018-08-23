@@ -7,12 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/EchoWorker.class" afterPath="$PROJECT_DIR$/target/classes/EchoWorker.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/User.class" afterPath="$PROJECT_DIR$/target/classes/Objects/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Objects/Serviceprovider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Payment.class" afterPath="$PROJECT_DIR$/out/artifacts/server/WEB-INF/classes/Payment.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" afterPath="$PROJECT_DIR$/target/classes/Objects/Serviceprovider.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/Payment.class" afterPath="$PROJECT_DIR$/target/classes/Payment.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/options.ini" afterPath="$PROJECT_DIR$/options.ini" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/User.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Payment.java" afterPath="$PROJECT_DIR$/src/main/java/Payment.java" />
@@ -49,8 +48,8 @@
       <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="150" column="13" selection-start-line="150" selection-start-column="13" selection-end-line="150" selection-end-column="13" />
+            <state vertical-scroll-proportion="-9.388889">
+              <caret line="622" column="47" selection-start-line="622" selection-start-column="47" selection-end-line="622" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,10 +61,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="424" column="8" selection-start-line="424" selection-start-column="8" selection-end-line="424" selection-end-column="8" />
+              <caret line="597" column="127" selection-start-line="597" selection-start-column="127" selection-end-line="597" selection-end-column="127" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1533740865057" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
+                <marker date="1535021018174" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
               </folding>
             </state>
           </provider>
@@ -74,10 +73,12 @@
       <file leaf-file-name="Payment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Payment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7042683">
-              <caret line="249" column="39" selection-start-line="249" selection-start-column="39" selection-end-line="249" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.5365854">
+              <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#518#519#0" expanded="true" />
+                <element signature="e#584#585#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,9 +109,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -120,16 +119,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="260" column="64" selection-start-line="260" selection-start-column="64" selection-end-line="260" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Client.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
               <folding>
                 <element signature="imports" expanded="false" />
               </folding>
@@ -141,25 +130,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="25" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="25" />
+              <caret line="205" column="23" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#531#532#0" expanded="false" />
-                <element signature="e#556#557#0" expanded="false" />
-                <element signature="e#583#584#0" expanded="false" />
-                <element signature="e#611#612#0" expanded="false" />
-                <element signature="e#643#644#0" expanded="false" />
-                <element signature="e#675#676#0" expanded="false" />
-                <element signature="e#707#708#0" expanded="false" />
-                <element signature="e#738#739#0" expanded="false" />
-                <element signature="e#780#781#0" expanded="false" />
-                <element signature="e#818#819#0" expanded="false" />
-                <element signature="e#860#861#0" expanded="false" />
-                <element signature="e#897#898#0" expanded="false" />
-                <element signature="e#933#934#0" expanded="false" />
-                <element signature="e#969#970#0" expanded="false" />
-                <marker date="1533200111475" expanded="true" signature="7922:7962" placeholder="UPDATE users..." />
-                <marker date="1533200111475" expanded="true" signature="17165:17373" placeholder="SELECT searc..searchservice..." />
+                <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+                <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
               </folding>
             </state>
           </provider>
@@ -223,9 +197,9 @@
         <option value="$PROJECT_DIR$/src/main/java/DBMain/readIni.java" />
         <option value="$PROJECT_DIR$/src/main/java/NioServer.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/Objects/User.java" />
         <option value="$PROJECT_DIR$/options.ini" />
         <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Objects/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
         <option value="$PROJECT_DIR$/src/main/java/Payment.java" />
       </list>
@@ -253,8 +227,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="1" />
+    <option name="x" value="-8" />
+    <option name="y" value="2" />
     <option name="width" value="1934" />
     <option name="height" value="1036" />
   </component>
@@ -283,7 +257,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -378,7 +352,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -1064,15 +1038,16 @@
       <workItem from="1531379881759" duration="42977000" />
       <workItem from="1532512093394" duration="3202000" />
       <workItem from="1533103392619" duration="34812000" />
-      <workItem from="1533727133980" duration="15165000" />
+      <workItem from="1533727133980" duration="25529000" />
+      <workItem from="1534399935781" duration="45197000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="684657000" />
+    <option name="totallyTimeSpent" value="740218000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="1" width="1934" height="1036" extended-state="1" />
+    <frame x="-8" y="2" width="1934" height="1036" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1158,13 +1133,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/ServerDataEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1180,23 +1148,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#531#532#0" expanded="false" />
-            <element signature="e#556#557#0" expanded="false" />
-            <element signature="e#583#584#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#643#644#0" expanded="false" />
-            <element signature="e#675#676#0" expanded="false" />
-            <element signature="e#707#708#0" expanded="false" />
-            <element signature="e#738#739#0" expanded="false" />
-            <element signature="e#780#781#0" expanded="false" />
-            <element signature="e#818#819#0" expanded="false" />
-            <element signature="e#860#861#0" expanded="false" />
-            <element signature="e#897#898#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#969#970#0" expanded="false" />
-            <marker date="1533200111475" expanded="true" signature="7922:7962" placeholder="UPDATE users..." />
-            <marker date="1533200111475" expanded="true" signature="17165:17373" placeholder="SELECT searc..searchservice..." />
+            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1265,23 +1218,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#531#532#0" expanded="false" />
-            <element signature="e#556#557#0" expanded="false" />
-            <element signature="e#583#584#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#643#644#0" expanded="false" />
-            <element signature="e#675#676#0" expanded="false" />
-            <element signature="e#707#708#0" expanded="false" />
-            <element signature="e#738#739#0" expanded="false" />
-            <element signature="e#780#781#0" expanded="false" />
-            <element signature="e#818#819#0" expanded="false" />
-            <element signature="e#860#861#0" expanded="false" />
-            <element signature="e#897#898#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#969#970#0" expanded="false" />
-            <marker date="1533200111475" expanded="true" signature="7922:7962" placeholder="UPDATE users..." />
-            <marker date="1533200111475" expanded="true" signature="17165:17373" placeholder="SELECT searc..searchservice..." />
+            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1525,7 +1463,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="260" column="64" selection-start-line="260" selection-start-column="64" selection-end-line="260" selection-end-column="64" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1537,13 +1477,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/jre/lib/rt.jar!/java/lang/String.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.388889">
+          <caret line="622" column="47" selection-start-line="622" selection-start-column="47" selection-end-line="622" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/DBMain/readIni.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1558,35 +1514,10 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="25" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="25" />
+          <caret line="205" column="23" selection-start-line="205" selection-start-column="23" selection-end-line="205" selection-end-column="23" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#531#532#0" expanded="false" />
-            <element signature="e#556#557#0" expanded="false" />
-            <element signature="e#583#584#0" expanded="false" />
-            <element signature="e#611#612#0" expanded="false" />
-            <element signature="e#643#644#0" expanded="false" />
-            <element signature="e#675#676#0" expanded="false" />
-            <element signature="e#707#708#0" expanded="false" />
-            <element signature="e#738#739#0" expanded="false" />
-            <element signature="e#780#781#0" expanded="false" />
-            <element signature="e#818#819#0" expanded="false" />
-            <element signature="e#860#861#0" expanded="false" />
-            <element signature="e#897#898#0" expanded="false" />
-            <element signature="e#933#934#0" expanded="false" />
-            <element signature="e#969#970#0" expanded="false" />
-            <marker date="1533200111475" expanded="true" signature="7922:7962" placeholder="UPDATE users..." />
-            <marker date="1533200111475" expanded="true" signature="17165:17373" placeholder="SELECT searc..searchservice..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="150" column="13" selection-start-line="150" selection-start-column="13" selection-end-line="150" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1594,20 +1525,22 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="424" column="8" selection-start-line="424" selection-start-column="8" selection-end-line="424" selection-end-column="8" />
+          <caret line="597" column="127" selection-start-line="597" selection-start-column="127" selection-end-line="597" selection-end-column="127" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1533740865057" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
+            <marker date="1535021018174" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Payment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7042683">
-          <caret line="249" column="39" selection-start-line="249" selection-start-column="39" selection-end-line="249" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.5365854">
+          <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#518#519#0" expanded="true" />
+            <element signature="e#584#585#0" expanded="true" />
           </folding>
         </state>
       </provider>

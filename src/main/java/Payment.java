@@ -15,6 +15,10 @@ import java.util.ArrayList;
  * Created by DR on 27.08.2017.
  */
 public class Payment {
+    public static String paymerestsaleid = "";
+    public static String ConvertAmountToPayme(String am) {
+        return String.format("%.0f",Float.valueOf(am)*100);
+    }
     public static String CreateSeller(String spid) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
@@ -22,16 +26,6 @@ public class Payment {
         String createsellerurl = ss[7];
         String paymeclient = ss[12];
         String res="";
-        //Client client = ClientBuilder.newClient();
-        /*        String sql="SELECT name as seller_first_name, seller_last_name, seller_merchant_name, " +
-                "description as seller_description, BN as seller_inc_code, BNID as seller_social_id, bankid as seller_bank_code," +
-                "bankbranch as seller_bank_branch, bankaccount as seller_bank_account_number, seller_gender, seller_inc," +
-                "seller_person_business_type, " +
-                        "DATE_FORMAT(seller_birthdate,'%d/%m/%Y') as seller_birthdate, DATE_FORMAT(seller_social_id_issued,'%d/%m/%Y') as seller_social_id_issued," +
-                "seller_address_city,seller_address_street, seller_address_street_number,seller_site_url,seller_address_country," +
-                "file_social_id as seller_file_social_id, file_cheque as seller_file_cheque, file_corporate as seller_file_corporate," +
-                "email as seller_email, phone as seller_phone, sproviders.sellerid as seller_id " +
-                        "FROM sproviders, sellers WHERE id=spid AND id="+spid; */
         String sql= "SELECT * FROM paymesellers WHERE id="+spid;
         String jstr=User.jsonrs(sql,"");
         //jstr= jstr.replace('"', '\'');
@@ -66,6 +60,7 @@ public class Payment {
                 }
             } else {
                 res= response.body().string();
+                response.body().close();
                 System.out.println(res);
             }
         } else {
@@ -75,12 +70,13 @@ public class Payment {
         return res;
     }
 
-    public static boolean GenerateRestSale(String spid, String serviceid, String restamount, String paymesaleid) throws IOException {
+    public static boolean GenerateRestSale(String spid, String serviceid, String restamount, String paymesaleid, Integer afterrefund) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String paymeid = Serviceprovider.GetSellerPaymeID(spid);
         String trid = Serviceprovider.GetTransID();
         String generatesaleurl = ss[8];
+        String callbackurl = ss[10];
         String sql="";
         Boolean res = false;
         String buyerkey="";
@@ -90,14 +86,17 @@ public class Payment {
             e.printStackTrace();
         }
 
+        //System.out.println("paymesaleid "+paymesaleid+",buyerkey "+buyerkey);
+        String refund =(afterrefund==1) ? ",'"+ callbackurl.trim() + "' as sale_callback_url" : "";
         sql = "SELECT DISTINCT servicetype.name as product_name,"+ restamount+ " as sale_price,'ILS' as currency,1 as installments"+
+                refund +
                 " FROM spservices,servicetype WHERE spservices.serviceid=servicetype.id AND spid=" + spid + " AND serviceid=" + serviceid + ";";
         String jstr=User.jsonrs(sql,"");
         if (jstr.length()>7) {     // Select is not empty
             String jsonrequest = "{\"seller_payme_id\" :\""+paymeid+"\",\"transaction_id\" :"+trid+","+
-                    "\"buyer_key\":"+"\""+buyerkey+"\","
+                    "\"buyer_key\":"+"\""+buyerkey+"\",\"language\":\"en\","
                     +jstr.substring(jstr.indexOf("[") + 2, jstr.length() - 3) + "}";
-            System.out.println(jsonrequest);
+            //System.out.println(jsonrequest);
             OkHttpClient client = new OkHttpClient();
             MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = RequestBody.create(mediaType, jsonrequest);
@@ -110,22 +109,30 @@ public class Payment {
 
             Response response = client.newCall(request).execute();
             res= (response.code() == 200);
+            if (!res) Serviceprovider.DeclinePayment(paymesaleid);
+
+            JSONParser parser = new JSONParser();
+            Object obj = null;
+            try {
+                obj = parser.parse(response.body().string());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            JSONObject jsonObj = (JSONObject) obj;
+            String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
+            //System.out.println("paymeid "+paymesaleid+" paymeslaveid "+paymerestsaleid);
+            if (!(saleerrorcode.equalsIgnoreCase("0"))) {
+                Serviceprovider.DeclinePayment(paymesaleid);
+                try {
+                    Serviceprovider.AddPaymeErrorKey(paymesaleid,String.valueOf(jsonObj.get("status_error_details")));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+               paymerestsaleid = String.valueOf(jsonObj.get("payme_sale_id"));
+            }
+            response.body().close();
             //System.out.println(response.body().string());
-                    /*JSONParser parser = new JSONParser();
-                    Object obj = parser.parse(response.body().string());
-                    JSONObject jsonObj = (JSONObject) obj;
-                    String paymetrid = String.valueOf(jsonObj.get("payme_sale_id"));
-                    res = String.valueOf(jsonObj.get("sale_url"));
-                    String price = String.valueOf(jsonObj.get("price"));
-                    String payid = "";
-                    try {
-                        payid = User.AddNewPayment(spid, uid, Float.valueOf(price) / 100, res, paymetrid, "0");
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    res = "{\"status_code\":0,\"sale_url\":\"" + String.valueOf(jsonObj.get("sale_url")) + "\",\"mobicar_server_pay_id\":" + payid +
-                            ",\"payme_sale_id\":\"" + paymetrid + "\",\"rest_sale_price\":\""+price+"\"}";
-                            */
         }
         return res;
     }
@@ -177,18 +184,45 @@ public class Payment {
                         res = String.valueOf(jsonObj.get("sale_url"));
                         String price = String.valueOf(jsonObj.get("price"));
                         String payid = "";
-                        try {
-                            payid = User.AddNewPayment(spid, uid, Float.valueOf(price) / 100, res, paymetrid, "0");
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                        String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
+                        //System.out.println("*"+saleerrorcode+"*");
+                        if (saleerrorcode.equalsIgnoreCase("0")) {
+                            try {
+                                payid = User.AddNewPayment(spid, uid, Float.valueOf(price) / 100, res, paymetrid, "0", "1");
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                            res = "{\"status_code\":0,\"sale_url\":\"" + String.valueOf(jsonObj.get("sale_url")) + "\",\"mobicar_server_pay_id\":" + payid +
+                                    ",\"payme_sale_id\":\"" + paymetrid + "\",\"sale_price\":\"" + price + "\"}";
+                        } else {
+                            try {
+                                User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3");
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        res = "{\"status_code\":0,\"sale_url\":\"" + String.valueOf(jsonObj.get("sale_url")) + "\",\"mobicar_server_pay_id\":" + payid +
-                                    ",\"payme_sale_id\":\"" + paymetrid + "\",\"sale_price\":\""+price+"\"}";
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
+                    JSONParser parser = new JSONParser();
+                    Object obj = null;
+                    try {
+                        obj = parser.parse(response.body().string());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    JSONObject jsonObj = (JSONObject) obj;
+                    String paymetrid = String.valueOf(jsonObj.get("payme_sale_id"));
+                    res = String.valueOf(jsonObj.get("sale_url"));
+                    String price = String.valueOf(jsonObj.get("price"));
+                    try {
+                        User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     res= response.body().string();
+                    response.body().close();
                     //System.out.println(res);
                 }
             }
@@ -200,7 +234,7 @@ public class Payment {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String capturesaleurl = ss[13];
-        String res ="{";
+        String res ="";
         Integer amountdif=0;
         String jsonrequest = "{\"payme_sale_id\" :\""+paymesaleid+"\"";
         if (amount.equalsIgnoreCase("0")) {
@@ -208,7 +242,7 @@ public class Payment {
         } else {
             Integer amountsale = Serviceprovider.getAmountSale(paymesaleid);
             if (amountsale >= Integer.valueOf(amount)) {
-                jsonrequest += ",\"sale_price\":\""+amount.trim()+"00\"}";
+                jsonrequest += ",\"sale_price\":\""+ConvertAmountToPayme(amount.trim())+"\"}";
             } else {
                 amountdif= Integer.valueOf(amount) - amountsale;
                 jsonrequest += "}"; //Will implement change amount to bigger logic
@@ -232,27 +266,51 @@ public class Payment {
                 JSONObject jsonObj = (JSONObject) obj;
                 String paiddate = String.valueOf(jsonObj.get("sale_paid_date"));
                 String trid = String.valueOf(jsonObj.get("transaction_id"));
-                //String finalamount = String.valueOf(jsonObj.get("payme_transaction_total"));
-                String[] param = new String[0];
-                try {
-                    param= Serviceprovider.setFinalDataPayment(trid, paiddate,amount, callid);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                if (amountdif>0) {
-                    if (GenerateRestSale(param[0],param[1], String.valueOf(amountdif*100),paymesaleid)) {
-                        res ="{\"rest_sale_status\":0,\"rest_sale_amount\":"+amountdif*100+",\"";
+                String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
+                if (saleerrorcode.equalsIgnoreCase("0")) {
+                    String finalamount = (amount.equalsIgnoreCase("0")) ? String.valueOf(jsonObj.get("payme_transaction_total")) : ConvertAmountToPayme(amount);
+                    String[] param = new String[0];
+                    try {
+                        param = Serviceprovider.setFinalDataPayment(trid, paiddate, finalamount, callid);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
+                    if (amountdif > 0) {
+                        //amountdif = (amountdif<10) ? 10 : amountdif;  // Just stack for pilot
+                        if (GenerateRestSale(param[0], param[1], String.valueOf(amountdif * 100), paymesaleid,0)) {  //Just delta added
+                            res = "{\"rest_sale_status\":0,\"rest_sale_amount\":" + amountdif * 100 + ",";
+                            res += "\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
+                                    "\",\"payme_transaction_total\":\"" + amount + "\",\"sale_paid_date\":\"" +
+                                    paiddate + "\"}";
+                        } else {
+                            RefundSale(param[0],paymesaleid,"sp");
+                            if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid,1)) { //New payment request after refund
+                                try {
+                                    String payid = User.AddNewPayment(param[0], "0", Float.valueOf(finalamount) / 100, res, paymerestsaleid, callid, "2");
+                                    res = "{\"status_code\":0,\"mobicar_server_pay_id\":" + payid +
+                                            ",\"payme_sale_id\":\"" + paymerestsaleid + "\",\"sale_price\":\"" + finalamount + "\""+
+                                            ",\"sale_paid_date\":\"" + paiddate + "\"}";
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    } else {
+                        res = "{\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
+                                "\",\"payme_transaction_total\":\"" + amount +
+                                "\",\"sale_paid_date\":\"" + paiddate + "\"}";
+                    }
+                    //Integer total = (Integer) jsonObj.get("payme_transaction_total")+amountdif*100;
+                } else {
+                    Serviceprovider.DeclinePayment(paymesaleid);
                 }
-                //Integer total = (Integer) jsonObj.get("payme_transaction_total")+amountdif*100;
-                res += "\"basic_sale_status\":\""+String.valueOf(jsonObj.get("sale_status"))+
-                        "\",\"payme_transaction_total\":\""+amount+"\",\"sale_paid_date\":\""+
-                        paiddate+"\"}";
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         } else {
+            Serviceprovider.DeclinePayment(paymesaleid);
             res = response.body().string();
+            response.body().close();
             //System.out.println(res);
         }
         //System.out.println(res);

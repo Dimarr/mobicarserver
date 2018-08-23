@@ -401,7 +401,7 @@ public class Serviceprovider {
     }
 
     public static void setFinalPaymentAmount(String spid,String uid, String finalamount) throws SQLException {
-        String sql = "SELECT paymetrid FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+";";
+        String sql = "SELECT paymetrid FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+" ORDER BY payid DESC;";
         String paymesaleid= "";
         JavaToMySQL jtm = new JavaToMySQL();
         ResultSet rs = jtm.DSelect(sql);
@@ -418,13 +418,14 @@ public class Serviceprovider {
     }
 
     public static String getFinalPaymentAmount(String spid,String uid) throws SQLException {
-        String finalamount="";
-        String sql = "SELECT paymetrid FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+";";
+        String finalamount="0";
+        String amount = "0";
+        String sql = "SELECT paymetrid, amount FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+"  ORDER BY payid DESC;";
         String paymesaleid= "0";
         JavaToMySQL jtm = new JavaToMySQL();
         ResultSet rs = jtm.DSelect(sql);
         try {
-            if (rs.first()) paymesaleid = rs.getString(1);
+            if (rs.first()) { paymesaleid = rs.getString(1); amount = rs.getString(2);}
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -439,12 +440,18 @@ public class Serviceprovider {
             }
             rs.close();
         }
-        return finalamount;
+        return (finalamount.equalsIgnoreCase("0")) ? amount : finalamount;
     }
 
+    public static void  DeclinePayment(String paymesaleid) {
+        String sql = "UPDATE payments SET pstatus=3 WHERE paymetrid='"+paymesaleid.trim()+"';";
+        JavaToMySQL jtm = new JavaToMySQL();
+        //System.out.println(sql);
+        jtm.DbExec(sql);
+    }
 
     public static String[] setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) throws SQLException {
-        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)+" WHERE payid="+trid;
+        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
 
@@ -584,6 +591,12 @@ public class Serviceprovider {
             e.printStackTrace();
         }
         return res;
+    }
+
+    public static void AddPaymeErrorKey(String masterpaymespid, String errtext) throws SQLException {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "INSERT INTO paymeerr (masterpaymesale,errtext) VALUES ('"+masterpaymespid.trim()+"','"+errtext.trim()+"');";
+        jmt.DbExec(sql);
     }
 
     public static String getBuyerKeyForSP(String paymespid) throws SQLException {
