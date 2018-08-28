@@ -292,6 +292,11 @@ public class Payment {
                         res += "\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
                                 "\",\"payme_transaction_total\":\"" + amount + "\",\"sale_paid_date\":\"" +
                                 paiddate + "\"}";
+                        try {
+                            Serviceprovider.addPaymeSlave(trid, paymerestsalecode);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         RefundSale(param[0],paymesaleid,"sp");
                         if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid,1)) { //New payment request after refund
@@ -318,8 +323,13 @@ public class Payment {
             }
         } else {
             //System.out.println(String.valueOf(jsonObj.get("status_additional_info")));
-            if (!String.valueOf(jsonObj.get("status_additional_info")).equalsIgnoreCase("completed"))
-                Serviceprovider.DeclinePayment(paymesaleid);
+            try {
+                Serviceprovider.AddPaymeErrorKey(paymesaleid,String.valueOf(jsonObj.get("status_error_details")));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            //if (!String.valueOf(jsonObj.get("status_additional_info")).equalsIgnoreCase("completed"))
+            //    Serviceprovider.DeclinePayment(paymesaleid);
             res = responsebody;
             //response.body().close();
             //System.out.println(res);

@@ -247,6 +247,12 @@ public class Serviceprovider {
         return res;
     }
 
+    public static void addPaymeSlave(String trid, String slavepaymesaleid) throws SQLException {
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE payments SET details='"+slavepaymesaleid.trim()+"' WHERE payid="+trid.trim()+";";
+        jmt.DbExec(sql);
+    }
+
     public static String getxy(String spid) throws SQLException {
         JavaToMySQL jtm = new JavaToMySQL();
         String sql = "SELECT X,Y,ltime as SavedTime FROM coordinate WHERE spuser=1 and uid="+spid+" order by ltime desc LIMIT 1;";

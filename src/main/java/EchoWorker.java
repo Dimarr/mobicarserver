@@ -1134,8 +1134,9 @@ public class EchoWorker implements Runnable {
                     } else {
                         Integer spid = Integer.valueOf(tokens[1].trim());
                         Integer rating = Integer.valueOf(tokens[2].trim());
+                        String callid = (tokens.length==4) ? tokens[3].trim() : "" ;
                         if (spid > 0) {
-                            Integer newrate = User.SetRating(spid, rating);
+                            Integer newrate = User.SetRating(spid, rating, callid);
                             System.out.println("For Service Provider #" + spid + " calculated rating: " + newrate);
                             str = String.valueOf(newrate);
                         } else {

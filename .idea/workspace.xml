@@ -8,6 +8,9 @@
   <component name="ChangeListManager">
     <list default="true" id="9ae105a5-0d33-424c-8149-305141a6cc55" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/EchoWorker.java" afterPath="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Objects/User.java" afterPath="$PROJECT_DIR$/src/main/java/Objects/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Payment.java" afterPath="$PROJECT_DIR$/src/main/java/Payment.java" />
     </list>
     <ignored path="NIOTest.iws" />
@@ -42,8 +45,8 @@
       <file leaf-file-name="EchoWorker.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5">
-              <caret line="160" column="37" selection-start-line="160" selection-start-column="37" selection-end-line="160" selection-end-column="37" />
+            <state vertical-scroll-proportion="-14.888889">
+              <caret line="150" column="50" selection-start-line="150" selection-start-column="50" selection-end-line="150" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,10 +58,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="445" column="24" selection-start-line="445" selection-start-column="24" selection-end-line="445" selection-end-column="24" />
+              <caret line="601" column="23" selection-start-line="601" selection-start-column="23" selection-end-line="601" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1535036020848" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
+                <marker date="1535469093649" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
               </folding>
             </state>
           </provider>
@@ -67,12 +70,10 @@
       <file leaf-file-name="Payment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Payment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60365856">
-              <caret line="252" column="13" selection-start-line="252" selection-start-column="13" selection-end-line="252" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.46341464">
+              <caret line="323" column="16" selection-start-line="323" selection-start-column="16" selection-end-line="323" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#567#568#0" expanded="true" />
-                <element signature="e#633#634#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -103,7 +104,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,10 +127,10 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="38" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="38" />
+              <caret line="395" column="0" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
               <folding>
-                <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
-                <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
+                <marker date="1535466359138" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+                <marker date="1535466359138" expanded="true" signature="17864:18072" placeholder="SELECT searc..searchservice..." />
               </folding>
             </state>
           </provider>
@@ -192,9 +195,9 @@
         <option value="$PROJECT_DIR$/src/main/java/NioServer.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/options.ini" />
-        <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EchoWorker.java" />
         <option value="$PROJECT_DIR$/src/main/java/Payment.java" />
       </list>
     </option>
@@ -251,7 +254,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -346,7 +349,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -1034,11 +1037,12 @@
       <workItem from="1533103392619" duration="34812000" />
       <workItem from="1533727133980" duration="25529000" />
       <workItem from="1534399935781" duration="58986000" />
+      <workItem from="1535367647721" duration="10135000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="754007000" />
+    <option name="totallyTimeSpent" value="764142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="2" width="1934" height="1036" extended-state="0" />
@@ -1142,8 +1146,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
-            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
+            <marker date="1535466359138" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1535466359138" expanded="true" signature="17864:18072" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1212,8 +1216,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="96" column="24" selection-start-line="96" selection-start-column="24" selection-end-line="96" selection-end-column="24" />
           <folding>
-            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
-            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
+            <marker date="1535466359138" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1535466359138" expanded="true" signature="17864:18072" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
@@ -1475,7 +1479,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1483,7 +1486,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1498,18 +1503,18 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="38" selection-start-line="97" selection-start-column="25" selection-end-line="97" selection-end-column="38" />
+          <caret line="395" column="0" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
           <folding>
-            <marker date="1534940890814" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
-            <marker date="1534940890814" expanded="true" signature="17700:17908" placeholder="SELECT searc..searchservice..." />
+            <marker date="1535466359138" expanded="true" signature="8457:8497" placeholder="UPDATE users..." />
+            <marker date="1535466359138" expanded="true" signature="17864:18072" placeholder="SELECT searc..searchservice..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EchoWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5">
-          <caret line="160" column="37" selection-start-line="160" selection-start-column="37" selection-end-line="160" selection-end-column="37" />
+        <state vertical-scroll-proportion="-14.888889">
+          <caret line="150" column="50" selection-start-line="150" selection-start-column="50" selection-end-line="150" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1519,22 +1524,20 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/Objects/Serviceprovider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="445" column="24" selection-start-line="445" selection-start-column="24" selection-end-line="445" selection-end-column="24" />
+          <caret line="601" column="23" selection-start-line="601" selection-start-column="23" selection-end-line="601" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1535036020848" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
+            <marker date="1535469093649" expanded="true" signature="4228:4269" placeholder="UPDATE sprov..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Payment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60365856">
-          <caret line="252" column="13" selection-start-line="252" selection-start-column="13" selection-end-line="252" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.46341464">
+          <caret line="323" column="16" selection-start-line="323" selection-start-column="16" selection-end-line="323" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#567#568#0" expanded="true" />
-            <element signature="e#633#634#0" expanded="true" />
           </folding>
         </state>
       </provider>

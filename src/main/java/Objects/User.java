@@ -377,7 +377,7 @@ public class User {
         jtm.DbExec(sql);
     }
 
-    public static Integer SetRating( Integer spid, Integer rating) {
+    public static Integer SetRating( Integer spid, Integer rating, String callid) {
         String sql = "SELECT votes, rating FROM sproviders WHERE id="+spid;
         JavaToMySQL jmt = new JavaToMySQL();
         ResultSet rs= jmt.DSelect(sql);
@@ -396,6 +396,10 @@ public class User {
         Integer calcrate=Math.round(rv)*5;
         sql = "UPDATE sproviders SET votes="+votes+", rating="+rate+", point="+calcrate+" WHERE id="+spid;
         jmt.DbExec(sql);
+        if (!callid.isEmpty()) {
+            sql = "UPDATE calls SET rating="+rating+" WHERE callid="+callid;
+            jmt.DbExec(sql);
+        }
         return Math.round(rv);
     }
 
