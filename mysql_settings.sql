@@ -1,0 +1,1 @@
+set @@sql_mode='no_engine_substitution';

@@ -1,6 +1,9 @@
 package Objects;
 
 import DBMain.JavaToMySQL;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -95,11 +98,14 @@ public class User {
         }
     }
 
-    public static String AddNewPayment(String spid,String uid,Float amount, String saleurl,String paymetrid, String callid, String pstatus) throws SQLException {
-        java.util.Date dt = new java.util.Date();
-        java.text.SimpleDateFormat sdf =
-                new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(dt);
+    public static String AddNewPayment(String spid,String uid,Float amount, String saleurl,String paymetrid, String callid, String pstatus, String installments) throws SQLException {
+
+        Date dt = new Date();
+        String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime dtpaid = formatter.parseDateTime(dtFormat).minusHours(3); //convert to UTC
+        String paiddate = formatter.print(dtpaid);
+
         String sql="";
         String uuid=uid;
         if (uid.equalsIgnoreCase("0")) {
@@ -115,8 +121,8 @@ public class User {
                 e.printStackTrace();
             }
         }
-        sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid,callid) VALUES ("+uuid+","+
-                spid+",'"+currentTime+"',"+Float.toString(amount)+","+pstatus+",'"+saleurl+"','"+paymetrid+"',"+callid+");";
+        sql ="INSERT INTO payments (userid,spid,pdate,amount,pstatus,saleurl,paymetrid,callid, installments) VALUES ("+uuid+","+
+                spid+",'"+paiddate+"',"+Float.toString(amount)+","+pstatus+",'"+saleurl+"','"+paymetrid+"',"+callid+","+installments+");";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
         sql = "SELECT max(payid) FROM payments";
@@ -532,9 +538,9 @@ public class User {
     public static String AddCall( String uid, String CDetail, String spid, String serviceid) {
         String sql;
         String statusSP="";
-        String res="";
+        String res="-1";
         Date dt = new Date();
-        String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:MM").format(dt);
+        String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
         try {
             statusSP = Serviceprovider.getBusy(spid);
         } catch (SQLException e) {

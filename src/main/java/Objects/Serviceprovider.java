@@ -456,8 +456,8 @@ public class Serviceprovider {
         jtm.DbExec(sql);
     }
 
-    public static String[] setFinalDataPayment(String trid,String paiddate,String finalamount, String callid) throws SQLException {
-        String sql ="UPDATE payments SET pstatus=2,callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
+    public static String[] setFinalDataPayment(String trid, String paiddate, String finalamount, String callid, Integer installments) throws SQLException {
+        String sql ="UPDATE payments SET pstatus=2,installments="+installments+",callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
 
@@ -775,17 +775,16 @@ public class Serviceprovider {
 
     public static Integer getAmountSale(String paymesale) {
         String sql = "SELECt amount FROM payments WHERE paymetrid='"+paymesale+"';";
-        Integer res = 0;
         JavaToMySQL jmt = new JavaToMySQL();
         ResultSet rs=jmt.DSelect(sql);
         try {
             if (rs.first()) {
-                res=rs.getInt(1);
+                return rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return res;
+        return null;
     }
 
     public static ArrayList<String> RestSPs() {

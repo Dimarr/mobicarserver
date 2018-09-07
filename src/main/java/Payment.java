@@ -2,6 +2,9 @@ import DBMain.readIni;
 import Objects.Serviceprovider;
 import Objects.User;
 import com.squareup.okhttp.*;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -71,7 +74,7 @@ public class Payment {
         return res;
     }
 
-    public static boolean GenerateRestSale(String spid, String serviceid, String restamount, String paymesaleid, Integer afterrefund) throws IOException {
+    public static boolean GenerateRestSale(String spid, String serviceid, String restamount, String paymesaleid, Integer afterrefund, Integer installments) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String paymeid = Serviceprovider.GetSellerPaymeID(spid);
@@ -89,8 +92,8 @@ public class Payment {
 
         //System.out.println("paymesaleid "+paymesaleid+",buyerkey "+buyerkey);
         String refund =(afterrefund==1) ? ",'"+ callbackurl.trim() + "' as sale_callback_url" : "";
-        sql = "SELECT DISTINCT servicetype.name as product_name,"+ restamount+ " as sale_price,'ILS' as currency,1 as installments"+
-                refund +
+        sql = "SELECT DISTINCT servicetype.name as product_name,"+ restamount+ " as sale_price,'ILS' as currency,"+
+                installments+" as installments"+ refund +
                 " FROM spservices,servicetype WHERE spservices.serviceid=servicetype.id AND spid=" + spid + " AND serviceid=" + serviceid + ";";
         String jstr=User.jsonrs(sql,"");
         if (jstr.length()>7) {     // Select is not empty
@@ -139,7 +142,7 @@ public class Payment {
         return res;
     }
 
-    public static String GenerateSale(String uid, String spid, String serviceid) throws IOException {
+    public static String GenerateSale(String uid, String spid, String serviceid, String installments) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String generatesaleurl = ss[8];
@@ -149,12 +152,14 @@ public class Payment {
         String paymeid = Serviceprovider.GetSellerPaymeID(spid);
         String trid = Serviceprovider.GetTransID();
         String sql="";
+        String instl = (!installments.isEmpty()) ? installments.trim() : "1";
         //System.out.println("*"+paymeid+"*");
         if (paymeid == null) return res;
         if (!(paymeid.isEmpty())) {
                  sql = "SELECT DISTINCT '" + callbackurl + "' as sale_callback_url,'" + successfullurl
                         + "' as sale_return_url,servicetype.name as product_name, " +
-                        " price*100 as sale_price,'ILS' as currency,1 as installments,1 as capture_buyer"+
+                        " price*100 as sale_price,'ILS' as currency,"+instl+
+                         " as installments,1 as capture_buyer"+
                         " from spservices,servicetype WHERE spservices.serviceid=servicetype.id AND spid=" + spid + " AND serviceid=" + serviceid + ";";
             //}
             //System.out.println("*"+istoken+"*");
@@ -190,15 +195,15 @@ public class Payment {
                         //System.out.println("*"+saleerrorcode+"*");
                         if (saleerrorcode.equalsIgnoreCase("0")) {
                             try {
-                                payid = User.AddNewPayment(spid, uid, Float.valueOf(price) / 100, res, paymetrid, "0", "1");
+                                payid = User.AddNewPayment(spid, uid, Float.valueOf(price) / 100, res, paymetrid, "0", "1", instl);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
                             res = "{\"status_code\":0,\"sale_url\":\"" + String.valueOf(jsonObj.get("sale_url")) + "\",\"mobicar_server_pay_id\":" + payid +
-                                    ",\"payme_sale_id\":\"" + paymetrid + "\",\"sale_price\":\"" + price + "\"}";
+                                    ",\"payme_sale_id\":\"" + paymetrid + "\",\"sale_price\":\"" + price + "\",\"installments\":"+instl+"}";
                         } else {
                             try {
-                                User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3");
+                                User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3", instl);
                                 res= response.body().string();
                                 response.body().close();
                             } catch (SQLException e) {
@@ -221,7 +226,7 @@ public class Payment {
                     res = String.valueOf(jsonObj.get("sale_url"));
                     String price = String.valueOf(jsonObj.get("price"));
                     try {
-                        User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3");
+                        User.AddNewPayment(spid, uid, Float.valueOf(price)/100 , res, paymetrid, "0","3",instl);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -234,22 +239,26 @@ public class Payment {
         return res;
     }
 
-    public static String CaptureSale(String paymesaleid, String amount, String callid) throws IOException {
+    public static String CaptureSale(String paymesaleid, String amount, String callid, String installments) throws IOException {
         readIni rIni = new readIni();
         String[] ss = rIni.run("options.ini");
         String capturesaleurl = ss[13];
         String res ="";
         Integer amountdif=0;
+        Integer instl = (installments.isEmpty()) ? 1 : Integer.valueOf(installments); // Changed logic to useing installments in capturesale
         String jsonrequest = "{\"payme_sale_id\" :\""+paymesaleid+"\",\"language\":\"en\"";
         if (amount.equalsIgnoreCase("0")) {
             jsonrequest += "}";
         } else {
-            Integer amountsale = Serviceprovider.getAmountSale(paymesaleid);
+            //Integer[] paymedata= new Integer[0];
+            //paymedata = Serviceprovider.getAmountSale(paymesaleid);
+            Integer amountsale = Serviceprovider.getAmountSale(paymesaleid);//paymedata[0];
+            //instl = paymedata[1];
             if (amountsale >= Integer.valueOf(amount)) {
-                jsonrequest += ",\"sale_price\":\""+ConvertAmountToPayme(amount.trim())+"\"}";
+                jsonrequest += ",\"sale_price\":\""+ConvertAmountToPayme(amount.trim())+"\",\"installments\":"+instl+"}";
             } else {
                 amountdif= Integer.valueOf(amount) - amountsale;
-                jsonrequest += "}"; //Will implement change amount to bigger logic
+                jsonrequest += ",\"installments\":"+instl+"}"; //Will implement change amount to bigger logic
             }
         }
         OkHttpClient client = new OkHttpClient();
@@ -274,6 +283,12 @@ public class Payment {
         JSONObject jsonObj = (JSONObject) obj;
         if (response.code() == 200) {
             String paiddate = String.valueOf(jsonObj.get("sale_paid_date"));
+            String paiddate_localtime = paiddate;
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            DateTime dtpaid = formatter.parseDateTime(paiddate).minusHours(3); //convert to UTC
+            //DateTime dtpaid = new DateTime(paiddate).minusHours(3);
+            paiddate = formatter.print(dtpaid);
+
             String trid = String.valueOf(jsonObj.get("transaction_id"));
             String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
             String paymesalecode = String.valueOf(jsonObj.get("payme_sale_code"));
@@ -281,17 +296,17 @@ public class Payment {
                 String finalamount = (amount.equalsIgnoreCase("0")) ? String.valueOf(jsonObj.get("payme_transaction_total")) : ConvertAmountToPayme(amount);
                 String[] param = new String[0];
                 try {
-                    param = Serviceprovider.setFinalDataPayment(trid, paiddate, finalamount, callid);
+                    param = Serviceprovider.setFinalDataPayment(trid, paiddate, finalamount, callid, instl);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 if (amountdif > 0) {
                     //amountdif = (amountdif<10) ? 10 : amountdif;  // Just stack for pilot
-                    if (GenerateRestSale(param[0], param[1], String.valueOf(amountdif * 100), paymesaleid,0)) {  //Just delta added
+                    if (GenerateRestSale(param[0], param[1], String.valueOf(amountdif * 100), paymesaleid,0, instl)) {  //Just delta added
                         res = "{\"status_code\":0,\"rest_sale_amount\":" + amountdif * 100 + ",\"payme_sale_code\":" +paymesalecode +",";
                         res += "\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
                                 "\",\"payme_transaction_total\":\"" + amount + "\",\"sale_paid_date\":\"" +
-                                paiddate + "\"}";
+                                paiddate_localtime + "\"}";
                         try {
                             Serviceprovider.addPaymeSlave(trid, paymerestsalecode);
                         } catch (SQLException e) {
@@ -299,12 +314,12 @@ public class Payment {
                         }
                     } else {
                         RefundSale(param[0],paymesaleid,"sp");
-                        if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid,1)) { //New payment request after refund
+                        if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid,1,instl)) { //New payment request after refund
                             try {
-                                String payid = User.AddNewPayment(param[0], "0", Float.valueOf(finalamount) / 100, res, paymerestsaleid, callid, "2");
-                                res = "{\"status_code\":0,\"mobicar_server_pay_id\":" + payid + "\",\"payme_sale_code\":" +paymerestsalecode +
+                                String payid = User.AddNewPayment(param[0], "0", Float.valueOf(finalamount) / 100, res, paymerestsaleid, callid, "2", String.valueOf(instl));
+                                res = "{\"status_code\":0,\"mobicar_server_pay_id\":" + payid + ",\"payme_sale_code\":" +paymerestsalecode +
                                         ",\"payme_sale_id\":\"" + paymerestsaleid + "\",\"sale_price\":\"" + finalamount + "\""+
-                                        ",\"sale_paid_date\":\"" + paiddate + "\"}";
+                                        ",\"sale_paid_date\":\"" + paiddate_localtime + "\"}";
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
