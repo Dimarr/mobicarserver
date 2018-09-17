@@ -18,27 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `callstatus`
+-- Table structure for table `paymentstatus`
 --
 
-DROP TABLE IF EXISTS `callstatus`;
+DROP TABLE IF EXISTS `paymentstatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `callstatus` (
-  `statusid` int(11) NOT NULL,
-  `statusname` varchar(35) DEFAULT NULL,
-  PRIMARY KEY (`statusid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `paymentstatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pstatus` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `callstatus`
+-- Dumping data for table `paymentstatus`
 --
 
-LOCK TABLES `callstatus` WRITE;
-/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
-INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
-/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
+LOCK TABLES `paymentstatus` WRITE;
+/*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
+INSERT INTO `paymentstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Declined');
+/*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-07 16:32:46
+-- Dump completed on 2018-09-17 18:11:32

@@ -18,28 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `carmodel`
+-- Table structure for table `paymeapprovestatus`
 --
 
-DROP TABLE IF EXISTS `carmodel`;
+DROP TABLE IF EXISTS `paymeapprovestatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `carmodel` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `brandid` int(11) NOT NULL,
-  `name` varchar(20) DEFAULT NULL,
+CREATE TABLE `paymeapprovestatus` (
+  `id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `carmodel`
+-- Dumping data for table `paymeapprovestatus`
 --
 
-LOCK TABLES `carmodel` WRITE;
-/*!40000 ALTER TABLE `carmodel` DISABLE KEYS */;
-INSERT INTO `carmodel` VALUES (1,1,'Corola'),(2,1,'Yaris'),(3,2,'Teana'),(4,2,'Murano'),(5,3,'AMG'),(6,3,'SLK'),(7,4,'CRV'),(8,4,'Accord'),(9,5,'Vitara'),(10,8,'A5'),(11,8,'A6');
-/*!40000 ALTER TABLE `carmodel` ENABLE KEYS */;
+LOCK TABLES `paymeapprovestatus` WRITE;
+/*!40000 ALTER TABLE `paymeapprovestatus` DISABLE KEYS */;
+INSERT INTO `paymeapprovestatus` VALUES (0,'Not approved'),(1,'Pending'),(2,'Approved');
+/*!40000 ALTER TABLE `paymeapprovestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-07 16:32:50
+-- Dump completed on 2018-09-17 18:12:25

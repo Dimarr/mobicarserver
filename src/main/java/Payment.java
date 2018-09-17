@@ -282,59 +282,66 @@ public class Payment {
         }
         JSONObject jsonObj = (JSONObject) obj;
         if (response.code() == 200) {
-            String paiddate = String.valueOf(jsonObj.get("sale_paid_date"));
-            String paiddate_localtime = paiddate;
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-            DateTime dtpaid = formatter.parseDateTime(paiddate).minusHours(3); //convert to UTC
-            //DateTime dtpaid = new DateTime(paiddate).minusHours(3);
-            paiddate = formatter.print(dtpaid);
+            //System.out.println(String.valueOf(jsonObj.get("status_error_code")));
+            //System.out.println(jsonObj.toString());
+            if (!String.valueOf(jsonObj.get("status_error_code")).equalsIgnoreCase("20000") &&
+                    !String.valueOf(jsonObj.get("status_error_code")).equalsIgnoreCase("0") ) {
+                res = "{\"status_code\":1,\"status_error_details\":\"" + String.valueOf(jsonObj.get("status_error_details")) + "\"}";
+            } else  {
+                String paiddate = String.valueOf(jsonObj.get("sale_paid_date"));
+                String paiddate_localtime = paiddate;
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+                DateTime dtpaid = formatter.parseDateTime(paiddate).minusHours(3); //convert to UTC
+                //DateTime dtpaid = new DateTime(paiddate).minusHours(3);
+                paiddate = formatter.print(dtpaid);
 
-            String trid = String.valueOf(jsonObj.get("transaction_id"));
-            String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
-            String paymesalecode = String.valueOf(jsonObj.get("payme_sale_code"));
-            if (saleerrorcode.equalsIgnoreCase("0")) {
-                String finalamount = (amount.equalsIgnoreCase("0")) ? String.valueOf(jsonObj.get("payme_transaction_total")) : ConvertAmountToPayme(amount);
-                String[] param = new String[0];
-                try {
-                    param = Serviceprovider.setFinalDataPayment(trid, paiddate, finalamount, callid, instl);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                if (amountdif > 0) {
-                    //amountdif = (amountdif<10) ? 10 : amountdif;  // Just stack for pilot
-                    if (GenerateRestSale(param[0], param[1], String.valueOf(amountdif * 100), paymesaleid,0, instl)) {  //Just delta added
-                        res = "{\"status_code\":0,\"rest_sale_amount\":" + amountdif * 100 + ",\"payme_sale_code\":" +paymesalecode +",";
-                        res += "\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
-                                "\",\"payme_transaction_total\":\"" + amount + "\",\"sale_paid_date\":\"" +
-                                paiddate_localtime + "\"}";
-                        try {
-                            Serviceprovider.addPaymeSlave(trid, paymerestsalecode);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        RefundSale(param[0],paymesaleid,"sp");
-                        if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid,1,instl)) { //New payment request after refund
+                String trid = String.valueOf(jsonObj.get("transaction_id"));
+                String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
+                String paymesalecode = String.valueOf(jsonObj.get("payme_sale_code"));
+                if (saleerrorcode.equalsIgnoreCase("0")) {
+                    String finalamount = (amount.equalsIgnoreCase("0")) ? String.valueOf(jsonObj.get("payme_transaction_total")) : ConvertAmountToPayme(amount);
+                    String[] param = new String[0];
+                    try {
+                        param = Serviceprovider.setFinalDataPayment(trid, paiddate, finalamount, callid, instl);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    if (amountdif > 0) {
+                        //amountdif = (amountdif<10) ? 10 : amountdif;  // Just stack for pilot
+                        if (GenerateRestSale(param[0], param[1], String.valueOf(amountdif * 100), paymesaleid, 0, instl)) {  //Just delta added
+                            res = "{\"status_code\":0,\"rest_sale_amount\":" + amountdif * 100 + ",\"payme_sale_code\":" + paymesalecode + ",";
+                            res += "\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) +
+                                    "\",\"payme_transaction_total\":\"" + amount + "\",\"sale_paid_date\":\"" +
+                                    paiddate_localtime + "\"}";
                             try {
-                                String payid = User.AddNewPayment(param[0], "0", Float.valueOf(finalamount) / 100, res, paymerestsaleid, callid, "2", String.valueOf(instl));
-                                res = "{\"status_code\":0,\"mobicar_server_pay_id\":" + payid + ",\"payme_sale_code\":" +paymerestsalecode +
-                                        ",\"payme_sale_id\":\"" + paymerestsaleid + "\",\"sale_price\":\"" + finalamount + "\""+
-                                        ",\"sale_paid_date\":\"" + paiddate_localtime + "\"}";
+                                Serviceprovider.addPaymeSlave(trid, paymerestsalecode);
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
+                        } else {
+                            RefundSale(param[0], paymesaleid, "sp");
+                            if (GenerateRestSale(param[0], param[1], finalamount, paymesaleid, 1, instl)) { //New payment request after refund
+                                try {
+                                    String payid = User.AddNewPayment(param[0], "0", Float.valueOf(finalamount) / 100, res, paymerestsaleid, callid, "2", String.valueOf(instl));
+                                    res = "{\"status_code\":0,\"mobicar_server_pay_id\":" + payid + ",\"payme_sale_code\":" + paymerestsalecode +
+                                            ",\"payme_sale_id\":\"" + paymerestsaleid + "\",\"sale_price\":\"" + finalamount + "\"" +
+                                            ",\"sale_paid_date\":\"" + paiddate_localtime + "\"}";
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
+                    } else {
+                        res = "{\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) + "\",\"payme_sale_code\":" + paymesalecode + "," +
+                                "\"payme_transaction_total\":\"" + finalamount + "\",\"status_code\":" + saleerrorcode +
+                                ",\"sale_paid_date\":\"" + paiddate + "\"}";
                     }
+                    //Integer total = (Integer) jsonObj.get("payme_transaction_total")+amountdif*100;
                 } else {
-                    res = "{\"basic_sale_status\":\"" + String.valueOf(jsonObj.get("sale_status")) + "\",\"payme_sale_code\":" +paymesalecode +","+
-                            "\"payme_transaction_total\":\"" + finalamount + "\",\"status_code\":" + saleerrorcode +
-                            ",\"sale_paid_date\":\"" + paiddate + "\"}";
+                    Serviceprovider.DeclinePayment(paymesaleid);
+                    res = response.body().string();
+                    response.body().close();
                 }
-                //Integer total = (Integer) jsonObj.get("payme_transaction_total")+amountdif*100;
-            } else {
-                Serviceprovider.DeclinePayment(paymesaleid);
-                res = response.body().string();
-                response.body().close();
             }
         } else {
             //System.out.println(String.valueOf(jsonObj.get("status_additional_info")));
@@ -345,6 +352,8 @@ public class Payment {
             }
             //if (!String.valueOf(jsonObj.get("status_additional_info")).equalsIgnoreCase("completed"))
             //    Serviceprovider.DeclinePayment(paymesaleid);
+            System.out.println("Status not 200 "+String.valueOf(jsonObj.get("sale_error_code")));
+
             res = responsebody;
             //response.body().close();
             //System.out.println(res);
