@@ -138,6 +138,12 @@ public class Serviceprovider {
         return Math.round(rv);
     }
 
+    public static void InsertPicCar(String spid, String carpic){
+        JavaToMySQL jmt = new JavaToMySQL();
+        String sql = "UPDATE sproviders SET carpic='"+carpic.trim()+"' WHERE id="+spid;
+        jmt.DbExec(sql);
+    }
+
     public static void InsertPicSP(String spid,String PathPic) throws SQLException {
         /*PreparedStatement statement;
         //try (InputStream inputStream = new FileInputStream(new File(PathPic)))
@@ -449,24 +455,36 @@ public class Serviceprovider {
         return (finalamount.equalsIgnoreCase("0")) ? amount : finalamount;
     }
 
-    public static void  DeclinePayment(String paymesaleid) {
-        String sql = "UPDATE payments SET pstatus=3 WHERE paymetrid='"+paymesaleid.trim()+"';";
+    public static void  DeclinePayment(String paymesaleid, String oldamount) {
+        String sql = "UPDATE payments SET pstatus=3, amount="+oldamount+" WHERE paymetrid='"+paymesaleid.trim()+"';";
         JavaToMySQL jtm = new JavaToMySQL();
         //System.out.println(sql);
         jtm.DbExec(sql);
     }
 
+    public static void setCallStatus(String callid, String callstatus) {
+        JavaToMySQL jtm = new JavaToMySQL();
+        String sql = "UPDATE calls SET status="+callstatus+" WHERE callid="+callid;
+        jtm.DbExec(sql);
+    }
+
     public static String[] setFinalDataPayment(String trid, String paiddate, String finalamount, String callid, Integer installments) throws SQLException {
         String sql ="UPDATE payments SET pstatus=2,installments="+installments+",callid="+callid+",pdate='"+paiddate+"',amount="+Float.valueOf(finalamount)/100+" WHERE payid="+trid;
+        String sql1 = "SELECT amount FROM payments WHERE payid="+trid;
+        String am="0";
+
         JavaToMySQL jtm = new JavaToMySQL();
+        ResultSet rs = jtm.DSelect(sql1);
+        if (rs.first()) am = rs.getString(1) ;
+        rs.close();
         jtm.DbExec(sql);
 
-        sql = "UPDATE calls SET status=11 WHERE callid="+callid;
-        jtm.DbExec(sql);
+        //sql = "UPDATE calls SET status=11 WHERE callid="+callid;
+        //jtm.DbExec(sql);
         sql = "SELECT spid,serviceid FROM calls WHERE callid="+callid;
-        ResultSet rs = jtm.DSelect(sql);
+        rs = jtm.DSelect(sql);
         if (rs.first()) {
-           return new String[] {rs.getString(1),rs.getString(2)};
+           return new String[] {rs.getString(1),rs.getString(2),am};
         }
         return null;
     }
@@ -738,7 +756,7 @@ public class Serviceprovider {
     }
 
     public static String StatusCall( String spid) {
-        String sql ="SELECT userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
+        String sql ="SELECT calls.callid,userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
                 " WHERE calls.status=callstatus.statusid AND servicetype.id=calls.serviceid " +
                 //"AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
                 "AND calls.spid="+spid+" ORDER BY calls.callid DESC;";  // For all

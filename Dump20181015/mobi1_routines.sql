@@ -4,7 +4,7 @@ USE `mobi1`;
 --
 -- Host: mobi1.caqm9reiespt.us-east-1.rds.amazonaws.com    Database: mobi1
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.6.40-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -97,6 +97,8 @@ SET character_set_client = utf8;
   `phone` tinyint NOT NULL,
   `email` tinyint NOT NULL,
   `logined` tinyint NOT NULL,
+  `carbrand` tinyint NOT NULL,
+  `carmodel` tinyint NOT NULL,
   `carpic` tinyint NOT NULL,
   `logtime` tinyint NOT NULL,
   `statusonline` tinyint NOT NULL,
@@ -122,12 +124,17 @@ SET character_set_client = utf8;
   `phone` tinyint NOT NULL,
   `email` tinyint NOT NULL,
   `logined` tinyint NOT NULL,
+  `busy` tinyint NOT NULL,
   `paymeapprove` tinyint NOT NULL,
   `statusonline` tinyint NOT NULL,
+  `busystatus` tinyint NOT NULL,
   `paymestatus` tinyint NOT NULL,
   `logtime` tinyint NOT NULL,
   `carid` tinyint NOT NULL,
-  `pic` tinyint NOT NULL
+  `carbrand` tinyint NOT NULL,
+  `carmodel` tinyint NOT NULL,
+  `pic` tinyint NOT NULL,
+  `carpic` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -291,7 +298,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`users`.`carpic` AS `carpic`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from `users` */;
+/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`users`.`carpic` AS `carpic`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from ((`users` join `carbrand`) join `carmodel`) where (((`users`.`carbm` DIV 100) = `carbrand`.`id`) and ((`users`.`carbm` % 100) = `carmodel`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -310,7 +317,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `logtime`,`sproviders`.`carid` AS `carid`,`sproviders`.`pic` AS `pic` from (`sproviders` join `paymeapprovestatus`) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
+/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`busy` AS `busy`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,if((`sproviders`.`busy` = 0),'Available','Busy') AS `busystatus`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `logtime`,`sproviders`.`carid` AS `carid`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`sproviders`.`pic` AS `pic`,`sproviders`.`carpic` AS `carpic` from (((`sproviders` join `paymeapprovestatus`) join `carbrand`) join `carmodel`) where ((`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) and ((`sproviders`.`carbm` DIV 100) = `carbrand`.`id`) and ((`sproviders`.`carbm` % 100) = `carmodel`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -651,4 +658,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-17 18:12:56
+-- Dump completed on 2018-10-15 17:13:33

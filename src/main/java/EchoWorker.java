@@ -618,12 +618,12 @@ public class EchoWorker implements Runnable {
                 }
 
                 if (tokens[0].equalsIgnoreCase("refundsale")) {
-                    if (tokens.length < 4) {
+                    if (tokens.length < 3) {
                         System.out.println("params aren't correct");
                         str = "-1";
                     } else {
                         try {
-                            str = Payment.RefundSale(tokens[1],tokens[2],tokens[3]);
+                            str = Payment.RefundSale(tokens[1],tokens[2]);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -706,6 +706,16 @@ public class EchoWorker implements Runnable {
                     } else {
                         User.InsertPicCar(tokens[1], tokens[2]);
                         str = "Pic of car for user#"+tokens[1]+" added";
+                    }
+                }
+
+                if (tokens[0].equalsIgnoreCase("picspcar")) {
+                    if (tokens.length < 3) {
+                        System.out.println("params aren't correct");
+                        str = "-1";
+                    } else {
+                        Serviceprovider.InsertPicCar(tokens[1], tokens[2]);
+                        str = "Pic of car for sp#"+tokens[1]+" added";
                     }
                 }
 

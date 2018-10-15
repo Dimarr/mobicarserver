@@ -103,8 +103,10 @@ public class User {
         Date dt = new Date();
         String dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dt);
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTime dtpaid = formatter.parseDateTime(dtFormat).minusHours(3); //convert to UTC
+        DateTime dtpaid = formatter.parseDateTime(dtFormat).minusHours(0); //convert to UTC
         String paiddate = formatter.print(dtpaid);
+
+        //System.out.println("dtFormat "+dtFormat+" paiddate "+paiddate);
 
         String sql="";
         String uuid=uid;
@@ -209,7 +211,7 @@ public class User {
         jtm.DbExec(sql);
     }
 
-    public static void DeclineCallPayment(String paytransactionid, String status) {
+    public static void ProcessCallPayment(String paytransactionid, String callstatus) {
         String sql = "SELECT callid,payid FROM payments WHERE paymetrid='"+paytransactionid+"'";
         //sql ="UPDATE payments SET pstatus="+status+" WHERE payid="+payid;
         JavaToMySQL jtm = new JavaToMySQL();
@@ -225,11 +227,7 @@ public class User {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (status == "sp") {
-            sql = "UPDATE calls SET status= 6 WHERE callid=" + call;
-        } else {
-            sql = "UPDATE calls SET status= 5 WHERE callid=" + call;
-        }
+        sql = "UPDATE calls SET status=" +callstatus+ " WHERE callid=" + call;
         jtm.DbExec(sql);
         SetPaymentStatus(pay,"3");
     }
@@ -355,7 +353,7 @@ public class User {
 
     public static String GetMainDetails(String uid) throws SQLException {
         JavaToMySQL jtm = new JavaToMySQL();
-        String sql = "SELECT firstname,lastname,email, phone FROM users WHERE userid="+uid;
+        String sql = "SELECT firstname,lastname,email, phone,pic FROM users WHERE userid="+uid;
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"usermaindetails");
     }
 

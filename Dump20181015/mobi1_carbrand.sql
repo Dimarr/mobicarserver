@@ -4,7 +4,7 @@ USE `mobi1`;
 --
 -- Host: mobi1.caqm9reiespt.us-east-1.rds.amazonaws.com    Database: mobi1
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.6.40-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,28 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adminusers`
+-- Table structure for table `carbrand`
 --
 
-DROP TABLE IF EXISTS `adminusers`;
+DROP TABLE IF EXISTS `carbrand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `adminusers` (
+CREATE TABLE `carbrand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adminusers`
+-- Dumping data for table `carbrand`
 --
 
-LOCK TABLES `adminusers` WRITE;
-/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
-INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
-/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
+LOCK TABLES `carbrand` WRITE;
+/*!40000 ALTER TABLE `carbrand` DISABLE KEYS */;
+INSERT INTO `carbrand` VALUES (1,'Toyota'),(2,'Nissan'),(3,'Mercedes'),(4,'Honda'),(5,'Suzuki'),(8,'AUDI');
+/*!40000 ALTER TABLE `carbrand` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-17 18:12:36
+-- Dump completed on 2018-10-15 17:12:50
