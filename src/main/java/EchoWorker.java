@@ -23,8 +23,11 @@ public class EchoWorker implements Runnable {
     public byte [] exec (byte [] dt) throws SQLException {
         String delims = "[,]+";
         String str = new String(dt);
-        str =str.substring(0,str.length()-2);
-        String[] tokens = str.split(delims);
+        String[] tokens = {};
+        if (str.length() > 2) {
+            str = str.substring(0, str.length() - 2);
+            tokens = str.split(delims);
+        }
 
         if (tokens.length == 0) {
             System.out.println("API command has missed");
@@ -33,8 +36,8 @@ public class EchoWorker implements Runnable {
             if (tokens[0].equalsIgnoreCase("user")) try {
                 if (tokens.length < 3) {
                     System.out.println("params aren't correct");
-                    str ="-1";
-                }else{
+                    str = "-1";
+                } else {
                     Integer uid;
                     if (tokens.length == 3) {
                         uid = User.Loged(tokens[1], tokens[2], 0);
@@ -42,18 +45,18 @@ public class EchoWorker implements Runnable {
                         uid = User.Loged(tokens[1], tokens[2], Integer.parseInt(tokens[3].trim()));
                     }
                     if (uid > -1) {
-                        System.out.println("User with username " + tokens[1] + " signed in successfully");
+                        System.out.println("User named " + tokens[1] + " signed in successfully");
                     } else {
-                        System.out.println("User with username " + tokens[1] + " is not found or username\\password is not correct");
+                        System.out.println("User named " + tokens[1] + " is not found or username\\password is not correct");
                     }
-                    str=uid.toString();
+                    str = uid.toString();
                 }
                 //out.print();
                 //System.out.println(uid);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        //}
 
         if (tokens[0].equalsIgnoreCase("sptokengen")) {
             try {
@@ -73,17 +76,20 @@ public class EchoWorker implements Runnable {
                         }
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
-                        pincode= Crypt.rnd(10000,99999);
-                        if (pincode.trim().length()<4) {pincode=pincode+"000"; pincode=pincode.substring(0,4);}
+                        pincode = Crypt.rnd(10000, 99999);
+                        if (pincode.trim().length() < 4) {
+                            pincode = pincode + "000";
+                            pincode = pincode.substring(0, 4);
+                        }
 
-                        new SendAuthSMS(phone, "Your verification code is "+pincode);
+                        new SendAuthSMS(phone, "Your verification code is " + pincode);
                         if (SendAuthSMS.status) {
                             str = "Pincode sent successfully";
                         } else {
                             str = "Pincode was NOT sent. See server log details";
                         }
                         if (Integer.parseInt(tokens[1]) > 0) {
-                            Serviceprovider.Setpincode(tokens[1],pincode);
+                            Serviceprovider.Setpincode(tokens[1], pincode);
                             Serviceprovider.SetToken(tokens[1], createdToken);
                         }
                     } else {
@@ -111,11 +117,11 @@ public class EchoWorker implements Runnable {
                 System.out.println("params aren't correct");
                 str = "-1";
             } else {
-                if (Serviceprovider.Verifypincode(tokens[1], tokens[2])>0) {
-                    str=Serviceprovider.GetToken(tokens[1]);
+                if (Serviceprovider.Verifypincode(tokens[1], tokens[2]) > 0) {
+                    str = Serviceprovider.GetToken(tokens[1]);
                 } else {
                     //str="Verification does not passed";
-                    str="-1";
+                    str = "-1";
                 }
             }
         }
@@ -126,10 +132,10 @@ public class EchoWorker implements Runnable {
                 str = "-1";
             } else {
                 try {
-                    if (tokens.length==5)
-                        str=Payment.GenerateSale(tokens[1], tokens[2], tokens[3], tokens[4]);
+                    if (tokens.length == 5)
+                        str = Payment.GenerateSale(tokens[1], tokens[2], tokens[3], tokens[4]);
                     else
-                        str=Payment.GenerateSale(tokens[1], tokens[2], tokens[3], "");
+                        str = Payment.GenerateSale(tokens[1], tokens[2], tokens[3], "");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -142,7 +148,7 @@ public class EchoWorker implements Runnable {
                 str = "-1";
             } else {
                 Serviceprovider.setFinalPaymentAmount(tokens[1], tokens[2], tokens[3]);
-                str = "Final Payment Amount set";
+                str = "Final Payment Amount has been set";
             }
         }
 
@@ -161,9 +167,9 @@ public class EchoWorker implements Runnable {
                 str = "-1";
             } else {
                 try {
-                    str=Payment.CaptureSale(tokens[1], tokens[2], tokens[3], tokens[4]);
-                    System.out.println("Parameters: "+tokens[1]+",amount:"+tokens[2]+",callID:"+tokens[3]+",installments:"+tokens[4]);
-                    System.out.println("Result string: "+str);
+                    str = Payment.CaptureSale(tokens[1], tokens[2], tokens[3], tokens[4]);
+                    System.out.println("Parameters: " + tokens[1] + ",amount:" + tokens[2] + ",callID:" + tokens[3] + ",installments:" + tokens[4]);
+                    System.out.println("Result string: " + str);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -203,15 +209,15 @@ public class EchoWorker implements Runnable {
                         }
                         createdToken = MyToken.newToken(phone, tokens[2]);
                         //System.out.println("Token generated successfully");
-                        pincode= Crypt.rnd(1000,9999);
-                        new SendAuthSMS(phone, "Your verification code is "+pincode);
+                        pincode = Crypt.rnd(1000, 9999);
+                        new SendAuthSMS(phone, "Your verification code is " + pincode);
                         if (SendAuthSMS.status) {
                             str = "Pincode has been sent successfully";
                         } else {
                             str = "Pincode has NOT been sent. See server log details";
                         }
                         if (Integer.parseInt(tokens[1].trim()) > 0) {
-                            User.Setpincode(tokens[1],pincode);
+                            User.Setpincode(tokens[1], pincode);
                             User.SetToken(tokens[1], createdToken);
                         }
                     } else {
@@ -234,154 +240,154 @@ public class EchoWorker implements Runnable {
             }
         }
 
-                if (tokens[0].equalsIgnoreCase("verifypincode")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        if (User.Verifypincode(tokens[1], tokens[2])>0) {
-                            str=User.GetToken(tokens[1]);
-                        } else {
-                            //str="Verification does not passed";
-                            str="-1";
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("verifypincode")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (User.Verifypincode(tokens[1], tokens[2]) > 0) {
+                    str = User.GetToken(tokens[1]);
+                } else {
+                    //str="Verification does not passed";
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usersettoken")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.SetToken(tokens[1], tokens[2]);
-                    }
+        if (tokens[0].equalsIgnoreCase("usersettoken")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.SetToken(tokens[1], tokens[2]);
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("userlite")) try {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer uid;
+                if (tokens.length == 2) {
+                    uid = User.LogedLite(tokens[1], 0);
+                } else {
+                    uid = User.LogedLite(tokens[1], Integer.parseInt(tokens[2]));
                 }
-
-                if (tokens[0].equalsIgnoreCase("userlite")) try {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer uid;
-                        if (tokens.length == 2) {
-                            uid = User.LogedLite(tokens[1], 0);
-                        } else {
-                            uid = User.LogedLite(tokens[1], Integer.parseInt(tokens[2]));
-                        }
-                        if (uid > -1) {
-                            System.out.println("User with username " + tokens[1] + " signed in successfully");
-                        } else {
-                            System.out.println("User with username " + tokens[1] + " is not found or username\\password is not correct");
-                        }
-                        str = uid.toString();
-                    }
-                    //out.print();
-                    //System.out.println(uid);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (uid > -1) {
+                    System.out.println("User with username " + tokens[1] + " signed in successfully");
+                } else {
+                    System.out.println("User with username " + tokens[1] + " is not found or username\\password is not correct");
                 }
+                str = uid.toString();
+            }
+            //out.print();
+            //System.out.println(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
-                if (tokens[0].equalsIgnoreCase("userlogout")) try {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.Logout(tokens[1]);
-                        str = "exit";
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        if (tokens[0].equalsIgnoreCase("userlogout")) try {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.Logout(tokens[1]);
+                str = "exit";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                if (tokens[0].equalsIgnoreCase("splogout")) try {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.Logout(tokens[1]);
-                        str = "exit";
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        if (tokens[0].equalsIgnoreCase("splogout")) try {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.Logout(tokens[1]);
+                str = "exit";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsetfirebasetoken")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setFirebaseToken(tokens[1], tokens[2]);
-                        str = "Set FireBase token for sp #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spsetfirebasetoken")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setFirebaseToken(tokens[1], tokens[2]);
+                str = "Set FireBase token for sp #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usersetfirebasetoken")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.SetFirebaseToken(tokens[1], tokens[2]);
-                        str = "Set FireBase token for user #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usersetfirebasetoken")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.SetFirebaseToken(tokens[1], tokens[2]);
+                str = "Set FireBase token for user #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsettoken")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setToken(tokens[1], tokens[2]);  // email, BN or ID
-                        str = "Set token " + tokens[2] + " for sp #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spsettoken")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setToken(tokens[1], tokens[2]);  // email, BN or ID
+                str = "Set token " + tokens[2] + " for sp #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spgetstaticxy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getstaticxy(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgetstaticxy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getstaticxy(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsetpaymeapprovement")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setPaymeApprovementbySpid(tokens[1]);
-                        str ="SP #"+tokens[1]+ " approved by PayMe Service";
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spsetpaymeapprovement")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setPaymeApprovementbySpid(tokens[1]);
+                str = "SP #" + tokens[1] + " approved by PayMe Service";
+            }
+        }
 
 
-                if (tokens[0].equalsIgnoreCase("usergetstaticxy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.getstaticxy(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usergetstaticxy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.getstaticxy(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spgetxy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getxy(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgetxy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getxy(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usergetxy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.getxy(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usergetxy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.getxy(tokens[1]);
+            }
+        }
 
 /*                if (tokens[0].equalsIgnoreCase("addnewpayment")) {
                     if (tokens.length < 5) {
@@ -392,130 +398,130 @@ public class EchoWorker implements Runnable {
                     }
                 }
 */
-                if (tokens[0].equalsIgnoreCase("setpaymentstatus")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.SetPaymentStatus(tokens[1], tokens[2]);
-                        str = "Set Status " + tokens[2] + " for Payment#" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("setpaymentstatus")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.SetPaymentStatus(tokens[1], tokens[2]);
+                str = "Set Status " + tokens[2] + " for Payment#" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("getpayments")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.GetPayments(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("getpayments")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.GetPayments(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("searchservice")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.searchservice(Integer.valueOf(tokens[1].trim()), Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()));
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("searchservice")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.searchservice(Integer.valueOf(tokens[1].trim()), Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()));
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsavexy")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.saveXY(tokens[1], tokens[2], tokens[3]);  // spID, X, Y
-                        str = "Save coordinates for Service Provider #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spsavexy")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.saveXY(tokens[1], tokens[2], tokens[3]);  // spID, X, Y
+                str = "Save coordinates for Service Provider #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usersavexy")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.saveXY(tokens[1], tokens[2], tokens[3]);  // userID, X, Y
-                        str = "Save coordinates for User #" + tokens[1];
-                    }
-                }
-                if (tokens[0].equalsIgnoreCase("usersetxy")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.SetXY(Integer.valueOf(tokens[1].trim()), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));  // userID, X, Y
-                        str = "Set coordinates for User #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usersavexy")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.saveXY(tokens[1], tokens[2], tokens[3]);  // userID, X, Y
+                str = "Save coordinates for User #" + tokens[1];
+            }
+        }
+        if (tokens[0].equalsIgnoreCase("usersetxy")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.SetXY(Integer.valueOf(tokens[1].trim()), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));  // userID, X, Y
+                str = "Set coordinates for User #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spgettoken")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getToken(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgettoken")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getToken(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spgetfirebasetoken")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getFirebaseToken(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgetfirebasetoken")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getFirebaseToken(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usergetfirebasetoken")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.GetFirebaseToken(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usergetfirebasetoken")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.GetFirebaseToken(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsetbusy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setBusy(tokens[1]);
-                        str = "Set status busy for sp #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spsetbusy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setBusy(tokens[1]);
+                str = "Set status busy for sp #" + tokens[1];
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spgetbusy")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getBusy(tokens[1]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgetbusy")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getBusy(tokens[1]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("userattempt")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.setAttempt(tokens[1]);
-                        str = "Failed Login";
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("userattempt")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.setAttempt(tokens[1]);
+                str = "Failed Login";
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("splite")) try {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer uid = null;
-                        //if (Integer.valueOf(tokens[1]) == 0) {
-                        if (tokens.length==4)
-                            uid = Serviceprovider.LogedLite(tokens[2], tokens[3], tokens[1]);  // email or phone
-                        else
-                            uid = Serviceprovider.LogedLite(tokens[2],"", tokens[1]);  // email or phone
+        if (tokens[0].equalsIgnoreCase("splite")) try {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer uid = null;
+                //if (Integer.valueOf(tokens[1]) == 0) {
+                if (tokens.length == 4)
+                    uid = Serviceprovider.LogedLite(tokens[2], tokens[3], tokens[1]);  // email or phone
+                else
+                    uid = Serviceprovider.LogedLite(tokens[2], "", tokens[1]);  // email or phone
 
                 /*} else {
                     if (Integer.valueOf(tokens[1]) == 1) {
@@ -525,402 +531,409 @@ public class EchoWorker implements Runnable {
                     }
                 } */
 
-                        if (uid > -1) {
-                            System.out.println("Service provider with username " + tokens[2] + " signed in successfully");
-                        } else {
-                            //Serviceprovider sp = new Serviceprovider(uid);
-                            System.out.println("Service provider with username " + tokens[2] + " is not found");
-                        }
-                        str = String.valueOf(uid);
+                if (uid > -1) {
+                    System.out.println("Service provider with username " + tokens[2] + " signed in successfully");
+                } else {
+                    //Serviceprovider sp = new Serviceprovider(uid);
+                    System.out.println("Service provider with username " + tokens[2] + " is not found");
+                }
+                str = String.valueOf(uid);
+            }
+            //out.print();
+            //System.out.println(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (tokens[0].equalsIgnoreCase("sp")) try {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                //flag = true;
+                Integer uid = Serviceprovider.Loged(tokens[1], tokens[2], tokens[3]);  // email, BN or ID, password
+                if (uid > -1) {
+                    System.out.println("Service provider with username " + tokens[1] + " signed in successfully");
+                } else {
+                    //Serviceprovider sp = new Serviceprovider(uid);
+                    System.out.println("Service provider with username " + tokens[1] + " is not found");
+                }
+                str = String.valueOf(uid);
+            }
+            //out.print();
+            //System.out.println(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (tokens[0].equalsIgnoreCase("json")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                String res = tokens[1];
+                if (tokens.length > 3) {
+                    for (int i = 2; i < tokens.length - 1; i = i + 1) {
+                        res += "," + tokens[i];
                     }
-                    //out.print();
-                    //System.out.println(uid);
-                } catch (SQLException e) {
+                }
+                str = User.jsonrs(res, tokens[2]);
+            }
+        }
+
+
+        if (tokens[0].equalsIgnoreCase("getspbankdetails")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getBankDetailsForSP(Integer.valueOf(tokens[1].trim()));  //SpID
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("setspbank")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setBankForSP(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), tokens[3], tokens[4]);  //SpID, BankID, Branch, Account
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("getallservices")) str = Serviceprovider.getAllServices();
+
+        if (tokens[0].equalsIgnoreCase("getalllocations")) str = Serviceprovider.getAllLocations();
+
+        if (tokens[0].equalsIgnoreCase("search")) {
+            if (tokens.length < 8) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.listsp(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7]);
+                //Service ID, , subservid,User ID, coordinats X and Y, locationid, top
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("getsubservice")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getSubService(tokens[1]);
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("refundsale")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                try {
+                    str = Payment.RefundSale(tokens[1], tokens[2]);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("sp")) try {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        //flag = true;
-                        Integer uid = Serviceprovider.Loged(tokens[1], tokens[2], tokens[3]);  // email, BN or ID, password
-                        if (uid > -1) {
-                            System.out.println("Service provider with username " + tokens[1] + " signed in successfully");
-                        } else {
-                            //Serviceprovider sp = new Serviceprovider(uid);
-                            System.out.println("Service provider with username " + tokens[1] + " is not found");
-                        }
-                        str = String.valueOf(uid);
-                    }
-                    //out.print();
-                    //System.out.println(uid);
-                } catch (SQLException e) {
+        if (tokens[0].equalsIgnoreCase("createseller")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                try {
+                    str = Payment.CreateSeller(tokens[1]);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("json")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        String res = tokens[1];
-                        if (tokens.length > 3) {
-                            for (int i = 2; i < tokens.length - 1; i = i + 1) {
-                                res += "," + tokens[i];
-                            }
-                        }
-                        str = User.jsonrs(res, tokens[2]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spwithdrawalbalance")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                //str = Payment.SellerWithdrawal(tokens[1]);
+            }
+        }
 
+        if (tokens[0].equalsIgnoreCase("createuserlite")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = String.valueOf(User.NewuserLite(tokens[1], tokens[2], tokens[3], tokens[4]));
+                // fname, lname, email,  phone
+                System.out.println("Created user: First Name is " + tokens[1] + ", Last Name is " + tokens[2]);
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("getspbankdetails")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getBankDetailsForSP(Integer.valueOf(tokens[1].trim()));  //SpID
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("setspbank")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setBankForSP(Integer.valueOf(tokens[1]), Integer.valueOf(tokens[2]), tokens[3], tokens[4]);  //SpID, BankID, Branch, Account
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("getallservices")) str = Serviceprovider.getAllServices();
-
-                if (tokens[0].equalsIgnoreCase("getalllocations")) str = Serviceprovider.getAllLocations();
-
-                if (tokens[0].equalsIgnoreCase("search")) {
-                    if (tokens.length < 8) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.listsp(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6],tokens[7]);
-                        //Service ID, , subservid,User ID, coordinats X and Y, locationid, top
-                    }
-                }
-
-                 if (tokens[0].equalsIgnoreCase("getsubservice")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getSubService(tokens[1]);
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("refundsale")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
+        if (tokens[0].equalsIgnoreCase("createuser")) {
+            if (tokens.length < 11) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                //flag = true;
+                Integer uid = User.Newuser(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9], tokens[10]);
+                // fname, lname, email,  pwd,  cc,  phone, cartype, car brand, car model, car number
+                str = String.valueOf(uid);
+                System.out.println("Created user: First Name is " + tokens[1] + ", Last Name is " + tokens[2]);
+                if (tokens.length > 11) {
+                    if (!tokens[11].isEmpty()) {   //Path to Picture
                         try {
-                            str = Payment.RefundSale(tokens[1],tokens[2]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("createseller")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        try {
-                            str = Payment.CreateSeller(tokens[1]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("spwithdrawalbalance")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        //str = Payment.SellerWithdrawal(tokens[1]);
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("createuserlite")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = String.valueOf(User.NewuserLite(tokens[1], tokens[2], tokens[3], tokens[4]));
-                        // fname, lname, email,  phone
-                        System.out.println("Created user: First Name is " + tokens[1] + ", Last Name is " + tokens[2]);
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("createuser")) {
-                    if (tokens.length < 11) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        //flag = true;
-                        Integer uid = User.Newuser(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7], tokens[8], tokens[9], tokens[10]);
-                        // fname, lname, email,  pwd,  cc,  phone, cartype, car brand, car model, car number
-                        str = String.valueOf(uid);
-                        System.out.println("Created user: First Name is " + tokens[1] + ", Last Name is " + tokens[2]);
-                        if (tokens.length > 11) {
-                            if (!tokens[11].isEmpty()) {   //Path to Picture
-                                try {
-                                    User.InsertPicUser(tokens[8], uid);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("picuser")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        try {
-                            User.InsertPicUser(tokens[1], Integer.valueOf(tokens[2]));
-                            str = tokens[2];
+                            User.InsertPicUser(tokens[8], uid);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
                     }
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("picusercar")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.InsertPicCar(tokens[1], tokens[2]);
-                        str = "Pic of car for user#"+tokens[1]+" added";
-                    }
+        if (tokens[0].equalsIgnoreCase("picuser")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                try {
+                    User.InsertPicUser(tokens[1], Integer.valueOf(tokens[2]));
+                    str = tokens[2];
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("picspcar")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.InsertPicCar(tokens[1], tokens[2]);
-                        str = "Pic of car for sp#"+tokens[1]+" added";
-                    }
+        if (tokens[0].equalsIgnoreCase("picusercar")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.InsertPicCar(tokens[1], tokens[2]);
+                str = "Pic of car for user#" + tokens[1] + " added";
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("picspcar")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.InsertPicCar(tokens[1], tokens[2]);
+                str = "Pic of car for sp#" + tokens[1] + " added";
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("picsp")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                try {
+                    Serviceprovider.InsertPicSP(tokens[2], tokens[1]);
+                    str = tokens[2];
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("picsp")) {
-                            if (tokens.length < 3) {
-                                System.out.println("params aren't correct");
-                                str = "-1";
-                            } else {
-                                try {
-                                    Serviceprovider.InsertPicSP(tokens[2], tokens[1]);
-                                    str = tokens[2];
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+        if (tokens[0].equalsIgnoreCase("createsplite")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (tokens.length == 6) {
+                    str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
+                } else {
+                    str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], "");
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("createsplite")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        if (tokens.length == 6) {
-                            str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]);
-                        } else {
-                            str = Serviceprovider.Newsplite(tokens[1], tokens[2], tokens[3], tokens[4], "");
+        if (tokens[0].equalsIgnoreCase("createsp")) {
+            if (tokens.length < 19) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer spid = Serviceprovider.Newsp(tokens[1], tokens[2], tokens[3], tokens[4], Float.parseFloat(tokens[7]), Float.parseFloat(tokens[8]),
+                        tokens[5], tokens[6], tokens[9], tokens[10], tokens[11], tokens[12], tokens[13], tokens[14], tokens[15], tokens[16], tokens[17], tokens[18]);  // fname, address,
+                str = String.valueOf(spid);
+                System.out.println("Created Service Provider: Name is " + tokens[1]);
+                if (tokens.length > 19) {
+                    if (!tokens[19].isEmpty()) {   //Path to Picture
+                        try {
+                            Serviceprovider.InsertPicSP(String.valueOf(spid), tokens[19]);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("createsp")) {
-                    if (tokens.length < 19) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer spid = Serviceprovider.Newsp(tokens[1], tokens[2], tokens[3], tokens[4], Float.parseFloat(tokens[7]), Float.parseFloat(tokens[8]),
-                                tokens[5], tokens[6], tokens[9], tokens[10], tokens[11], tokens[12], tokens[13], tokens[14], tokens[15], tokens[16], tokens[17], tokens[18]);  // fname, address,
-                        str = String.valueOf(spid);
-                        System.out.println("Created Service Provider: Name is " + tokens[1]);
-                        if (tokens.length > 19) {
-                            if (!tokens[19].isEmpty()) {   //Path to Picture
-                                try {
-                                    Serviceprovider.InsertPicSP(String.valueOf(spid), tokens[19]);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("spsetstaticxy")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.setStaticXY(tokens[1], tokens[2], tokens[3]);
+                str = "SP static coordinates updated";
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("usersetstaticxy")) {
+            if (tokens.length < 4) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                User.setStaticXY(tokens[1], tokens[2], tokens[3]);
+                str = "User static coordinates updated";
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("viewcalls")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "";
+            } else {
+                //flag = true;
+                Integer uid = Integer.valueOf(tokens[1].trim());
+                Integer cs = Integer.valueOf(tokens[2].trim());
+                if (uid > 0) {
+                    User usr = new User(uid);
+                    str = usr.ViewCalls(cs);
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsetstaticxy")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.setStaticXY(tokens[1],tokens[2],tokens[3]);
-                        str ="SP static coordinates updated";
-                    }
+        if (tokens[0].equalsIgnoreCase("viewpayments")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "";
+            } else {
+                Integer uid = Integer.valueOf(tokens[1].trim());
+                if (uid > 0) {
+                    str = User.ViewPayments(tokens[1].trim());
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usersetstaticxy")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        User.setStaticXY(tokens[1],tokens[2],tokens[3]);
-                        str ="User static coordinates updated";
-                    }
+        if (tokens[0].equalsIgnoreCase("realcoords")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "";
+            } else {
+                str = Serviceprovider.RealCoords(tokens[1], tokens[2]);
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("addcall")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                String cdetail = "";
+                if (tokens.length > 5) cdetail = tokens[5].trim();
+                Integer uid = Integer.valueOf(tokens[1].trim());
+                if (uid > 0) {
+                    str = User.AddCall(tokens[1], cdetail, tokens[2].trim(), tokens[3].trim(),tokens[4].trim());
+                    //str = "Request for service provider #" + tokens[3] + " added";
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "*";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("viewcalls")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "";
+        if (tokens[0].equalsIgnoreCase("usersetcarid")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                if (tokens[2].trim().equals(null) || tokens[3].trim().equals(null)) {
+                    System.out.println("params aren't correct");
+                } else {
+                    if (tokens.length == 5) {
+                        User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4], "");
                     } else {
-                        //flag = true;
-                        Integer uid = Integer.valueOf(tokens[1].trim());
-                        Integer cs = Integer.valueOf(tokens[2].trim());
-                        if (uid > 0) {
-                            User usr = new User(uid);
-                            str = usr.ViewCalls(cs);
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "";
-                        }
+                        User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4], tokens[5]);
                     }
+                    str = "Car details updated for User with ID #" + tokens[1];
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("viewpayments")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "";
+        if (tokens[0].equalsIgnoreCase("spsetcarid")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                if (tokens[2].trim().equals(null) || tokens[3].trim().equals(null)) {
+                    System.out.println("params aren't correct");
+                } else {
+                    if (tokens.length == 5) {
+                        Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4], "");
                     } else {
-                        Integer uid = Integer.valueOf(tokens[1].trim());
-                        if (uid > 0) {
-                            str = User.ViewPayments(tokens[1].trim());
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "";
-                        }
+                        Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4], tokens[5]);
                     }
+                    str = "Car details updated for SP with ID #" + tokens[1];
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("realcoords")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "";
-                    } else {
-                        str = Serviceprovider.RealCoords(tokens[1],tokens[2]);
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usergetmaindetails")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                str = User.GetMainDetails(tokens[1].trim());
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("addcall")) {
-                    if (tokens.length < 4) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        String cdetail="";
-                        if (tokens.length > 4) cdetail=tokens[4].trim();
-                        Integer uid = Integer.valueOf(tokens[1].trim());
-                        if (uid > 0) {
-                            str=User.AddCall(tokens[1],cdetail, tokens[2].trim(),tokens[3].trim());
-                            //str = "Request for service provider #" + tokens[3] + " added";
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "*";
-                        }
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("usersetmaindetails")) {
+            if (tokens.length < 5) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                User.SetMainDetails(tokens[1].trim(), tokens[2].trim(), tokens[3].trim(), tokens[4].trim());
+                str = "Lastname, Phone and Email details updated for User with ID #" + tokens[1];
+            }
+        }
 
+        if (tokens[0].equalsIgnoreCase("usergetcarid")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                str = User.GetCarID(Integer.valueOf(tokens[1].trim()));
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("usersetcarid")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        if (tokens.length==5){
-                            User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4],"");
-                        } else {
-                            User.SetCarID(tokens[1], Integer.valueOf(tokens[2].trim()), Integer.valueOf(tokens[3].trim()), tokens[4], tokens[5]);
-                        }
-                        str = "Car details updated for User with ID #" + tokens[1];
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("spgetcarid")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                str = Serviceprovider.GetCarID(Integer.valueOf(tokens[1].trim()));
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spsetcarid")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        if (tokens.length == 5) {
-                            Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4], "");
-                        } else {
-                            Serviceprovider.SetCarID(tokens[1], Integer.valueOf(tokens[2]), Integer.valueOf(tokens[3]), tokens[4],tokens[5]);
-                        }
-                        str = "Car details updated for SP with ID #" + tokens[1];
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("usergetmaindetails")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        str = User.GetMainDetails(tokens[1].trim());
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("usersetmaindetails")) {
-                    if (tokens.length < 5) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        User.SetMainDetails(tokens[1].trim(),tokens[2].trim(),tokens[3].trim(),tokens[4].trim());
-                        str = "Lastname, Phone and Email details updated for User with ID #" + tokens[1];
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("usergetcarid")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        str = User.GetCarID(Integer.valueOf(tokens[1].trim()));
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("spgetcarid")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        str = Serviceprovider.GetCarID(Integer.valueOf(tokens[1].trim()));
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("getsellerid")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        str = Serviceprovider.GetSellerID(tokens[1].trim());
-                    }
-                }
+        if (tokens[0].equalsIgnoreCase("getsellerid")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                str = Serviceprovider.GetSellerID(tokens[1].trim());
+            }
+        }
 
               /*  if (tokens[0].equalsIgnoreCase("setsellerid")) {
                     if (tokens.length < 3) {
@@ -931,253 +944,258 @@ public class EchoWorker implements Runnable {
                     }
                 } */
 
-                if (tokens[0].equalsIgnoreCase("getcarlistforsp")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "*";
-                    } else {
-                        str = Serviceprovider.GetCarList(Integer.valueOf(tokens[1].trim()));
+        if (tokens[0].equalsIgnoreCase("getcarlistforsp")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "*";
+            } else {
+                str = Serviceprovider.GetCarList(Integer.valueOf(tokens[1].trim()));
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("acceptjob")) {
+            if (tokens.length < 2) {
+                str = "-1";
+                System.out.println("params aren't correct");
+            } else {
+                Integer payid = Integer.valueOf(tokens[1].trim());
+                if (payid > 0) {
+                    User.AcceptJob(payid);
+                    System.out.println("Accepted payment #" + payid);
+                    str = String.valueOf(payid);
+                } else {
+                    str = "-1";
+                    System.out.println("params aren't correct");
+                }
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("sponlinestatus")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (tokens.length == 2) {
+                    str = Serviceprovider.onlineStatus(tokens[1], "");
+                } else {
+                    str = Serviceprovider.onlineStatus(tokens[1], tokens[2]);
+                }
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("declinejob")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer payid = Integer.valueOf(tokens[1].trim());
+                if (payid > 0) {
+                    User.DeclineJob(payid);
+                    System.out.println("Rejected payment #" + payid);
+                    str = String.valueOf(payid);
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
+                }
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("askforpayment")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.AskPaymentCall(tokens[1]);
+                str = String.valueOf("Ask for payment for SP #" + tokens[1]);
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("acceptcall")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                //Integer callid = Integer.valueOf(tokens[1]);
+                Integer spid = Integer.valueOf(tokens[1]);
+                if (spid > 0) {
+                    try {
+                        Serviceprovider.AcceptCall(tokens[1]);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
+                    System.out.println("Accepted call for SP #" + tokens[1]);
+                    str = String.valueOf("Accepted call for SP #" + tokens[1]);
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("acceptjob")) {
-                    if (tokens.length < 2) {
-                        str = "-1";
-                        System.out.println("params aren't correct");
-                    } else {
-                        Integer payid = Integer.valueOf(tokens[1].trim());
-                        if (payid > 0) {
-                            User.AcceptJob(payid);
-                            System.out.println("Accepted payment #" + payid);
-                            str = String.valueOf(payid);
-                        } else {
-                            str = "-1";
-                            System.out.println("params aren't correct");
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("spstatuscall")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (tokens.length == 3) str = Serviceprovider.StatusCall(tokens[1].trim(),tokens[2].trim());
+                else str = Serviceprovider.StatusCall(tokens[1].trim(),"");
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("userstatuscall")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = User.StatusCall(tokens[1].trim());
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("rejectcall")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (Integer.valueOf(tokens[1].trim()) > 0) {
+                    Serviceprovider.RejectCall(tokens[1], tokens[2]);
+                    str = "SP #" + tokens[1] + " rejected call";
+                    System.out.println("SP #" + tokens[1] + " rejected call");
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("sponlinestatus")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        if (tokens.length==2) {
-                            str = Serviceprovider.onlineStatus(tokens[1],"");
-                        } else {
-                            str = Serviceprovider.onlineStatus(tokens[1],tokens[2]);
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("spcancelcall")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (Integer.valueOf(tokens[1].trim()) > 0) {
+                    Serviceprovider.CancelCall(tokens[1]);
+                    str = "SP #" + tokens[1] + " cancelled call";
+                    System.out.println("SP #" + tokens[1] + " cancelled call");
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("declinejob")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer payid = Integer.valueOf(tokens[1].trim());
-                        if (payid > 0) {
-                            User.DeclineJob(payid);
-                            System.out.println("Rejected payment #" + payid);
-                            str = String.valueOf(payid);
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("usercancelcall")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                if (Integer.valueOf(tokens[1].trim()) > 0) {
+                    User.CancelCall(tokens[1]);
+                    str = "User #" + tokens[1] + " cancelled call";
+                    System.out.println("User #" + tokens[1] + " cancelled call");
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("askforpayment")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.AskPaymentCall(tokens[1]);
-                        str = String.valueOf("Ask for payment for SP #" + tokens[1]);
-                    }
+
+        if (tokens[0].equalsIgnoreCase("addservice")) {
+            if (tokens.length < 7) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
+                str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("delservice")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.delService(tokens[1], tokens[2]);
+                str = "Service ID" + tokens[2] + " unlinked from Customer ID" + tokens[1];
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("getservicesforsp")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Serviceprovider.getServices(tokens[1]);
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("encode")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                str = Crypt.encode(tokens[1], "!mobi!car@#$");
+            }
+        }
+
+        if (tokens[0].equalsIgnoreCase("archivecalls")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Serviceprovider.archivecalls(Integer.valueOf(tokens[1].trim()));
+                str = "Calls transferred to archive table";
+            }
+        }
+        if (tokens[0].equalsIgnoreCase("decode")) {
+            if (tokens.length < 2) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else str = Crypt.decode(tokens[1], "!mobi!car@#$");
+        }
+
+        if (tokens[0].equalsIgnoreCase("getbrandmodellist")) {
+           str = User.GetBrandModelList();
+        }
+
+        if (tokens[0].equalsIgnoreCase("setrating")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer spid = Integer.valueOf(tokens[1].trim());
+                Integer rating = Integer.valueOf(tokens[2].trim());
+                String callid = (tokens.length == 4) ? tokens[3].trim() : "";
+                if (spid > 0) {
+                    Integer newrate = User.SetRating(spid, rating, callid);
+                    System.out.println("For Service Provider #" + spid + " calculated rating: " + newrate);
+                    str = String.valueOf(newrate);
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("acceptcall")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        //Integer callid = Integer.valueOf(tokens[1]);
-                        Integer spid = Integer.valueOf(tokens[1]);
-                        if (spid > 0) {
-                            try {
-                                Serviceprovider.AcceptCall(tokens[1]);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println("Accepted call for SP #" + tokens[1]);
-                            str = String.valueOf("Accepted call for SP #" + tokens[1]);
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
+        if (tokens[0].equalsIgnoreCase("setratingtouser")) {
+            if (tokens.length < 3) {
+                System.out.println("params aren't correct");
+                str = "-1";
+            } else {
+                Integer uid = Integer.valueOf(tokens[1].trim());
+                Integer rating = Integer.valueOf(tokens[2].trim());
+                if (uid > 0) {
+                    Integer newrate = Serviceprovider.SetRating(uid, rating);
+                    System.out.println("For User #" + uid + " calculated rating: " + newrate);
+                    str = String.valueOf(newrate);
+                } else {
+                    System.out.println("params aren't correct");
+                    str = "-1";
                 }
+            }
+        }
 
-                if (tokens[0].equalsIgnoreCase("spstatuscall")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.StatusCall(tokens[1].trim());
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("userstatuscall")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = User.StatusCall(tokens[1].trim());
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("rejectcall")) {
-                            if (tokens.length < 3) {
-                                System.out.println("params aren't correct");
-                                str = "-1";
-                            } else {
-                                if (Integer.valueOf(tokens[1].trim()) > 0) {
-                                    Serviceprovider.RejectCall(tokens[1],tokens[2]);
-                                    str = "SP #"+tokens[1]+" rejected call";
-                                    System.out.println("SP #"+tokens[1]+" rejected call" );
-                                } else {
-                                    System.out.println("params aren't correct");
-                                    str = "-1";
-                                }
-                            }
-                        }
-
-                if (tokens[0].equalsIgnoreCase("spcancelcall")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        if (Integer.valueOf(tokens[1].trim()) > 0) {
-                            Serviceprovider.CancelCall(tokens[1]);
-                            str = "SP #"+tokens[1]+" cancelled call";
-                            System.out.println("SP #"+tokens[1]+" cancelled call" );
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("usercancelcall")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        if (Integer.valueOf(tokens[1].trim()) > 0) {
-                            User.CancelCall(tokens[1]);
-                            str = "User #"+tokens[1]+" cancelled call";
-                            System.out.println("User #"+tokens[1]+" cancelled call" );
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
-                }
-
-
-                if (tokens[0].equalsIgnoreCase("addservice")) {
-                    if (tokens.length < 7) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.addService(tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6]);
-                        str = "Service with ID# " + tokens[2] + " is linked to Service Provider# " + tokens[1];
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("delservice")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.delService(tokens[1], tokens[2]);
-                        str = "Service ID" + tokens[2] + " unlinked from Customer ID" + tokens[1];
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("getservicesforsp")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str = Serviceprovider.getServices(tokens[1]);
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("encode")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        str= Crypt.encode(tokens[1],"!mobi!car@#$");
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("archivecalls")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Serviceprovider.archivecalls(Integer.valueOf(tokens[1].trim()));
-                        str ="Calls transferred to archive table";
-                    }
-                }
-                if (tokens[0].equalsIgnoreCase("decode")) {
-                    if (tokens.length < 2) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else str = Crypt.decode(tokens[1], "!mobi!car@#$");
-                }
-
-                if (tokens[0].equalsIgnoreCase("setrating")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer spid = Integer.valueOf(tokens[1].trim());
-                        Integer rating = Integer.valueOf(tokens[2].trim());
-                        String callid = (tokens.length==4) ? tokens[3].trim() : "" ;
-                        if (spid > 0) {
-                            Integer newrate = User.SetRating(spid, rating, callid);
-                            System.out.println("For Service Provider #" + spid + " calculated rating: " + newrate);
-                            str = String.valueOf(newrate);
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
-                }
-
-                if (tokens[0].equalsIgnoreCase("setratingtouser")) {
-                    if (tokens.length < 3) {
-                        System.out.println("params aren't correct");
-                        str = "-1";
-                    } else {
-                        Integer uid = Integer.valueOf(tokens[1].trim());
-                        Integer rating = Integer.valueOf(tokens[2].trim());
-                        if (uid > 0) {
-                            Integer newrate = Serviceprovider.SetRating(uid, rating);
-                            System.out.println("For User #" + uid + " calculated rating: " + newrate);
-                            str = String.valueOf(newrate);
-                        } else {
-                            System.out.println("params aren't correct");
-                            str = "-1";
-                        }
-                    }
-                }
-
-
+    }
                 str += "\r\n";
                 return str.getBytes();
             }

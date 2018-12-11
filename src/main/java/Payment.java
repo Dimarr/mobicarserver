@@ -129,6 +129,7 @@ public class Payment {
                 Serviceprovider.DeclinePayment(paymesaleid,oldamount);
                 try {
                     Serviceprovider.AddPaymeErrorKey(paymesaleid,String.valueOf(jsonObj.get("status_error_details")));
+                    paymerestsalecode = String.valueOf(jsonObj.get("status_error_details"));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -283,7 +284,7 @@ public class Payment {
         JSONObject jsonObj = (JSONObject) obj;
         if (response.code() == 200) {
             //System.out.println(String.valueOf(jsonObj.get("status_error_code")));
-            //System.out.println(jsonObj.toString());
+            //System.out.println("JSON: "+jsonObj.toString());
             if (!String.valueOf(jsonObj.get("status_error_code")).equalsIgnoreCase("20000") &&
                     !String.valueOf(jsonObj.get("status_error_code")).equalsIgnoreCase("0") ) {
                 res = "{\"status_code\":1,\"status_error_details\":\"" + String.valueOf(jsonObj.get("status_error_details")) + "\"}";
@@ -299,6 +300,7 @@ public class Payment {
                 String saleerrorcode = String.valueOf(jsonObj.get("status_code"));
                 String paymesalecode = String.valueOf(jsonObj.get("payme_sale_code"));
                 String[] param = new String[0];
+                //System.out.println("saleerrorcode: "+saleerrorcode);
                 if (saleerrorcode.equalsIgnoreCase("0")) {
                     String finalamount = (amount.equalsIgnoreCase("0")) ? String.valueOf(jsonObj.get("payme_transaction_total")) : ConvertAmountToPayme(amount);
                     try {
@@ -331,6 +333,9 @@ public class Payment {
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                 }
+                            } else {
+                                res = "{\"status_code\":1,\"status_error_details\":\"" + paymerestsalecode + "\"}";
+                                Serviceprovider.setCallStatus(callid,"4");  // Ready for payment
                             }
                         }
                     } else {
@@ -342,7 +347,8 @@ public class Payment {
                     //Integer total = (Integer) jsonObj.get("payme_transaction_total")+amountdif*100;
                 } else {
                     Serviceprovider.DeclinePayment(paymesaleid,param[2]);
-                    res = response.body().string();
+                    //res = response.body().string();
+                    res = responsebody;
                     response.body().close();
                 }
             }

@@ -18,31 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `pointcatalog`
+-- Table structure for table `callstatus`
 --
 
-DROP TABLE IF EXISTS `pointcatalog`;
+DROP TABLE IF EXISTS `callstatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pointcatalog` (
-  `RowID` int(11) NOT NULL AUTO_INCREMENT,
-  `GroupName` varchar(25) NOT NULL,
-  `OptionID` int(11) NOT NULL,
-  `Optionname` varchar(25) NOT NULL,
-  `Point` int(11) NOT NULL,
-  `Comment` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`RowID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COMMENT='Catalog of options for point calculation';
+CREATE TABLE `callstatus` (
+  `statusid` int(11) NOT NULL,
+  `statusname` varchar(35) DEFAULT NULL,
+  PRIMARY KEY (`statusid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pointcatalog`
+-- Dumping data for table `callstatus`
 --
 
-LOCK TABLES `pointcatalog` WRITE;
-/*!40000 ALTER TABLE `pointcatalog` DISABLE KEYS */;
-INSERT INTO `pointcatalog` VALUES (7,'Location',11,'Simple location',15,' SP mentioned during registration that he is available between specific hours'),(8,'Location',12,'Underground',0,'No available'),(9,'Location',13,'Off the road',0,NULL),(10,'Diploma',21,'Yes',20,'Certificate'),(11,'Diploma',22,'No',10,'No Certificate');
-/*!40000 ALTER TABLE `pointcatalog` ENABLE KEYS */;
+LOCK TABLES `callstatus` WRITE;
+/*!40000 ALTER TABLE `callstatus` DISABLE KEYS */;
+INSERT INTO `callstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Rejected'),(4,'Ask for Payment'),(5,'Cancelled by user'),(6,'Cancelled by sp'),(7,'Cancelled by call center'),(8,'Payment in process'),(9,'Payment approved by user'),(10,'Payment approved by call center'),(11,'Payment Final approvement');
+/*!40000 ALTER TABLE `callstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15 17:12:02
+-- Dump completed on 2018-12-11 13:36:09

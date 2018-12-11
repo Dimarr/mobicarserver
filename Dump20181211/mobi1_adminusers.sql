@@ -18,28 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `servicetype`
+-- Table structure for table `adminusers`
 --
 
-DROP TABLE IF EXISTS `servicetype`;
+DROP TABLE IF EXISTS `adminusers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `servicetype` (
+CREATE TABLE `adminusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(40) NOT NULL,
-  `regular` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `servicetype`
+-- Dumping data for table `adminusers`
 --
 
-LOCK TABLES `servicetype` WRITE;
-/*!40000 ALTER TABLE `servicetype` DISABLE KEYS */;
-INSERT INTO `servicetype` VALUES (1,'Flat tire',0),(2,'Use cables',0),(3,'4X4 Extracted',1),(4,'Filling Fuel',2),(5,'Auto towing',0),(6,'Mechanical failure',0);
-/*!40000 ALTER TABLE `servicetype` ENABLE KEYS */;
+LOCK TABLES `adminusers` WRITE;
+/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
+INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
+/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15 17:13:11
+-- Dump completed on 2018-12-11 13:37:35

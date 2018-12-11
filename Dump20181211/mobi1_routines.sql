@@ -18,44 +18,6 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Temporary table structure for view `paymesellers`
---
-
-DROP TABLE IF EXISTS `paymesellers`;
-/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `paymesellers` (
-  `seller_first_name` tinyint NOT NULL,
-  `seller_last_name` tinyint NOT NULL,
-  `seller_merchant_name` tinyint NOT NULL,
-  `seller_description` tinyint NOT NULL,
-  `seller_inc_code` tinyint NOT NULL,
-  `seller_social_id` tinyint NOT NULL,
-  `seller_bank_code` tinyint NOT NULL,
-  `seller_bank_branch` tinyint NOT NULL,
-  `seller_bank_account_number` tinyint NOT NULL,
-  `seller_gender` tinyint NOT NULL,
-  `seller_inc` tinyint NOT NULL,
-  `seller_person_business_type` tinyint NOT NULL,
-  `seller_birthdate` tinyint NOT NULL,
-  `seller_social_id_issued` tinyint NOT NULL,
-  `seller_address_city` tinyint NOT NULL,
-  `seller_address_street` tinyint NOT NULL,
-  `seller_address_street_number` tinyint NOT NULL,
-  `seller_site_url` tinyint NOT NULL,
-  `seller_address_country` tinyint NOT NULL,
-  `seller_file_social_id` tinyint NOT NULL,
-  `seller_file_cheque` tinyint NOT NULL,
-  `seller_file_corporate` tinyint NOT NULL,
-  `seller_email` tinyint NOT NULL,
-  `seller_phone` tinyint NOT NULL,
-  `seller_id` tinyint NOT NULL,
-  `id` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
 -- Temporary table structure for view `searchservice`
 --
 
@@ -108,6 +70,46 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary table structure for view `brandmodellist`
+--
+
+DROP TABLE IF EXISTS `brandmodellist`;
+/*!50001 DROP VIEW IF EXISTS `brandmodellist`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `brandmodellist` (
+  `brandname` tinyint NOT NULL,
+  `modelname` tinyint NOT NULL,
+  `brandid` tinyint NOT NULL,
+  `modelid` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `paymentsstatus`
+--
+
+DROP TABLE IF EXISTS `paymentsstatus`;
+/*!50001 DROP VIEW IF EXISTS `paymentsstatus`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `paymentsstatus` (
+  `payid` tinyint NOT NULL,
+  `userid` tinyint NOT NULL,
+  `spid` tinyint NOT NULL,
+  `pdate` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `pstatus` tinyint NOT NULL,
+  `paymetrid` tinyint NOT NULL,
+  `details` tinyint NOT NULL,
+  `saleurl` tinyint NOT NULL,
+  `callid` tinyint NOT NULL,
+  `installments` tinyint NOT NULL,
+  `pstatusname` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `listspadmin`
 --
 
@@ -139,6 +141,109 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary table structure for view `availableservice`
+--
+
+DROP TABLE IF EXISTS `availableservice`;
+/*!50001 DROP VIEW IF EXISTS `availableservice`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `availableservice` (
+  `spname` tinyint NOT NULL,
+  `spphone` tinyint NOT NULL,
+  `spaddress` tinyint NOT NULL,
+  `rating` tinyint NOT NULL,
+  `price` tinyint NOT NULL,
+  `sname` tinyint NOT NULL,
+  `sid` tinyint NOT NULL,
+  `spid` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `paymesellers`
+--
+
+DROP TABLE IF EXISTS `paymesellers`;
+/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `paymesellers` (
+  `seller_first_name` tinyint NOT NULL,
+  `seller_last_name` tinyint NOT NULL,
+  `seller_merchant_name` tinyint NOT NULL,
+  `seller_description` tinyint NOT NULL,
+  `seller_inc_code` tinyint NOT NULL,
+  `seller_social_id` tinyint NOT NULL,
+  `seller_bank_code` tinyint NOT NULL,
+  `seller_bank_branch` tinyint NOT NULL,
+  `seller_bank_account_number` tinyint NOT NULL,
+  `seller_gender` tinyint NOT NULL,
+  `seller_inc` tinyint NOT NULL,
+  `seller_person_business_type` tinyint NOT NULL,
+  `seller_birthdate` tinyint NOT NULL,
+  `seller_social_id_issued` tinyint NOT NULL,
+  `seller_address_city` tinyint NOT NULL,
+  `seller_address_street` tinyint NOT NULL,
+  `seller_address_street_number` tinyint NOT NULL,
+  `seller_site_url` tinyint NOT NULL,
+  `seller_address_country` tinyint NOT NULL,
+  `seller_file_social_id` tinyint NOT NULL,
+  `seller_file_cheque` tinyint NOT NULL,
+  `seller_file_corporate` tinyint NOT NULL,
+  `seller_email` tinyint NOT NULL,
+  `seller_phone` tinyint NOT NULL,
+  `seller_id` tinyint NOT NULL,
+  `id` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `callsstatus`
+--
+
+DROP TABLE IF EXISTS `callsstatus`;
+/*!50001 DROP VIEW IF EXISTS `callsstatus`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `callsstatus` (
+  `callid` tinyint NOT NULL,
+  `cdate` tinyint NOT NULL,
+  `userid` tinyint NOT NULL,
+  `spid` tinyint NOT NULL,
+  `status` tinyint NOT NULL,
+  `details` tinyint NOT NULL,
+  `serviceid` tinyint NOT NULL,
+  `rating` tinyint NOT NULL,
+  `callstatus` tinyint NOT NULL,
+  `statusname` tinyint NOT NULL,
+  `servicename` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `userstatuscall`
+--
+
+DROP TABLE IF EXISTS `userstatuscall`;
+/*!50001 DROP VIEW IF EXISTS `userstatuscall`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `userstatuscall` (
+  `userid` tinyint NOT NULL,
+  `spid` tinyint NOT NULL,
+  `callid` tinyint NOT NULL,
+  `calldate` tinyint NOT NULL,
+  `statusname` tinyint NOT NULL,
+  `servicename` tinyint NOT NULL,
+  `serviceid` tinyint NOT NULL,
+  `callstatus` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `pstatusname` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `requestssp`
 --
 
@@ -158,6 +263,24 @@ SET character_set_client = utf8;
   `spname` tinyint NOT NULL,
   `spphone` tinyint NOT NULL,
   `details` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `CarList`
+--
+
+DROP TABLE IF EXISTS `CarList`;
+/*!50001 DROP VIEW IF EXISTS `CarList`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `CarList` (
+  `RequestDate` tinyint NOT NULL,
+  `brand` tinyint NOT NULL,
+  `model` tinyint NOT NULL,
+  `carid` tinyint NOT NULL,
+  `userid` tinyint NOT NULL,
+  `SPID` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -186,44 +309,6 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
--- Temporary table structure for view `CarList`
---
-
-DROP TABLE IF EXISTS `CarList`;
-/*!50001 DROP VIEW IF EXISTS `CarList`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `CarList` (
-  `RequestDate` tinyint NOT NULL,
-  `brand` tinyint NOT NULL,
-  `model` tinyint NOT NULL,
-  `carid` tinyint NOT NULL,
-  `userid` tinyint NOT NULL,
-  `SPID` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `availableservice`
---
-
-DROP TABLE IF EXISTS `availableservice`;
-/*!50001 DROP VIEW IF EXISTS `availableservice`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `availableservice` (
-  `spname` tinyint NOT NULL,
-  `spphone` tinyint NOT NULL,
-  `spaddress` tinyint NOT NULL,
-  `rating` tinyint NOT NULL,
-  `price` tinyint NOT NULL,
-  `sname` tinyint NOT NULL,
-  `sid` tinyint NOT NULL,
-  `spid` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
 -- Temporary table structure for view `requestsuser`
 --
 
@@ -245,25 +330,6 @@ SET character_set_client = utf8;
   `service` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
-
---
--- Final view structure for view `paymesellers`
---
-
-/*!50001 DROP TABLE IF EXISTS `paymesellers`*/;
-/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `paymesellers` AS select `sproviders`.`name` AS `seller_first_name`,`sellers`.`seller_last_name` AS `seller_last_name`,`sellers`.`seller_merchant_name` AS `seller_merchant_name`,`sproviders`.`description` AS `seller_description`,`sproviders`.`BN` AS `seller_inc_code`,`sproviders`.`BNID` AS `seller_social_id`,`sproviders`.`bankid` AS `seller_bank_code`,`sproviders`.`bankbranch` AS `seller_bank_branch`,`sproviders`.`bankaccount` AS `seller_bank_account_number`,`sellers`.`seller_gender` AS `seller_gender`,`sellers`.`seller_inc` AS `seller_inc`,`sellers`.`seller_person_business_type` AS `seller_person_business_type`,date_format(`sellers`.`seller_birthdate`,'%d/%m/%Y') AS `seller_birthdate`,date_format(`sellers`.`seller_social_id_issued`,'%d/%m/%Y') AS `seller_social_id_issued`,`sellers`.`seller_address_city` AS `seller_address_city`,`sellers`.`seller_address_street` AS `seller_address_street`,`sellers`.`seller_address_street_number` AS `seller_address_street_number`,`sellers`.`seller_site_url` AS `seller_site_url`,`sellers`.`seller_address_country` AS `seller_address_country`,`sellers`.`file_social_id` AS `seller_file_social_id`,`sellers`.`file_cheque` AS `seller_file_cheque`,`sellers`.`file_corporate` AS `seller_file_corporate`,`sproviders`.`email` AS `seller_email`,`sproviders`.`phone` AS `seller_phone`,`sproviders`.`sellerid` AS `seller_id`,`sproviders`.`id` AS `id` from (`sproviders` join `sellers`) where (`sproviders`.`id` = `sellers`.`spid`) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `searchservice`
@@ -298,7 +364,45 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`users`.`carpic` AS `carpic`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from ((`users` join `carbrand`) join `carmodel`) where (((`users`.`carbm` DIV 100) = `carbrand`.`id`) and ((`users`.`carbm` % 100) = `carmodel`.`id`)) */;
+/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`users`.`carpic` AS `carpic`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from ((`users` left join `carbrand` on(((`users`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`users`.`carbm` % 1000) = `carmodel`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `brandmodellist`
+--
+
+/*!50001 DROP TABLE IF EXISTS `brandmodellist`*/;
+/*!50001 DROP VIEW IF EXISTS `brandmodellist`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `brandmodellist` AS select `carbrand`.`name` AS `brandname`,`carmodel`.`name` AS `modelname`,`carmodel`.`brandid` AS `brandid`,`carmodel`.`id` AS `modelid` from (`carbrand` join `carmodel`) where (`carmodel`.`brandid` = `carbrand`.`id`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `paymentsstatus`
+--
+
+/*!50001 DROP TABLE IF EXISTS `paymentsstatus`*/;
+/*!50001 DROP VIEW IF EXISTS `paymentsstatus`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `paymentsstatus` AS select `payments`.`payid` AS `payid`,`payments`.`userid` AS `userid`,`payments`.`spid` AS `spid`,`payments`.`pdate` AS `pdate`,`payments`.`amount` AS `amount`,`payments`.`pstatus` AS `pstatus`,`payments`.`paymetrid` AS `paymetrid`,`payments`.`details` AS `details`,`payments`.`saleurl` AS `saleurl`,`payments`.`callid` AS `callid`,`payments`.`installments` AS `installments`,`paymentstatus`.`pstatus` AS `pstatusname` from (`payments` join `paymentstatus`) where (`payments`.`pstatus` = `paymentstatus`.`id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -317,7 +421,83 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`busy` AS `busy`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,if((`sproviders`.`busy` = 0),'Available','Busy') AS `busystatus`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `logtime`,`sproviders`.`carid` AS `carid`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`sproviders`.`pic` AS `pic`,`sproviders`.`carpic` AS `carpic` from (((`sproviders` join `paymeapprovestatus`) join `carbrand`) join `carmodel`) where ((`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) and ((`sproviders`.`carbm` DIV 100) = `carbrand`.`id`) and ((`sproviders`.`carbm` % 100) = `carmodel`.`id`)) */;
+/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`busy` AS `busy`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,if((`sproviders`.`busy` = 0),'Available','Busy') AS `busystatus`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `logtime`,`sproviders`.`carid` AS `carid`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`sproviders`.`pic` AS `pic`,`sproviders`.`carpic` AS `carpic` from (((`sproviders` join `paymeapprovestatus`) left join `carbrand` on(((`sproviders`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`sproviders`.`carbm` % 1000) = `carmodel`.`id`))) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `availableservice`
+--
+
+/*!50001 DROP TABLE IF EXISTS `availableservice`*/;
+/*!50001 DROP VIEW IF EXISTS `availableservice`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `availableservice` AS select `sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`sproviders`.`address` AS `spaddress`,`sproviders`.`rating` AS `rating`,`spservices`.`price` AS `price`,`servicetype`.`name` AS `sname`,`spservices`.`serviceid` AS `sid`,`spservices`.`spid` AS `spid` from ((`sproviders` join `spservices`) join `servicetype`) where ((`sproviders`.`id` = `spservices`.`spid`) and (`spservices`.`serviceid` = `servicetype`.`id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `paymesellers`
+--
+
+/*!50001 DROP TABLE IF EXISTS `paymesellers`*/;
+/*!50001 DROP VIEW IF EXISTS `paymesellers`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `paymesellers` AS select `sproviders`.`name` AS `seller_first_name`,`sellers`.`seller_last_name` AS `seller_last_name`,`sellers`.`seller_merchant_name` AS `seller_merchant_name`,`sproviders`.`description` AS `seller_description`,`sproviders`.`BN` AS `seller_inc_code`,`sproviders`.`BNID` AS `seller_social_id`,`sproviders`.`bankid` AS `seller_bank_code`,`sproviders`.`bankbranch` AS `seller_bank_branch`,`sproviders`.`bankaccount` AS `seller_bank_account_number`,`sellers`.`seller_gender` AS `seller_gender`,`sellers`.`seller_inc` AS `seller_inc`,`sellers`.`seller_person_business_type` AS `seller_person_business_type`,date_format(`sellers`.`seller_birthdate`,'%d/%m/%Y') AS `seller_birthdate`,date_format(`sellers`.`seller_social_id_issued`,'%d/%m/%Y') AS `seller_social_id_issued`,`sellers`.`seller_address_city` AS `seller_address_city`,`sellers`.`seller_address_street` AS `seller_address_street`,`sellers`.`seller_address_street_number` AS `seller_address_street_number`,`sellers`.`seller_site_url` AS `seller_site_url`,`sellers`.`seller_address_country` AS `seller_address_country`,`sellers`.`file_social_id` AS `seller_file_social_id`,`sellers`.`file_cheque` AS `seller_file_cheque`,`sellers`.`file_corporate` AS `seller_file_corporate`,`sproviders`.`email` AS `seller_email`,`sproviders`.`phone` AS `seller_phone`,`sproviders`.`sellerid` AS `seller_id`,`sproviders`.`id` AS `id` from (`sproviders` join `sellers`) where (`sproviders`.`id` = `sellers`.`spid`) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `callsstatus`
+--
+
+/*!50001 DROP TABLE IF EXISTS `callsstatus`*/;
+/*!50001 DROP VIEW IF EXISTS `callsstatus`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `callsstatus` AS select `calls`.`callid` AS `callid`,`calls`.`cdate` AS `cdate`,`calls`.`userid` AS `userid`,`calls`.`spid` AS `spid`,`calls`.`status` AS `status`,`calls`.`details` AS `details`,`calls`.`serviceid` AS `serviceid`,`calls`.`rating` AS `rating`,`calls`.`status` AS `callstatus`,`callstatus`.`statusname` AS `statusname`,`servicetype`.`name` AS `servicename` from ((`calls` join `callstatus`) join `servicetype`) where ((`calls`.`status` = `callstatus`.`statusid`) and (`calls`.`serviceid` = `servicetype`.`id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `userstatuscall`
+--
+
+/*!50001 DROP TABLE IF EXISTS `userstatuscall`*/;
+/*!50001 DROP VIEW IF EXISTS `userstatuscall`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `userstatuscall` AS select `callsstatus`.`userid` AS `userid`,`callsstatus`.`spid` AS `spid`,`callsstatus`.`callid` AS `callid`,`callsstatus`.`cdate` AS `calldate`,`callsstatus`.`statusname` AS `statusname`,`callsstatus`.`servicename` AS `servicename`,`callsstatus`.`serviceid` AS `serviceid`,`callsstatus`.`callstatus` AS `callstatus`,`paymentsstatus`.`amount` AS `amount`,`paymentsstatus`.`pstatusname` AS `pstatusname` from (`callsstatus` left join `paymentsstatus` on((`callsstatus`.`callid` = `paymentsstatus`.`callid`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -342,6 +522,25 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `CarList`
+--
+
+/*!50001 DROP TABLE IF EXISTS `CarList`*/;
+/*!50001 DROP VIEW IF EXISTS `CarList`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `CarList` AS select `requestssp`.`cdate` AS `RequestDate`,`carbrand`.`name` AS `brand`,`carmodel`.`name` AS `model`,`users`.`carid` AS `carid`,`users`.`userid` AS `userid`,`requestssp`.`spid` AS `SPID` from (((`requestssp` join `users`) join `carbrand`) join `carmodel`) where ((`requestssp`.`userid` = `users`.`userid`) and ((`users`.`carbm` DIV 1000) = `carbrand`.`id`) and ((`users`.`carbm` % 1000) = `carmodel`.`id`) and (`requestssp`.`status` = 1)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `listpaymentsadmin`
 --
 
@@ -356,44 +555,6 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
 /*!50001 VIEW `listpaymentsadmin` AS select `users`.`userid` AS `userid`,`sproviders`.`id` AS `spid`,`sproviders`.`name` AS `spname`,`sproviders`.`pic` AS `pic`,concat(`users`.`firstname`,' ',`users`.`lastname`) AS `username`,date_format(convert_tz(`payments`.`pdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `pdate`,`payments`.`amount` AS `amount`,`payments`.`details` AS `details`,`payments`.`paymetrid` AS `saleid`,`paymentstatus`.`pstatus` AS `pstatus`,`paymentstatus`.`id` AS `pstatusid`,`paymeerr`.`errtext` AS `errortext` from ((((`payments` join `paymentstatus`) join `sproviders`) join `users`) left join `paymeerr` on((`payments`.`paymetrid` = convert(`paymeerr`.`masterpaymesale` using utf8)))) where ((`users`.`userid` = `payments`.`userid`) and (`payments`.`spid` = `sproviders`.`id`) and (`paymentstatus`.`id` = `payments`.`pstatus`)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `CarList`
---
-
-/*!50001 DROP TABLE IF EXISTS `CarList`*/;
-/*!50001 DROP VIEW IF EXISTS `CarList`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `CarList` AS select `requestssp`.`cdate` AS `RequestDate`,`carbrand`.`name` AS `brand`,`carmodel`.`name` AS `model`,`users`.`carid` AS `carid`,`users`.`userid` AS `userid`,`requestssp`.`spid` AS `SPID` from (((`requestssp` join `users`) join `carbrand`) join `carmodel`) where ((`requestssp`.`userid` = `users`.`userid`) and ((`users`.`carbm` DIV 10) = `carbrand`.`id`) and ((`users`.`carbm` % 10) = `carmodel`.`id`) and (`requestssp`.`status` = 1)) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `availableservice`
---
-
-/*!50001 DROP TABLE IF EXISTS `availableservice`*/;
-/*!50001 DROP VIEW IF EXISTS `availableservice`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `availableservice` AS select `sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`sproviders`.`address` AS `spaddress`,`sproviders`.`rating` AS `rating`,`spservices`.`price` AS `price`,`servicetype`.`name` AS `sname`,`spservices`.`serviceid` AS `sid`,`spservices`.`spid` AS `spid` from ((`sproviders` join `spservices`) join `servicetype`) where ((`sproviders`.`id` = `spservices`.`spid`) and (`spservices`.`serviceid` = `servicetype`.`id`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -658,4 +819,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15 17:13:33
+-- Dump completed on 2018-12-11 13:38:08

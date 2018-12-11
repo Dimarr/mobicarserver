@@ -256,7 +256,6 @@ public class NioServer implements Runnable {
 
 		public void run() {
 			while (true) {
-
 				try {
 					System.out.println("Approved "+Payment.UpdatePaymeStatus()+" Payme's accounts at "+DateFormat);
 				} catch (IOException e) {

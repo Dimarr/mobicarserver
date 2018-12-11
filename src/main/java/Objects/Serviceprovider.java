@@ -9,6 +9,7 @@ import DBMain.JavaToMySQL;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -59,28 +60,6 @@ public class Serviceprovider {
     public void setPhone(String Phone) {
         this.phone = Phone;
     }
-
-    /*public static void updatesp(int id) {
-        JavaToMySQL jtm = new JavaToMySQL();
-        int points = -1;
-        String sql = "{ call setpoint(?,?) }";
-
-        try {
-            CallableStatement stmt = null;
-            jtm.openCon();
-            stmt= jtm.con.prepareCall(sql);
-            stmt.setInt(1, id);
-            stmt.registerOutParameter(2, Types.INTEGER);
-            stmt.executeQuery();
-            points=stmt.getInt(2);
-            stmt.close();
-
-            jtm.con.createStatement().execute("UPDATE sproviders SET point="+points);
-            jtm.CloseCon();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public static void archivecalls(Integer period) throws SQLException {
         String sql="{ call archivecalls(?) }";
@@ -145,21 +124,6 @@ public class Serviceprovider {
     }
 
     public static void InsertPicSP(String spid,String PathPic) throws SQLException {
-        /*PreparedStatement statement;
-        //try (InputStream inputStream = new FileInputStream(new File(PathPic)))
-        InputStream inputStream = null;
-        try {
-            inputStream = new ByteArrayInputStream(PicStr.getBytes(StandardCharsets.UTF_8.name()));
-            String sql = "UPDATE sproviders SET pic = (?) WHERE id="+spid;
-            JavaToMySQL jmt = new JavaToMySQL();
-            jmt.openCon();
-            statement = jmt.con.prepareStatement(sql);
-            statement.setBlob(1, inputStream);
-            statement.executeUpdate();
-            jmt.CloseCon();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
         String sql = "UPDATE sproviders SET pic = '"+PathPic.trim()+"' WHERE id="+spid;
         //System.out.println(sql);
         JavaToMySQL jmt = new JavaToMySQL();
@@ -276,7 +240,7 @@ public class Serviceprovider {
         String sql = "SELECT busy FROM sproviders WHERE id="+spid+";";
         String res ="-1";
         ResultSet rs = jmt.DSelect(sql);
-        jmt.DbExec(sql);
+        //jmt.DbExec(sql);
         rs.last();
         if (rs.getRow()>0) res=rs.getString("busy");
         return res;
@@ -288,7 +252,7 @@ public class Serviceprovider {
         String res ="-1";
         if (newstatus.isEmpty()) {
             ResultSet rs = jmt.DSelect(sql);
-            jmt.DbExec(sql);
+            //jmt.DbExec(sql);
             rs.last();
             if (rs.getRow() > 0) res = rs.getString("logined").trim();
         } else {
@@ -337,8 +301,9 @@ public class Serviceprovider {
             return -1;
         } else {
             Date date = new Date();
+            String dtFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
             Integer sid = rs.getInt("id");
-            sql= "UPDATE sproviders set logined=1, logtime='" + date.toString()+ "' where id=" + sid;
+            sql= "UPDATE sproviders set logined=1, logtime='" + dtFormat + "' where id=" + sid;
             jtm.DbExec(sql);
             return sid;
         }
@@ -432,7 +397,7 @@ public class Serviceprovider {
     public static String getFinalPaymentAmount(String spid,String uid) throws SQLException {
         String finalamount="0";
         String amount = "0";
-        String sql = "SELECT paymetrid, amount FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+"  ORDER BY payid DESC;";
+        String sql = "SELECT paymetrid, amount FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+" ORDER BY payid DESC;";
         String paymesaleid= "0";
         JavaToMySQL jtm = new JavaToMySQL();
         ResultSet rs = jtm.DSelect(sql);
@@ -440,6 +405,7 @@ public class Serviceprovider {
             if (rs.first()) { paymesaleid = rs.getString(1); amount = rs.getString(2);}
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("SQL Request: "+sql);
         }
         rs.close();
         if (!paymesaleid.isEmpty()) {
@@ -532,10 +498,15 @@ public class Serviceprovider {
         jmt.DbExec(sql);
     }
 
-    public static void SetCarID(String spid, Integer brand, Integer model, String carid, String sppic){
+    public static void SetCarID(String spid, Integer brand, Integer model, String carid, String spcarpic){
         JavaToMySQL jmt = new JavaToMySQL();
-        Integer carbm= brand*100+model;
-        String sql = "UPDATE sproviders SET carbm="+carbm+",carid='"+carid+"',pic='"+sppic.trim()+"' WHERE id="+spid;
+        Integer carbm= brand*1000+model;
+        String sql ="";
+        if (spcarpic.trim().isEmpty()) {
+            sql = "UPDATE sproviders SET carbm=" + carbm + ",carid='" + carid + "' WHERE id=" + spid;
+        } else {
+            sql = "UPDATE sproviders SET carbm=" + carbm + ",carid='" + carid + "',carpic='" + spcarpic.trim() + "' WHERE id=" + spid;
+        }
         jmt.DbExec(sql);
     }
 
@@ -549,8 +520,8 @@ public class Serviceprovider {
         String sql = "SELECT X,Y FROM coordinate WHERE spuser=1 and uid="+spid+" order by ltime desc LIMIT 1;";
         ResultSet rs= jtm.DSelect(sql);
         if (rs.first()) {
-            spx = rs.getString(1).trim();
-            spy = rs.getString(2).trim();
+            spx = (rs.getString(1) == null) ? "0" : rs.getString(1).trim();
+            spy = (rs.getString(2) == null) ? "0" : rs.getString(2).trim();
         } else {
             rs.close();
             sql= "SELECT X,Y from sproviders WHERE id="+spid;
@@ -565,8 +536,8 @@ public class Serviceprovider {
         sql = "SELECT X,Y FROM coordinate WHERE spuser=2 and uid="+uid+" order by ltime desc LIMIT 1;";
         rs= jtm.DSelect(sql);
         if (rs.first()) {
-            userx = rs.getString(1).trim();
-            usery = rs.getString(2).trim();
+            userx = (rs.getString(1) == null) ? "0" : rs.getString(1).trim();
+            usery = (rs.getString(2) == null) ? "0" : rs.getString(2).trim();
         } else {
             rs.close();
             sql= "SELECT X,Y from users WHERE userid="+uid;
@@ -589,17 +560,16 @@ public class Serviceprovider {
             String carid = "Not defined";
             String brandname = "Not defined";
             String modelname = "Not defined";
-            if (rs.first()) {
-                Integer brand = rs.getInt(1) / 100;
-                Integer model = rs.getInt(1) % 100;
+
+            if (rs.first() && (!(rs.getObject(1)==null)) && (!(rs.getObject(2)==null))) {
+                Integer brand = rs.getInt(1) / 1000;
+                Integer model = rs.getInt(1) % 1000;
                 carid = rs.getString(2).trim();
                 //rs.getString(2).substring(0,2)+"-"+rs.getString(2).substring(2,5)+"-"+rs.getString(2).substring(5);
                 rs.close();
                 sql = "SELECT name from carbrand WHERE id=" + brand;
                 rs = jmt.DSelect(sql);
-                if (rs.first()) {
-                    brandname = rs.getString(1);
-                }
+                if (rs.first()) brandname = rs.getString(1);
                 rs.close();
 
                 sql = "SELECT name from carmodel WHERE id=" + model + " AND brandid=" + brand;
@@ -718,26 +688,6 @@ public class Serviceprovider {
         sql= "UPDATE calls SET status = 2 WHERE status=1 AND spid="+spid+";";
         JavaToMySQL jtm = new JavaToMySQL();
         jtm.DbExec(sql);
-        /*sql ="select sproviders.id as spid ,spservices.price, calls.userid,calls.cdate,calls.details " +
-                " from calls, sproviders, spservices where " +
-                "calls.spid = sproviders.id  and calls.serviceid=spservices.serviceid " +
-                " and spservices.spid= sproviders.id and calls.status=2 and calls.callid ="+callid+";";
-        ResultSet rs=jtm.DSelect(sql);
-        try {
-            rs.first();
-            Float price= rs.getFloat("price");
-            Integer uid = rs.getInt("userid");
-            String det = rs.getString("details");
-            rs.close();
-            long curTime = System.currentTimeMillis();
-            Date dt = new Date(curTime);
-
-            sql= "INSERT INTO payments (userid,spid,pdate,amount,pstatus) VALUES ("+uid+","+this.id+",'"+dt+"',"+price+",1);";
-            //System.out.println(sql);
-            jtm.DbExec(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        };*/
     }
 
     public static void RejectCall( String spid, String reasonReject) {
@@ -755,11 +705,16 @@ public class Serviceprovider {
         setAvailable(spid);
     }
 
-    public static String StatusCall( String spid) {
-        String sql ="SELECT calls.callid,userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
-                " WHERE calls.status=callstatus.statusid AND servicetype.id=calls.serviceid " +
+    public static String StatusCall( String spid, String statuscall) {
+        String sql;
+        if (statuscall.equalsIgnoreCase(""))
+            sql = "SELECT * from userstatuscall WHERE spid="+spid+" ORDER BY callid DESC;";
+                //"SELECT calls.callid,userid, statusname, serviceid, servicetype.name as servicename FROM calls,callstatus,servicetype" +
+                //" WHERE calls.status=callstatus.statusid AND servicetype.id=calls.serviceid " +
                 //"AND callstatus.statusid<3 AND calls.spid="+spid;  // Just for Accepted or New
-                "AND calls.spid="+spid+" ORDER BY calls.callid DESC;";  // For all
+                //"AND calls.spid="+spid+" ORDER BY calls.callid DESC;";  // For all
+        else
+            sql = "SELECT * from userstatuscall WHERE spid="+spid+" AND callstatus="+statuscall+" ORDER BY callid DESC;";;
         JavaToMySQL jmt = new JavaToMySQL();
         return jmt.getJSONFromResultSet(jmt.DSelect(sql), "SpStatusRequest");
     }

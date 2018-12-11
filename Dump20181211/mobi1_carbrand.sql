@@ -28,7 +28,7 @@ CREATE TABLE `carbrand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `carbrand` (
 
 LOCK TABLES `carbrand` WRITE;
 /*!40000 ALTER TABLE `carbrand` DISABLE KEYS */;
-INSERT INTO `carbrand` VALUES (1,'Toyota'),(2,'Nissan'),(3,'Mercedes'),(4,'Honda'),(5,'Suzuki'),(8,'AUDI');
+INSERT INTO `carbrand` VALUES (1,'Acura'),(2,'Audi'),(3,'Bentley'),(4,'BMW'),(5,'BMWX3'),(6,'BMWX5'),(7,'BMWX6'),(8,'Cadillac'),(9,'Chery'),(10,'Chevrolet'),(11,'Chrysler'),(12,'Citroen'),(13,'Daewoo'),(14,'Dodge'),(15,'FIAT'),(16,'FORD'),(17,'Great'),(18,'Honda'),(19,'HUMMER'),(20,'Hyundai'),(21,'Infiniti'),(22,'Jaguar'),(23,'Jeep'),(24,'Kia'),(25,'LADA'),(26,'Land'),(27,'Lexus'),(28,'LIFAN'),(29,'Mazda'),(30,'Mercedes-Benz'),(31,'Mitsubishi'),(32,'Nissan'),(33,'Opel'),(34,'Peugeot'),(35,'Pontiac'),(36,'Porsche'),(37,'Range'),(38,'Renault'),(39,'SAAB'),(40,'SEAT'),(41,'Skoda'),(42,'SsangYong'),(43,'Subaru'),(44,'Suzuki'),(45,'Toyota'),(46,'UAZ'),(47,'Volga'),(48,'Volvo'),(49,'VW');
 /*!40000 ALTER TABLE `carbrand` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15 17:12:50
+-- Dump completed on 2018-12-11 13:36:28

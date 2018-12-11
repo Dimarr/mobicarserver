@@ -27,8 +27,8 @@ public class Client {
         BufferedReader inu = new BufferedReader(new InputStreamReader(System.in));
 
         String fuser,fserver;
-        System.out.println("***************** available API commands *****************");
-        System.out.println("user,123@ff.com,123");
+        System.out.println("***************** Test API commands *****************");
+    /*    System.out.println("user,123@ff.com,123");
         System.out.println("sp,123@ff.com,123");
         System.out.println("createuser,Shon,Richter,333@ll.com,123,1234123456784567,0541234563,0");
         System.out.println("createsp,Car M Ltd, Holon rotshild, 11@r.com,, test something,0525252522,32.0788,34.11678,2*12*23*87.5,123123");
@@ -47,13 +47,13 @@ public class Client {
         System.out.println("picuser,pathToPic, UserID");
         System.out.println("picsp,pathToPic, SpID");
         System.out.println("getcarid, UserID");
-        System.out.println("setcarid, UserID,CarBrandID,CarModelID,CarNumberString");
+        System.out.println("usersetcarid, UserID,CarBrandID,CarModelID,CarNumberString");
         System.out.println("getnewreqforsp, SpID");
         System.out.println("getcarlistforsp, SpID");
         System.out.println("getsellerid, SpID");
         System.out.println("setsellerid, SpID, SellerID");
         System.out.println("**********************************************************");
-
+    */
         while ((fuser = inu.readLine())!=null) {
             out.println(fuser);
             fserver = in.readLine();
