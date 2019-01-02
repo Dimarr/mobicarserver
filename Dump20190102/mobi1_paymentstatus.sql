@@ -18,28 +18,27 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cartype`
+-- Table structure for table `paymentstatus`
 --
 
-DROP TABLE IF EXISTS `cartype`;
+DROP TABLE IF EXISTS `paymentstatus`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cartype` (
+CREATE TABLE `paymentstatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `typename` varchar(40) NOT NULL,
-  `regular` int(11) DEFAULT '0',
+  `pstatus` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cartype`
+-- Dumping data for table `paymentstatus`
 --
 
-LOCK TABLES `cartype` WRITE;
-/*!40000 ALTER TABLE `cartype` DISABLE KEYS */;
-INSERT INTO `cartype` VALUES (0,'No subservice',1),(1,'Up to 4 tons',0),(2,'More than 4 tons',0),(3,'Motorcycle',0),(4,'Tractor',0),(5,'Heavy truck',0),(6,'Filling fuel - 95',2),(7,'Filling fuel - Diesel',2);
-/*!40000 ALTER TABLE `cartype` ENABLE KEYS */;
+LOCK TABLES `paymentstatus` WRITE;
+/*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
+INSERT INTO `paymentstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Declined');
+/*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-11 13:37:20
+-- Dump completed on 2019-01-02 14:11:42

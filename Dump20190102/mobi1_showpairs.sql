@@ -18,27 +18,33 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `paymentstatus`
+-- Table structure for table `showpairs`
 --
 
-DROP TABLE IF EXISTS `paymentstatus`;
+DROP TABLE IF EXISTS `showpairs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `paymentstatus` (
+CREATE TABLE `showpairs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pstatus` varchar(15) NOT NULL,
+  `spname` varchar(31) DEFAULT NULL,
+  `username` varchar(31) DEFAULT NULL,
+  `spx` float DEFAULT NULL,
+  `spy` float DEFAULT NULL,
+  `userx` float DEFAULT NULL,
+  `usery` float DEFAULT NULL,
+  `spphone` varchar(15) DEFAULT NULL,
+  `userphone` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `paymentstatus`
+-- Dumping data for table `showpairs`
 --
 
-LOCK TABLES `paymentstatus` WRITE;
-/*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
-INSERT INTO `paymentstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Declined');
-/*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
+LOCK TABLES `showpairs` WRITE;
+/*!40000 ALTER TABLE `showpairs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `showpairs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-11 13:35:55
+-- Dump completed on 2019-01-02 14:12:17

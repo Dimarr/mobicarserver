@@ -264,6 +264,8 @@ public class Payment {
         }
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
+        //System.out.println(jsonrequest);
+
         RequestBody body = RequestBody.create(mediaType, jsonrequest);
         Request request = new Request.Builder()
                 .url(capturesaleurl)
@@ -277,9 +279,11 @@ public class Payment {
         String responsebody = response.body().string();
         Object obj = null;
         try {
+            //System.out.println(responsebody);
             obj = parser.parse(responsebody);
         } catch (ParseException e) {
             e.printStackTrace();
+            return e.getMessage();
         }
         JSONObject jsonObj = (JSONObject) obj;
         if (response.code() == 200) {
@@ -336,6 +340,7 @@ public class Payment {
                             } else {
                                 res = "{\"status_code\":1,\"status_error_details\":\"" + paymerestsalecode + "\"}";
                                 Serviceprovider.setCallStatus(callid,"4");  // Ready for payment
+                                Serviceprovider.setAvailable(param[0]);
                             }
                         }
                     } else {
@@ -361,7 +366,7 @@ public class Payment {
             }
             //if (!String.valueOf(jsonObj.get("status_additional_info")).equalsIgnoreCase("completed"))
             //    Serviceprovider.DeclinePayment(paymesaleid);
-            System.out.println("Status not 200 "+String.valueOf(jsonObj.get("sale_error_code")));
+            System.out.println("Status is not 200 "+String.valueOf(jsonObj.get("sale_error_code")));
 
             res = responsebody;
             //response.body().close();

@@ -397,7 +397,7 @@ public class Serviceprovider {
     public static String getFinalPaymentAmount(String spid,String uid) throws SQLException {
         String finalamount="0";
         String amount = "0";
-        String sql = "SELECT paymetrid, amount FROM payments WHERE pstatus=1 AND spid="+spid+" AND userid="+uid+" ORDER BY payid DESC;";
+        String sql = "SELECT paymetrid, amount FROM payments WHERE pstatus<>2 AND spid="+spid+" AND userid="+uid+" ORDER BY payid DESC;";
         String paymesaleid= "0";
         JavaToMySQL jtm = new JavaToMySQL();
         ResultSet rs = jtm.DSelect(sql);
@@ -610,9 +610,9 @@ public class Serviceprovider {
 
     public static String getBankDetailsForSP(Integer SpID){
         JavaToMySQL jtm = new JavaToMySQL();
-        String sql = "SELECT Banks.Name as bankname, Banks.Id as bankid,sproviders.bankbranch as branch, sproviders.bankaccount as baccount " +
-                "FROM Banks, sproviders " +
-                "WHERE Banks.ID=sproviders.bankid and sproviders.id="+SpID;
+        String sql = "SELECT banks.Name as bankname, banks.Id as bankid,sproviders.bankbranch as branch, sproviders.bankaccount as baccount " +
+                "FROM banks, sproviders " +
+                "WHERE banks.ID=sproviders.bankid and sproviders.id="+SpID;
         return jtm.getJSONFromResultSet(jtm.DSelect(sql),"banksdetails");
     }
 

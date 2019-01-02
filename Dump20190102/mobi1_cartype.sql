@@ -18,28 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `adminusers`
+-- Table structure for table `cartype`
 --
 
-DROP TABLE IF EXISTS `adminusers`;
+DROP TABLE IF EXISTS `cartype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `adminusers` (
+CREATE TABLE `cartype` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `typename` varchar(40) NOT NULL,
+  `regular` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `adminusers`
+-- Dumping data for table `cartype`
 --
 
-LOCK TABLES `adminusers` WRITE;
-/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
-INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
-/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
+LOCK TABLES `cartype` WRITE;
+/*!40000 ALTER TABLE `cartype` DISABLE KEYS */;
+INSERT INTO `cartype` VALUES (0,'No subservice',1),(1,'Up to 4 tons',0),(2,'More than 4 tons',0),(3,'Motorcycle',0),(4,'Tractor',0),(5,'Heavy truck',0),(6,'Filling fuel - 95',2),(7,'Filling fuel - Diesel',2);
+/*!40000 ALTER TABLE `cartype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-11 13:37:35
+-- Dump completed on 2019-01-02 14:13:00

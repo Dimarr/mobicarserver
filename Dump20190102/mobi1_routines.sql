@@ -98,12 +98,13 @@ SET character_set_client = utf8;
   `userid` tinyint NOT NULL,
   `spid` tinyint NOT NULL,
   `pdate` tinyint NOT NULL,
-  `amount` tinyint NOT NULL,
+  `amountstart` tinyint NOT NULL,
   `pstatus` tinyint NOT NULL,
   `paymetrid` tinyint NOT NULL,
   `details` tinyint NOT NULL,
   `saleurl` tinyint NOT NULL,
   `callid` tinyint NOT NULL,
+  `finalamount` tinyint NOT NULL,
   `installments` tinyint NOT NULL,
   `pstatusname` tinyint NOT NULL
 ) ENGINE=MyISAM */;
@@ -262,7 +263,9 @@ SET character_set_client = utf8;
   `rating` tinyint NOT NULL,
   `spname` tinyint NOT NULL,
   `spphone` tinyint NOT NULL,
-  `details` tinyint NOT NULL
+  `details` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `installments` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -327,7 +330,9 @@ SET character_set_client = utf8;
   `phone` tinyint NOT NULL,
   `spid` tinyint NOT NULL,
   `rating` tinyint NOT NULL,
-  `service` tinyint NOT NULL
+  `service` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `installments` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -364,7 +369,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`users`.`carpic` AS `carpic`,date_format(convert_tz(concat(substr(`users`.`logtime`,25,4),'-',month(str_to_date(substr(`users`.`logtime`,5,3),'%b')),'-',substr(`users`.`logtime`,10,2),' ',substr(`users`.`logtime`,12,8)),'+00:00','+03:00'),'%d %b %Y %H:%i:%s') AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from ((`users` left join `carbrand` on(((`users`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`users`.`carbm` % 1000) = `carmodel`.`id`))) */;
+/*!50001 VIEW `listusersadmin` AS select `users`.`userid` AS `userid`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`users`.`email` AS `email`,`users`.`logined` AS `logined`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`users`.`carpic` AS `carpic`,`users`.`logtime` AS `logtime`,if((`users`.`logined` = 0),'Offline','Online') AS `statusonline`,round((`users`.`point` / 5),0) AS `rating`,`users`.`carid` AS `carid` from ((`users` left join `carbrand` on(((`users`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`users`.`carbm` % 1000) = `carmodel`.`id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -402,7 +407,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `paymentsstatus` AS select `payments`.`payid` AS `payid`,`payments`.`userid` AS `userid`,`payments`.`spid` AS `spid`,`payments`.`pdate` AS `pdate`,`payments`.`amount` AS `amount`,`payments`.`pstatus` AS `pstatus`,`payments`.`paymetrid` AS `paymetrid`,`payments`.`details` AS `details`,`payments`.`saleurl` AS `saleurl`,`payments`.`callid` AS `callid`,`payments`.`installments` AS `installments`,`paymentstatus`.`pstatus` AS `pstatusname` from (`payments` join `paymentstatus`) where (`payments`.`pstatus` = `paymentstatus`.`id`) */;
+/*!50001 VIEW `paymentsstatus` AS select `payments`.`payid` AS `payid`,`payments`.`userid` AS `userid`,`payments`.`spid` AS `spid`,`payments`.`pdate` AS `pdate`,`payments`.`amount` AS `amountstart`,`payments`.`pstatus` AS `pstatus`,`payments`.`paymetrid` AS `paymetrid`,`payments`.`details` AS `details`,`payments`.`saleurl` AS `saleurl`,`payments`.`callid` AS `callid`,if((`temppayment`.`finalamount` = 0),`payments`.`amount`,`temppayment`.`finalamount`) AS `finalamount`,`payments`.`installments` AS `installments`,`paymentstatus`.`pstatus` AS `pstatusname` from ((`payments` join `temppayment`) join `paymentstatus`) where ((`payments`.`pstatus` = `paymentstatus`.`id`) and (convert(`temppayment`.`paymesaleid` using utf8) = `payments`.`paymetrid`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -421,7 +426,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`busy` AS `busy`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,if((`sproviders`.`busy` = 0),'Available','Busy') AS `busystatus`,`paymeapprovestatus`.`name` AS `paymestatus`,date_format(convert_tz(concat(substr(`sproviders`.`logtime`,25,4),'-',month(str_to_date(substr(`sproviders`.`logtime`,5,3),'%b')),'-',substr(`sproviders`.`logtime`,10,2),' ',substr(`sproviders`.`logtime`,12,8)),'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `logtime`,`sproviders`.`carid` AS `carid`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`sproviders`.`pic` AS `pic`,`sproviders`.`carpic` AS `carpic` from (((`sproviders` join `paymeapprovestatus`) left join `carbrand` on(((`sproviders`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`sproviders`.`carbm` % 1000) = `carmodel`.`id`))) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
+/*!50001 VIEW `listspadmin` AS select round((`sproviders`.`point` / 5),0) AS `rating`,if((`sproviders`.`votes` = 0),0,round((`sproviders`.`rating` / `sproviders`.`votes`),2)) AS `points`,`sproviders`.`id` AS `id`,`sproviders`.`votes` AS `votes`,`sproviders`.`name` AS `name`,`sproviders`.`phone` AS `phone`,`sproviders`.`email` AS `email`,`sproviders`.`logined` AS `logined`,`sproviders`.`busy` AS `busy`,`sproviders`.`paymeapprove` AS `paymeapprove`,if((`sproviders`.`logined` = 0),'Offline','Online') AS `statusonline`,if((`sproviders`.`busy` = 0),'Available','Busy') AS `busystatus`,`paymeapprovestatus`.`name` AS `paymestatus`,`sproviders`.`logtime` AS `logtime`,`sproviders`.`carid` AS `carid`,`carbrand`.`name` AS `carbrand`,`carmodel`.`name` AS `carmodel`,`sproviders`.`pic` AS `pic`,`sproviders`.`carpic` AS `carpic` from (((`sproviders` join `paymeapprovestatus`) left join `carbrand` on(((`sproviders`.`carbm` DIV 1000) = `carbrand`.`id`))) left join `carmodel` on(((`sproviders`.`carbm` % 1000) = `carmodel`.`id`))) where (`sproviders`.`paymeapprove` = `paymeapprovestatus`.`id`) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -497,7 +502,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `userstatuscall` AS select `callsstatus`.`userid` AS `userid`,`callsstatus`.`spid` AS `spid`,`callsstatus`.`callid` AS `callid`,`callsstatus`.`cdate` AS `calldate`,`callsstatus`.`statusname` AS `statusname`,`callsstatus`.`servicename` AS `servicename`,`callsstatus`.`serviceid` AS `serviceid`,`callsstatus`.`callstatus` AS `callstatus`,`paymentsstatus`.`amount` AS `amount`,`paymentsstatus`.`pstatusname` AS `pstatusname` from (`callsstatus` left join `paymentsstatus` on((`callsstatus`.`callid` = `paymentsstatus`.`callid`))) */;
+/*!50001 VIEW `userstatuscall` AS select `callsstatus`.`userid` AS `userid`,`callsstatus`.`spid` AS `spid`,`callsstatus`.`callid` AS `callid`,`callsstatus`.`cdate` AS `calldate`,`callsstatus`.`statusname` AS `statusname`,`callsstatus`.`servicename` AS `servicename`,`callsstatus`.`serviceid` AS `serviceid`,`callsstatus`.`callstatus` AS `callstatus`,`paymentsstatus`.`finalamount` AS `amount`,`paymentsstatus`.`pstatusname` AS `pstatusname` from (`paymentsstatus` join `callsstatus` on((`callsstatus`.`callid` = `paymentsstatus`.`callid`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -516,7 +521,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `requestssp` AS select `calls`.`userid` AS `userid`,`calls`.`callid` AS `callid`,`callstatus`.`statusname` AS `statusname`,`callstatus`.`statusid` AS `status`,`servicetype`.`name` AS `service`,`calls`.`spid` AS `spid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`rating` AS `rating`,`sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`calls`.`details` AS `details` from (((`calls` join `servicetype`) join `sproviders`) join `callstatus`) where ((`calls`.`spid` = `sproviders`.`id`) and (`calls`.`serviceid` = `servicetype`.`id`) and (`calls`.`status` = `callstatus`.`statusid`)) */;
+/*!50001 VIEW `requestssp` AS select `calls`.`userid` AS `userid`,`calls`.`callid` AS `callid`,`callstatus`.`statusname` AS `statusname`,`callstatus`.`statusid` AS `status`,`servicetype`.`name` AS `service`,`calls`.`spid` AS `spid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`rating` AS `rating`,`sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`calls`.`details` AS `details`,`payments`.`amount` AS `amount`,`payments`.`installments` AS `installments` from ((((`calls` join `servicetype`) join `sproviders`) join `callstatus`) join `payments`) where ((`calls`.`spid` = `sproviders`.`id`) and (`calls`.`serviceid` = `servicetype`.`id`) and (`calls`.`callid` = `payments`.`callid`) and (`calls`.`status` = `callstatus`.`statusid`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -573,7 +578,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `requestsuser` AS select `calls`.`callid` AS `callid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`details` AS `details`,`callstatus`.`statusname` AS `statusname`,`calls`.`status` AS `status`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`calls`.`spid` AS `spid`,`calls`.`rating` AS `rating`,`servicetype`.`name` AS `service` from (((`calls` join `users`) join `servicetype`) join `callstatus`) where ((`callstatus`.`statusid` = `calls`.`status`) and (`calls`.`userid` = `users`.`userid`) and (`servicetype`.`id` = `calls`.`serviceid`)) */;
+/*!50001 VIEW `requestsuser` AS select `calls`.`callid` AS `callid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`details` AS `details`,`callstatus`.`statusname` AS `statusname`,`calls`.`status` AS `status`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`calls`.`spid` AS `spid`,`calls`.`rating` AS `rating`,`servicetype`.`name` AS `service`,`payments`.`amount` AS `amount`,`payments`.`installments` AS `installments` from ((((`calls` join `users`) join `servicetype`) join `callstatus`) join `payments`) where ((`callstatus`.`statusid` = `calls`.`status`) and (`calls`.`userid` = `users`.`userid`) and (`calls`.`callid` = `payments`.`callid`) and (`servicetype`.`id` = `calls`.`serviceid`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -809,6 +814,94 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `showpairs` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `showpairs`()
+BEGIN
+   DECLARE spd int;
+   DECLARE ud int; 
+   DECLARE spd1 int;
+   DECLARE ud1 int; 
+   DECLARE Xsp float;
+   DECLARE Ysp float;
+   DECLARE Xuser float;
+   DECLARE Yuser float;
+   DECLARE sname varchar(31);
+   DECLARE usname varchar(31);
+   DECLARE sphone varchar(10);
+   DECLARE usphone varchar(10);
+   DECLARE dt int;
+   DECLARE mnth int;
+   DECLARE yer int;
+   
+   
+   DECLARE v_finished INTEGER DEFAULT 0;
+   -- SET dt = dayofmonth(NOW());
+   DECLARE cur cursor for select spid, userid FROM calls WHERE status in (2,4,8,9,10,11) 
+   AND dayofmonth(cdate)=dayofmonth(NOW()) AND month(cdate)=month(NOW()) AND year(cdate)=year(NOW())   
+   ORDER BY spid,userid, callid DESC;
+   
+   DECLARE CONTINUE HANDLER 
+   FOR NOT FOUND SET v_finished = 1;
+   
+   DELETE FROM showpairs;
+   COMMIT;
+   
+   SET spd1 = -1;
+   SET ud1  = -1;
+   
+   open cur;
+   start_loop: loop
+        fetch cur into spd,ud;
+        -- select spd;
+        if v_finished=1 then 
+            leave start_loop;
+        END if;
+        if (spd1 <> spd) AND (ud1 <> ud) then
+			SET Xsp=-1;
+			SET Ysp=-1;
+			SELECT X,Y point into Xsp,Ysp FROM coordinate WHERE spuser=1 and uid=spd order by ltime desc LIMIT 1;
+			-- select Xsp,Ysp;
+			if Xsp<0 then
+					SELECT X,Y,name,phone point into Xsp,Ysp,sname,sphone FROM sproviders WHERE id = spd;    
+					SET v_finished = 0;
+					 -- select spd, Xsp,Ysp;
+			else
+					SELECT name,phone into sname,sphone FROM sproviders WHERE id = spd;            
+			end if;         
+			SET Xuser=-1;
+			SET Yuser=-1;
+			SELECT X,Y point into Xuser,Yuser FROM coordinate WHERE spuser=2 and uid=ud order by ltime desc LIMIT 1;
+			-- select Xsp,Ysp;
+			if Xuser<0 then
+					SELECT X,Y, lastname, phone into Xuser,Yuser,usname,usphone FROM users WHERE userid = ud;    
+					SET v_finished = 0;
+					 -- select spd, Xsp,Ysp;
+			else
+					SELECT lastname, phone into usname,usphone FROM users WHERE userid = ud;    
+			end if;         
+			INSERT INTO showpairs (spname,username,spx,spy,userx,usery,spphone,userphone) VALUES (sname,usname,Xsp,Ysp,Xuser,Yuser,sphone,usphone);
+            SET spd1 = spd;
+            SET ud1 = ud;
+      end if;
+    END loop;
+   close cur;
+   COMMIT;
+   
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -819,4 +912,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-11 13:38:08
+-- Dump completed on 2019-01-02 14:13:42
