@@ -35,7 +35,7 @@ CREATE TABLE `showpairs` (
   `spphone` varchar(15) DEFAULT NULL,
   `userphone` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,7 @@ CREATE TABLE `showpairs` (
 
 LOCK TABLES `showpairs` WRITE;
 /*!40000 ALTER TABLE `showpairs` DISABLE KEYS */;
+INSERT INTO `showpairs` VALUES (21,'assafi','bm',32.0751,34.8796,32.0751,34.8796,'+972528545','+972528545'),(22,'ori h sp','heilman',32.0611,34.8671,32.0611,34.8671,'+972523952','+972523952');
 /*!40000 ALTER TABLE `showpairs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-02 14:12:17
+-- Dump completed on 2019-01-11 11:56:23

@@ -18,27 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `buyers`
+-- Table structure for table `servicetype`
 --
 
-DROP TABLE IF EXISTS `buyers`;
+DROP TABLE IF EXISTS `servicetype`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `buyers` (
-  `idbuyers` int(11) NOT NULL AUTO_INCREMENT,
-  `token` mediumtext,
-  PRIMARY KEY (`idbuyers`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `servicetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) NOT NULL,
+  `regular` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `buyers`
+-- Dumping data for table `servicetype`
 --
 
-LOCK TABLES `buyers` WRITE;
-/*!40000 ALTER TABLE `buyers` DISABLE KEYS */;
-INSERT INTO `buyers` VALUES (1,''),(2,'55555555');
-/*!40000 ALTER TABLE `buyers` ENABLE KEYS */;
+LOCK TABLES `servicetype` WRITE;
+/*!40000 ALTER TABLE `servicetype` DISABLE KEYS */;
+INSERT INTO `servicetype` VALUES (1,'Flat tire',0),(2,'Use cables',0),(3,'4X4 Extracted',1),(4,'Filling Fuel',2),(5,'Auto towing',0),(6,'Mechanical failure',0);
+/*!40000 ALTER TABLE `servicetype` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-02 14:12:02
+-- Dump completed on 2019-01-11 11:56:34

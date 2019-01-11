@@ -18,27 +18,28 @@ USE `mobi1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `paymentstatus`
+-- Table structure for table `adminusers`
 --
 
-DROP TABLE IF EXISTS `paymentstatus`;
+DROP TABLE IF EXISTS `adminusers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `paymentstatus` (
+CREATE TABLE `adminusers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pstatus` varchar(15) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `paymentstatus`
+-- Dumping data for table `adminusers`
 --
 
-LOCK TABLES `paymentstatus` WRITE;
-/*!40000 ALTER TABLE `paymentstatus` DISABLE KEYS */;
-INSERT INTO `paymentstatus` VALUES (1,'New'),(2,'Accepted'),(3,'Declined');
-/*!40000 ALTER TABLE `paymentstatus` ENABLE KEYS */;
+LOCK TABLES `adminusers` WRITE;
+/*!40000 ALTER TABLE `adminusers` DISABLE KEYS */;
+INSERT INTO `adminusers` VALUES (1,'admin','827ccb0eea8a706c4c34a16891f84e7b');
+/*!40000 ALTER TABLE `adminusers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-02 14:11:42
+-- Dump completed on 2019-01-11 11:57:09

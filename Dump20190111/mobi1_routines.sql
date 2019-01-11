@@ -270,6 +270,22 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary table structure for view `payments_temppayment`
+--
+
+DROP TABLE IF EXISTS `payments_temppayment`;
+/*!50001 DROP VIEW IF EXISTS `payments_temppayment`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `payments_temppayment` (
+  `paymentamount` tinyint NOT NULL,
+  `amount` tinyint NOT NULL,
+  `callid` tinyint NOT NULL,
+  `installments` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `CarList`
 --
 
@@ -502,7 +518,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `userstatuscall` AS select `callsstatus`.`userid` AS `userid`,`callsstatus`.`spid` AS `spid`,`callsstatus`.`callid` AS `callid`,`callsstatus`.`cdate` AS `calldate`,`callsstatus`.`statusname` AS `statusname`,`callsstatus`.`servicename` AS `servicename`,`callsstatus`.`serviceid` AS `serviceid`,`callsstatus`.`callstatus` AS `callstatus`,`paymentsstatus`.`finalamount` AS `amount`,`paymentsstatus`.`pstatusname` AS `pstatusname` from (`paymentsstatus` join `callsstatus` on((`callsstatus`.`callid` = `paymentsstatus`.`callid`))) */;
+/*!50001 VIEW `userstatuscall` AS select `callsstatus`.`userid` AS `userid`,`callsstatus`.`spid` AS `spid`,`callsstatus`.`callid` AS `callid`,`callsstatus`.`cdate` AS `calldate`,`callsstatus`.`statusname` AS `statusname`,`callsstatus`.`servicename` AS `servicename`,`callsstatus`.`serviceid` AS `serviceid`,`callsstatus`.`callstatus` AS `callstatus`,if((`paymentsstatus`.`pstatus` = 2),`paymentsstatus`.`amountstart`,`paymentsstatus`.`finalamount`) AS `amount`,`paymentsstatus`.`pstatusname` AS `pstatusname` from (`paymentsstatus` join `callsstatus` on((`callsstatus`.`callid` = `paymentsstatus`.`callid`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -521,7 +537,26 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `requestssp` AS select `calls`.`userid` AS `userid`,`calls`.`callid` AS `callid`,`callstatus`.`statusname` AS `statusname`,`callstatus`.`statusid` AS `status`,`servicetype`.`name` AS `service`,`calls`.`spid` AS `spid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`rating` AS `rating`,`sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`calls`.`details` AS `details`,`payments`.`amount` AS `amount`,`payments`.`installments` AS `installments` from ((((`calls` join `servicetype`) join `sproviders`) join `callstatus`) join `payments`) where ((`calls`.`spid` = `sproviders`.`id`) and (`calls`.`serviceid` = `servicetype`.`id`) and (`calls`.`callid` = `payments`.`callid`) and (`calls`.`status` = `callstatus`.`statusid`)) */;
+/*!50001 VIEW `requestssp` AS select `calls`.`userid` AS `userid`,`calls`.`callid` AS `callid`,`callstatus`.`statusname` AS `statusname`,`callstatus`.`statusid` AS `status`,`servicetype`.`name` AS `service`,`calls`.`spid` AS `spid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`rating` AS `rating`,`sproviders`.`name` AS `spname`,`sproviders`.`phone` AS `spphone`,`calls`.`details` AS `details`,`payments_temppayment`.`amount` AS `amount`,`payments_temppayment`.`installments` AS `installments` from ((((`calls` join `servicetype`) join `sproviders`) join `callstatus`) join `payments_temppayment`) where ((`calls`.`spid` = `sproviders`.`id`) and (`calls`.`serviceid` = `servicetype`.`id`) and (`calls`.`callid` = `payments_temppayment`.`callid`) and (`calls`.`status` = `callstatus`.`statusid`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `payments_temppayment`
+--
+
+/*!50001 DROP TABLE IF EXISTS `payments_temppayment`*/;
+/*!50001 DROP VIEW IF EXISTS `payments_temppayment`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `payments_temppayment` AS select `payments`.`amount` AS `paymentamount`,if(isnull(`temppayment`.`finalamount`),`payments`.`amount`,`temppayment`.`finalamount`) AS `amount`,`payments`.`callid` AS `callid`,`payments`.`installments` AS `installments` from (`payments` left join `temppayment` on((`payments`.`paymetrid` = convert(`temppayment`.`paymesaleid` using utf8)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -578,7 +613,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `requestsuser` AS select `calls`.`callid` AS `callid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`details` AS `details`,`callstatus`.`statusname` AS `statusname`,`calls`.`status` AS `status`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`calls`.`spid` AS `spid`,`calls`.`rating` AS `rating`,`servicetype`.`name` AS `service`,`payments`.`amount` AS `amount`,`payments`.`installments` AS `installments` from ((((`calls` join `users`) join `servicetype`) join `callstatus`) join `payments`) where ((`callstatus`.`statusid` = `calls`.`status`) and (`calls`.`userid` = `users`.`userid`) and (`calls`.`callid` = `payments`.`callid`) and (`servicetype`.`id` = `calls`.`serviceid`)) */;
+/*!50001 VIEW `requestsuser` AS select `calls`.`callid` AS `callid`,date_format(convert_tz(`calls`.`cdate`,'+00:00','+03:00'),'%Y-%m-%d %H:%i') AS `cdate`,`calls`.`details` AS `details`,`callstatus`.`statusname` AS `statusname`,`calls`.`status` AS `status`,`users`.`firstname` AS `firstname`,`users`.`lastname` AS `lastname`,`users`.`phone` AS `phone`,`calls`.`spid` AS `spid`,`calls`.`rating` AS `rating`,`servicetype`.`name` AS `service`,`payments_temppayment`.`amount` AS `amount`,`payments_temppayment`.`installments` AS `installments` from ((((`calls` join `users`) join `servicetype`) join `callstatus`) join `payments_temppayment`) where ((`callstatus`.`statusid` = `calls`.`status`) and (`calls`.`userid` = `users`.`userid`) and (`calls`.`callid` = `payments_temppayment`.`callid`) and (`servicetype`.`id` = `calls`.`serviceid`)) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -912,4 +947,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-02 14:13:42
+-- Dump completed on 2019-01-11 11:57:35
